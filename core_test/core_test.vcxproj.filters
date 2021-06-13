@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="DiContainerTest\DiContainerTest.cpp">
+      <Filter>DiContainerTest</Filter>
+    </ClCompile>
+    <ClCompile Include="DiContainerTest\SomeInjectee.cpp">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="DiContainerTest\TestDiContainer.cpp">
+      <Filter>DiContainerTest</Filter>
+    </ClCompile>
+    <ClCompile Include="DiContainerTest\TypeToInject.cpp">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="DiContainerTest\TypeToInjectBase.cpp">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyTest\PropertyTest.cpp" />
+    <ClCompile Include="PropertyTest\PropertyUser.cpp" />
+    <ClCompile Include="EventTest\EventTest.cpp" />
+    <ClCompile Include="EventTest\EventUser.cpp" />
+    <ClCompile Include="logger_stream.cpp" />
+    <ClCompile Include="DiContainerTest\SignalUser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="DiContainerTest\IInterfaceToInject.h">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\SomeInjectee.h">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\TestDiContainer.h">
+      <Filter>DiContainerTest</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\TypeToInject.h">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\TypeToInjectBase.h">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyTest\PropertyUser.h" />
+    <ClInclude Include="EventTest\EventUser.h" />
+    <ClInclude Include="EventTest\GLobalMethods.h" />
+    <ClInclude Include="logger_stream.h" />
+    <ClInclude Include="DiContainerTest\TestSignalPack.h" />
+    <ClInclude Include="DiContainerTest\SignalUser.h" />
+    <ClInclude Include="PropertyTest\property_user.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DiContainerTest">
+      <UniqueIdentifier>{6a1e389e-b654-4dba-9a67-cb108f0a470d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PropertyTest">
+      <UniqueIdentifier>{cad53138-a4bb-4c82-9fcc-409fa95b1177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DiContainerTest\TestTypes">
+      <UniqueIdentifier>{23148674-c219-4973-af9d-97399b016afb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

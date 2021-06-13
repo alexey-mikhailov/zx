@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="singleton_container.h">
+      <Filter>Private</Filter>
+    </ClInclude>
+    <ClInclude Include="di_container.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_field.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_defines.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_enums.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_structs.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="inject_data.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_type.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_metadata.h" />
+    <ClInclude Include="nomination_container.h">
+      <Filter>Private</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Private</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_val_wrapper.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_val_getter.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_val_formula.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_val_computer.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_shr_wrapper.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_shr_getter.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_shr_formula.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_shr_computer.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_ref_wrapper.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_ref_getter.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_ref_formula.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_ref_computer.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="rtti_pack.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="rtti_args.h" />
+    <ClInclude Include="zx_it_range.h" />
+    <ClInclude Include="zx_global_functions.h" />
+    <ClInclude Include="zx_event.h" />
+    <ClInclude Include="zx_constants.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="singleton_container.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="di_container.cpp">
+      <Filter>Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_field.cpp">
+      <Filter>Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_structs.cpp">
+      <Filter>Public</Filter>
+    </ClCompile>
+    <ClCompile Include="inject_data.cpp">
+      <Filter>Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_type.cpp">
+      <Filter>Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_metadata.cpp" />
+    <ClCompile Include="nomination_container.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="rtti_args.cpp" />
+    <ClCompile Include="zx_global_functions.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Private">
+      <UniqueIdentifier>{e7bc58fb-0052-4b2a-bb2b-a584580ac662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public">
+      <UniqueIdentifier>{4857ee1d-4db5-4c67-918d-4365300390f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Properties">
+      <UniqueIdentifier>{ec371116-ce4f-4359-8449-1c4b10f1a7eb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="core.natvis" />
+  </ItemGroup>
+</Project>
