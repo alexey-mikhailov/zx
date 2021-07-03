@@ -65,7 +65,7 @@ namespace zx
 			auto field = it->second;
 			if (field.inject_type != inject_type::none)
 			{
-				if (field.expose_type == rawptr)
+				if (field.expose_type == expose_type::rawptr)
 				{
 					inject_field(target, field, di_containers);
 				}

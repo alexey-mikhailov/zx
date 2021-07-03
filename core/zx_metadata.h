@@ -18,7 +18,7 @@ namespace zx
 		template <class Data, class Owner>
 		static void add_field(const std::string& name,
 							  Data Owner::* member,
-							  inject_type::val inject_type = inject_type::none)
+							  inject_type inject_type = inject_type::none)
 		{
 			add_field(field::create(name, member, inject_type));
 		}

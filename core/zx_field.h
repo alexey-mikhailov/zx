@@ -14,7 +14,7 @@ namespace zx
 		unsigned					offset;
 		unsigned					size;
 		expose_type					expose_type;
-		inject_type::val			inject_type;
+		inject_type					inject_type;
 		std::unique_ptr<inject_data> inject_data;
 
 		field_data(const zx::type& owner_type,
@@ -23,7 +23,7 @@ namespace zx
 				   unsigned offset,
 				   unsigned size,
 				   zx::expose_type expose_type,
-				   zx::inject_type::val inject_type,
+				   zx::inject_type inject_type,
 				   zx::inject_data* inject_data) :
 			owner_type(owner_type),
 			type(type),
@@ -46,7 +46,7 @@ namespace zx
 		const unsigned& offset = _data->offset;
 		const unsigned& size = _data->size;
 		const expose_type& expose_type = _data->expose_type;
-		const inject_type::val& inject_type = _data->inject_type;
+		const inject_type& inject_type = _data->inject_type;
 		
 		ref_formula<field, inject_data> inject_data =
 		{
@@ -77,7 +77,7 @@ namespace zx
 		template <class Owner, class Data>
 		static field create(const std::string& name,
 							Data Owner::* member,
-							inject_type::val inject_type);
+							zx::inject_type inject_type);
 	};
 
 	template <class Owner, class Data>
@@ -125,7 +125,7 @@ namespace zx
 	template <class Owner, class Data>
 	field field::create(const std::string &name,
 						Data Owner::* member,
-						inject_type::val inject_type)
+						zx::inject_type inject_type)
 	{
 		static_assert(
 			std::is_default_constructible<Data>::value,

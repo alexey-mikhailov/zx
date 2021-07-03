@@ -8,12 +8,12 @@ struct val_type
 
 	val_type operator+(const val_type& other) const
 	{
-		return val_type{ x + other.x, y + other.y };
+		return val_type { x + other.x, y + other.y };
 	}
 
 	val_type operator-(const val_type& other) const
 	{
-		return val_type{ x - other.x, y - other.y };
+		return val_type { x - other.x, y - other.y };
 	}
 };
 

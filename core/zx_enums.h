@@ -2,23 +2,19 @@
 
 namespace zx
 {
-	typedef enum
+	enum struct expose_type
 	{
 		value,
 		rawptr,
 		unqptr,
 		shrptr
-	}
-	expose_type;
+	};
 
-	namespace inject_type 
+	enum struct inject_type
 	{
-		enum val
-		{
-			none,
-			singleton,
-			named_instance,
-			signal_pack
-		};
-	}
+		none,
+		singleton,
+		named_instance,
+		signal_pack
+	};
 }
