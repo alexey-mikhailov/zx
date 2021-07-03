@@ -1,8 +1,8 @@
 # include "CppUnitTest.h"
 # include "../logger_stream.h"
 # include "zx.h"
-# include "PropertyUser.h"
-# include "property_user.h"
+# include "property_user_1.h"
+# include "property_user_2.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -13,7 +13,7 @@ namespace zx_test
 	public:
 		TEST_METHOD(SimplePropertyTest)
 		{
-			PropertyUser propertyUser;
+			property_user_1 propertyUser;
 			Assert::AreEqual(*propertyUser.Order, 1234);
 			Assert::AreEqual(*propertyUser.Balance, 5.0f);
 			Assert::AreEqual(*propertyUser.InflationIndex, 1.0);
@@ -27,8 +27,8 @@ namespace zx_test
 
 		TEST_METHOD(MoreComplicatedPropertyTest)
 		{
-			property_user u1({ 2, 2 });
-			property_user u2({ 5, 5 });
+			property_user_2 u1({ 2, 2 });
+			property_user_2 u2({ 5, 5 });
 
 			// Value getter test
 			// operator *

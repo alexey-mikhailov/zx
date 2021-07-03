@@ -17,12 +17,22 @@
     <ClCompile Include="DiContainerTest\TypeToInjectBase.cpp">
       <Filter>DiContainerTest\TestTypes</Filter>
     </ClCompile>
-    <ClCompile Include="PropertyTest\PropertyTest.cpp" />
-    <ClCompile Include="PropertyTest\PropertyUser.cpp" />
-    <ClCompile Include="EventTest\EventTest.cpp" />
-    <ClCompile Include="EventTest\EventUser.cpp" />
     <ClCompile Include="logger_stream.cpp" />
-    <ClCompile Include="DiContainerTest\SignalUser.cpp" />
+    <ClCompile Include="PropertyTest\PropertyTest.cpp">
+      <Filter>PropertyTest</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyTest\property_user_1.cpp">
+      <Filter>PropertyTest</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest\event_user.cpp">
+      <Filter>EventTest</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTest\EventTest.cpp">
+      <Filter>EventTest</Filter>
+    </ClCompile>
+    <ClCompile Include="DiContainerTest\SignalUser.cpp">
+      <Filter>DiContainerTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -41,13 +51,28 @@
     <ClInclude Include="DiContainerTest\TypeToInjectBase.h">
       <Filter>DiContainerTest\TestTypes</Filter>
     </ClInclude>
-    <ClInclude Include="PropertyTest\PropertyUser.h" />
-    <ClInclude Include="EventTest\EventUser.h" />
-    <ClInclude Include="EventTest\GLobalMethods.h" />
     <ClInclude Include="logger_stream.h" />
-    <ClInclude Include="DiContainerTest\TestSignalPack.h" />
-    <ClInclude Include="DiContainerTest\SignalUser.h" />
-    <ClInclude Include="PropertyTest\property_user.h" />
+    <ClInclude Include="PropertyTest\property_user_2.h">
+      <Filter>PropertyTest</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyTest\property_user_1.h">
+      <Filter>PropertyTest</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTest\event_user.h">
+      <Filter>EventTest</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTest\global_methods.h">
+      <Filter>EventTest</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\SignalUser.h">
+      <Filter>DiContainerTest</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\TestSignalPack.h">
+      <Filter>DiContainerTest</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTest\some_class.h">
+      <Filter>EventTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DiContainerTest">
@@ -58,6 +83,9 @@
     </Filter>
     <Filter Include="DiContainerTest\TestTypes">
       <UniqueIdentifier>{23148674-c219-4973-af9d-97399b016afb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventTest">
+      <UniqueIdentifier>{fa94cb31-1fa1-423b-b3a6-2ba960f49a83}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

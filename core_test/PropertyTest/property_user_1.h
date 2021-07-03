@@ -1,32 +1,32 @@
 # pragma once
 # include "zx.h"
 
-class PropertyUser
+class property_user_1
 {
 	int							_order = 1234;
 	float						_balance = 5.0f;
 	double						_inflation_index = 1.0;
 
 public:
-	explicit PropertyUser();
-	virtual ~PropertyUser();
+	explicit property_user_1();
+	virtual ~property_user_1();
 
 	zx::val_getter<int> Order = &_order;
-	zx::val_wrapper<PropertyUser, float> Balance =
+	zx::val_wrapper<property_user_1, float> Balance =
 	{
 		this, &_balance,
 
-		[](PropertyUser& user, const float& value)
+		[](property_user_1& user, const float& value)
 		{
 			user._balance = value;
 		}
 	};
 
-	zx::val_wrapper<PropertyUser, double> InflationIndex =
+	zx::val_wrapper<property_user_1, double> InflationIndex =
 	{
 		this, &_inflation_index,
 
-		[](PropertyUser& user, const double& value)
+		[](property_user_1& user, const double& value)
 		{
 			user._inflation_index = 2 * value;
 		}

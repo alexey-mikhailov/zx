@@ -1,25 +1,25 @@
 # include "CppUnitTest.h"
 # include "../logger_stream.h"
 # include "zx.h"
-# include "GlobalMethods.h"
-# include "EventUser.h"
+# include "global_methods.h"
+# include "event_user.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 
 namespace zx_test
 {
-	void OnSomethingHappened()
+	void on_something_happened()
 	{
 		ls << "Something happened. " << zx::endl;
 	}
 
-	int OnReadyToCalc()
+	int on_ready_to_calc()
 	{
-		return rand();
+		return 12347654;
 	}
 
-	void OnAdded(double a, double b, double result)
+	void on_added(double a, double b, double result)
 	{
 		Assert::IsTrue(a == 4.5);
 		ls << L"Sum of " << a << " and " << b << L" is " << result << zx::endl;
@@ -31,22 +31,23 @@ namespace zx_test
 		TEST_METHOD(SubscribeFireUnsubscribe)
 		{
 			std::wstringstream ss;
-			EventUser user;
+			event_user user;
 
-			user.SomethingComplete += OnSomethingHappened;
-			user.ReadyToCalc += OnReadyToCalc;
-			user.Added += OnAdded;
+			user.something_complete += on_something_happened;
+			user.readly_to_calc += on_ready_to_calc;
+			user.added += on_added;
 
-			user.DoSomething();
-			const auto lastResult = user.GetLastResult();
-			ls << L"GetLastResult = " << lastResult << zx::endl;
-			user.Add(4.5, 3.2);
+			user.do_something();
+			const auto lastResult = user.get_last_result();
+			Assert::AreEqual(12347654, lastResult);
+			ls << L"get_last_result = " << lastResult << zx::endl;
+			user.add(4.5, 3.2);
 
-			user.SomethingComplete -= OnSomethingHappened;
-			user.ReadyToCalc -= OnReadyToCalc;
-			user.Added -= OnAdded;
+			user.something_complete -= on_something_happened;
+			user.readly_to_calc -= on_ready_to_calc;
+			user.added -= on_added;
 
-			user.Add(1.2, 3.4);
+			user.add(1.2, 3.4);
 		}
 
 		TEST_METHOD(MultithreadingTest)
@@ -64,7 +65,7 @@ namespace zx_test
 				std::vector<std::thread> threads(150);
 				for (auto&& thread : threads)
 				{
-					thread = std::thread(SubscribeInvokeUnsubscribe, del1, del2, del3, del4);
+					thread = std::thread(sbscribe_invoke_unsubscribe, del1, del2, del3, del4);
 				}
 
 				for (auto&& thread : threads)
