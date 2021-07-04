@@ -10,11 +10,11 @@ namespace zx
 	{
 		static inline write_shrptr_delegate<Data, Owner> _write_func;
 		Owner* _owner;
-		std::shared_ptr<Data> _data;
+		std::shared_ptr<Data>* _data;
 
 	public:
 		shr_wrapper(Owner* owner,
-					std::shared_ptr<Data> data,
+					std::shared_ptr<Data>* data,
 					write_shrptr_delegate<Data, Owner> write_func) :
 			_owner(owner),
 			_data(data)
@@ -27,23 +27,23 @@ namespace zx
 
 		std::shared_ptr<Data> operator*() const
 		{
-			return _data;
+			return *_data;
 		}
 
 		Data* operator->() const
 		{
-			return _data.get();
+			return _data->get();
 		}
 
 		operator std::shared_ptr<Data>()
 		{
-			return _data;
+			return *_data;
 		}
 
 		shr_wrapper& operator=(std::shared_ptr<Data> new_value)
 		{
 			_write_func(*_owner, new_value);
-			return*this;
+			return *this;
 		}
 
 	private:

@@ -2,7 +2,6 @@
 
 namespace zx
 {
-	/// Raw pointer specialization
 	template <class Data>
 	struct ref_getter
 	{

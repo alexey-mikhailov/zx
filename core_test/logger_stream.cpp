@@ -20,7 +20,7 @@ logger_stream& logger_stream::operator<<(void* value)
 logger_stream& logger_stream::operator<<(int value)
 {
 	_ss.str("");
-	_ss << value;
+	_ss << std::dec << value;
 	Logger::WriteMessage(_ss.str().c_str());
 	return *this;
 }
@@ -28,7 +28,7 @@ logger_stream& logger_stream::operator<<(int value)
 logger_stream& logger_stream::operator<<(float value)
 {
 	_ss.str("");
-	_ss << value;
+	_ss << std::dec << value;
 	Logger::WriteMessage(_ss.str().c_str());
 	return *this;
 }
@@ -36,7 +36,7 @@ logger_stream& logger_stream::operator<<(float value)
 logger_stream& logger_stream::operator<<(double value)
 {
 	_ss.str("");
-	_ss << value;
+	_ss << std::dec << value;
 	Logger::WriteMessage(_ss.str().c_str());
 	return *this;
 }

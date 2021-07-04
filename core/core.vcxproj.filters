@@ -79,6 +79,9 @@
     <ClInclude Include="zx_global_functions.h" />
     <ClInclude Include="zx_event.h" />
     <ClInclude Include="zx_constants.h" />
+    <ClInclude Include="properties\zx_unq_getter.h">
+      <Filter>Public\Properties</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="singleton_container.cpp">

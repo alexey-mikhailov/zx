@@ -6,6 +6,26 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+namespace Microsoft
+{
+	namespace VisualStudio
+	{
+		namespace CppUnitTestFramework
+		{
+			template<> static std::wstring ToString<ref_type>(
+				const ref_type& instance) 
+			{
+				auto a = &instance ? instance.a : 0;
+
+				std::wstringstream ss;
+				ss << L"ref_type { a : " << a << L" } ";
+
+				return ss.str(); 
+			}
+		}
+	}
+}
+
 namespace zx_test
 {
 	TEST_CLASS(PropertyTest)
@@ -13,148 +33,330 @@ namespace zx_test
 	public:
 		TEST_METHOD(SimplePropertyTest)
 		{
-			property_user_1 propertyUser;
-			Assert::AreEqual(*propertyUser.Order, 1234);
-			Assert::AreEqual(*propertyUser.Balance, 5.0f);
-			Assert::AreEqual(*propertyUser.InflationIndex, 1.0);
+			property_user_1 user;
+			Assert::AreEqual(property_user_order,
+							 *user.order);
+			Assert::AreEqual(property_user_balance,
+							 *user.balance);
+			Assert::AreEqual(property_user_inflation_index,
+							 *user.inflation_index);
 
-			propertyUser.Balance = 8.0f;
-			Assert::AreEqual(*propertyUser.Balance, 8.0f);
+			constexpr float new_balance = 8.0f;
+			user.balance = new_balance;
+			Assert::AreEqual(new_balance, *user.balance);
 
-			propertyUser.InflationIndex = 1.4;
-			Assert::AreEqual(*propertyUser.InflationIndex, 2.8);
+			constexpr double new_index = 1.4;
+			user.inflation_index = new_index;
+			Assert::AreEqual(2.0 * new_index,
+							 *user.inflation_index);
 		}
 
-		TEST_METHOD(MoreComplicatedPropertyTest)
+		TEST_METHOD(ValueGetterTest)
 		{
-			property_user_2 u1({ 2, 2 });
-			property_user_2 u2({ 5, 5 });
+			constexpr zx::i32 val_arg = 2i32;
+			property_user_2 u({ val_arg, val_arg });
 
-			// Value getter test
-			// operator *
-			auto ro_val1 = *u1.ro_val1;
-			// operator convert
-			int ro_val1_explicit = u1.ro_val1;
-			// operator ->
-			ls << "ro_val2: " << u1.ro_val2->x << " " << u1.ro_val2->y << zx::endl;
+			Assert::AreEqual(property_user_ro_i32,
+							 *u.ro_i32);
 
-			// Value wrapper test
-			ls << "property type is: " << typeid(u2.rw_val).name() << zx::endl;
 			// operator *
-			auto rw_val = *u2.rw_val;
+			auto ro_i32 = *u.ro_i32;
+			Assert::AreEqual(property_user_ro_i32,
+							 ro_i32);
+
 			// operator convert
-			val_type rw_val_explicit = u2.rw_val;
+			zx::i32 ro_i32_explicit = u.ro_i32;
+			Assert::AreEqual(property_user_ro_i32,
+							 ro_i32_explicit);
+
 			// operator ->
-			ls << "rw_val before modification: " << u2.rw_val->x << zx::endl; // read9
+			Assert::AreEqual(val_arg, u.ro_val->x);
+			Assert::AreEqual(val_arg, u.ro_val->y);
+		}
+
+		TEST_METHOD(ValueWrapperTest)
+		{
+			constexpr zx::i32 val_arg = 5i32;
+			property_user_2 u({ val_arg, val_arg });
+
+			// operator *
+			auto rw_val = *u.rw_val;
+			Assert::AreEqual(val_type_x, rw_val.x);
+
+			// operator convert
+			val_type rw_val_explicit = u.rw_val;
+			Assert::AreEqual(val_type_x, rw_val_explicit.x);
+
+			// operator ->
+			Assert::AreEqual(val_type_x, u.rw_val->x);
+
 			// operator =
-			u2.rw_val = { 6, 6 }; // write
-			ls << "rw_val after modification: " << u2.rw_val->x << zx::endl; // read again
+			constexpr zx::i32 new_val_arg = 6i32;
+			u.rw_val = { new_val_arg, new_val_arg }; // write
+			Assert::AreEqual(new_val_arg, u.rw_val->x);
+		}
 
-			// Value formula test
-			// operator *
-			auto diff = *u2.diff;
-			// operator convert
-			val_type diff_explicit = u2.diff;
-			// operator ->
-			ls << "diff x value: " << u2.diff->x << zx::endl;
+		TEST_METHOD(ValueFormulaTest)
+		{
+			constexpr zx::i32 val_arg = 5i32;
+			property_user_2 u({ val_arg, val_arg });
 
-			// Value computer test
+			auto expected = val_type_x - val_arg;
+
 			// operator *
-			auto sum = *u2.sum;
+			auto diff = *u.diff;
+			Assert::AreEqual(expected, diff.x);
+
 			// operator convert
-			val_type sum_explicit = u2.sum;
+			val_type diff_explicit = u.diff;
+			Assert::AreEqual(expected, diff_explicit.x);
+
 			// operator ->
-			ls << "sum before modification: " << u2.sum->x << zx::endl; // read
+			Assert::AreEqual(expected, u.diff->x);
+		}
+
+		TEST_METHOD(ValueComputer)
+		{
+			constexpr zx::i32 val_arg = 5i32;
+			property_user_2 u({ val_arg, val_arg });
+
+			// operator *
+			auto sum = *u.sum;
+			Assert::AreEqual(val_type_x + val_arg,
+							 sum.x);
+
+			// operator convert
+			val_type sum_explicit = u.sum;
+			Assert::AreEqual(val_type_x + val_arg,
+							 sum_explicit.x);
+
+			// operator ->
+			Assert::AreEqual(val_type_x + val_arg,
+							 u.sum->x);
+			
+			// operator = (write to property)
+			constexpr zx::i32 new_val = 6i32;
+			u.sum = { new_val, new_val }; 
+
+			Assert::AreEqual(new_val, u.sum->x);
+		}
+
+		TEST_METHOD(ReferenceGetterTest)
+		{
+			property_user_2 u;
+
+			// operator *
+			auto& ref = *u.ref_getter;
+			Assert::AreSame(*u.ref_getter,
+							ref);
+			
+			// operator convert to type&
+			ref_type& explicit_ref = u.ref_getter;
+			Assert::AreSame(*u.ref_getter,
+							explicit_ref);
+
+			// operator convert to type*
+			ref_type* explicit_ptr = u.ref_getter;
+			Assert::AreSame(*u.ref_getter,
+							*explicit_ptr);
+
+			// operator ->
+			Assert::AreEqual(property_user_ref_arg,
+							 u.ref_getter->a);
+		}
+
+		TEST_METHOD(ReferenceWrapperTest)
+		{
+			property_user_2 u;
+
+			// operator *
+			auto& ref = *u.ref_wrapper;
+			Assert::AreSame(*u.ref_wrapper,
+							ref);
+
+			// operator convert to type&
+			ref_type& explicit_ref = u.ref_wrapper;
+			Assert::AreSame(*u.ref_wrapper,
+							explicit_ref);
+
+			// operator convert to type*
+			ref_type* explicit_ptr = u.ref_wrapper;
+			Assert::AreSame(*u.ref_wrapper,
+							*explicit_ptr);
+
 			// operator =
-			u2.sum = { 6, 6 }; // write
-			ls << "sum after modification: " << u2.sum->x << zx::endl; // read again
+			auto& old_ref = *u.ref_wrapper;
+			constexpr zx::i32 new_val = 123i32;
+			u.ref_wrapper = new ref_type(new_val); 
+			Assert::AreNotSame(old_ref, *u.ref_wrapper);
 
-
-
-			// Reference getter test
-			// operator *
-			auto& ro_ref1 = *u2.ro_ref1;
-			// operator convert
-			ref_type& ro_ref1_explicit_ref = u2.ro_ref1;
-			ref_type* ro_ref1_explicit_ptr = u2.ro_ref1;
 			// operator ->
-			ls << "ro_ref1: " << u1.ro_ref1->a << zx::endl;
+			Assert::AreEqual(new_val,
+							 u.ref_wrapper->a);
+		}
 
-			// Reference wrapper test
+		TEST_METHOD(ReferenceFormulaTest)
+		{
+			property_user_2 u;
+
 			// operator *
-			auto& rw_ref1 = *u2.rw_ref1;
-			// operator convert
-			ref_type& rw_ref_Explicit_ref = u2.rw_ref1;
-			ref_type* rw_ref_explicit_ptr = u2.rw_ref1;
+			auto& ref = *u.ref_formula;
+			Assert::AreSame(*u.ref_formula,
+							ref);
+
+			// operator convert to type&
+			ref_type& explicit_ref = u.ref_formula;
+			Assert::AreSame(*u.ref_formula,
+							explicit_ref);
+
+			// operator convert to type*
+			ref_type* explicit_ptr = u.ref_formula;
+			Assert::AreSame(*u.ref_formula,
+							*explicit_ptr);
+
+			// operator ->
+			Assert::AreEqual(zx::zero::i32,
+							 u.ref_formula->a);
+		}
+
+		TEST_METHOD(ReferenceComputerTest)
+		{
+			property_user_2 u;
+
+			// operator *
+			auto& ref = *u.ref_computer;
+			Assert::AreSame(*u.ref_computer,
+							ref);
+
+			// operator convert to type&
+			ref_type& explicit_ref = u.ref_computer;
+			Assert::AreSame(*u.ref_computer,
+							explicit_ref);
+
+			// operator convert to type*
+			ref_type* explicit_ptr = u.ref_computer;
+			Assert::AreSame(*u.ref_computer,
+							*explicit_ptr);
+
 			// operator =
-			ls << "rw_ref1 before modification: " << &*u2.rw_ref1 << zx::endl; // read
-			u2.rw_ref1 = new ref_type(321); // write
-			ls << "rw_ref1 after modification: " << &*u2.rw_ref1 << zx::endl; // read again
-			// operator ->
-			auto a = u2.rw_ref1->a;
+			auto& old_ref = *u.ref_computer;
+			constexpr zx::i32 new_val = 123i32;
+			u.ref_computer = new ref_type(new_val); 
+			Assert::AreNotSame(old_ref, *u.ref_computer);
 
-			// Refrerence fornula test
-			// operator *
-			auto ro_ref2 = *u2.ro_ref2;
-			// operator convert
-			ref_type& ro_ref2_explicit_ref = u2.ro_ref2;
-			ref_type& ro_ref2_explicit_ptr = u2.ro_ref2;
 			// operator ->
-			ls << "ro_ref2: " << &*u2.ro_ref2 << zx::endl; // read
+			Assert::AreEqual(new_val,
+							 u.ref_computer->a);
+		}
 
-			// Reference computer test
+		TEST_METHOD(UniquePointerGetterTest)
+		{
+			property_user_2 u;
+			
 			// operator *
-			auto rw_ref2 = *u2.rw_ref2;
-			// operator convert
-			ref_type& rw_ref2_explicit_ref = u2.rw_ref2;
-			ref_type* re_ref2_explicit_ptr = u2.rw_ref2;
+			auto& ref = *u.unq_getter;
+			Assert::AreSame(*u.unq_getter,
+							ref);
+
+			// operator convert to type&
+			ref_type& explicit_ref = u.unq_getter;
+			Assert::AreSame(*u.unq_getter,
+							explicit_ref);
+
+			// operator convert to type*
+			ref_type* explicit_ptr = u.unq_getter;
+			Assert::AreSame(*u.unq_getter,
+							*explicit_ptr);
+
+			// operator ->
+			Assert::AreEqual(property_user_unq_arg,
+							 u.unq_getter->a);
+		}
+
+		TEST_METHOD(SharedPointerGetterTest)
+		{
+			property_user_2 u;
+
+			// operator *
+			auto shr = *u.shr_getter;
+			Assert::AreSame(**u.shr_getter,
+							*shr);
+
+			// operator convert to std::shared_pointer
+			std::shared_ptr<ref_type> explicit_shr = u.shr_getter;
+			Assert::AreSame(**u.shr_getter,
+							*explicit_shr);
+
+			// operator ->
+			Assert::AreEqual(property_user_shr_arg,
+							 u.shr_getter->a);
+		}
+
+		TEST_METHOD(SharedPointerWrapperTest)
+		{
+			property_user_2 u;
+
+			// operator *
+			auto shr = *u.shr_wrapper;
+			Assert::AreSame(**u.shr_wrapper,
+							*shr);
+
+			// operator convert to std::shared_pointer
+			std::shared_ptr<ref_type> explicit_shr = u.shr_wrapper;
+			Assert::AreSame(**u.shr_wrapper,
+							*explicit_shr);
+
 			// operator =
-			ls << "rw_ref2 before modification: " << &*u2.rw_ref2 << zx::endl; // read
-			u2.rw_ref2 = new ref_type(321); // write
-			ls << "rw_ref2 after modification: " << &*u2.rw_ref2 << zx::endl; // read again
+			constexpr zx::i32 new_val = 321i32;
+			u.shr_wrapper = std::make_shared<ref_type>(new_val);
+			Assert::AreNotSame(*shr, **u.shr_wrapper);
+
 			// operator ->
-			a = u2.rw_ref2->a;
+			Assert::AreEqual(new_val,
+							 u.shr_wrapper->a);
+		}
 
-
-
-			// Shared ptr getter test
+		TEST_METHOD(SharedPointerFormulaTest)
+		{
+			property_user_2 u;
+			
 			// operator *
-			auto ro_shr1 = *u2.ro_shr1;
-			// operator convert
-			std::shared_ptr<ref_type> ro_shr1_explicit = u2.ro_shr1;
+			auto shr = *u.shr_formula;
+			Assert::AreSame(**u.shr_formula,
+							*shr);
+
+			// operator convert to std::shared_pointer
+			std::shared_ptr<ref_type> explicit_shr = u.shr_formula;
+			Assert::AreSame(**u.shr_formula,
+							*explicit_shr);
+
 			// operator ->
-			ls << "ro_ref1: " << u1.ro_shr1->a << zx::endl;
+			Assert::AreEqual(property_user_shr_arg,
+							 u.shr_formula->a);
+		}
 
-			// Shared ptr wrapper test
+		TEST_METHOD(SharedPointerComputerTest)
+		{
+			property_user_2 u;
+
 			// operator *
-			auto rw_shr = *u2.rw_shr1;
-			// operator convert
-			std::shared_ptr<ref_type> rw_shr1_explicit = u2.rw_shr1;
+			auto shr = *u.shr_computer;
+			Assert::AreSame(**u.shr_computer,
+							*shr);
+
+			// operator convert to std::shared_pointer
+			std::shared_ptr<ref_type> explicit_shr = u.shr_computer;
+			Assert::AreSame(**u.shr_computer,
+							*explicit_shr);
+
 			// operator =
-			ls << "rw_shr1 before modification: " << &**u2.rw_shr1 << zx::endl; // read
-			u2.rw_shr1 = std::make_shared<ref_type>(321); // write
-			// operator ->
-			ls << "rw_shr1 after modification: " << &**u2.rw_shr1 << zx::endl; // read again
+			constexpr zx::i32 new_val = 321i32;
+			u.shr_computer = std::make_shared<ref_type>(new_val);
+			Assert::AreNotSame(*shr, **u.shr_computer);
 
-			// Shared ptr formula test
-			// operator *
-			auto ro_shr2 = *u2.ro_shr2;
-			// operator convert
-			std::shared_ptr<ref_type> ro_shr2_explicit = u2.ro_shr2;
 			// operator ->
-			ls << "ro_shr2.a: " << u2.ro_shr2->a << zx::endl; // read
-
-			// Reference computer test
-			// operator *
-			auto rw_shr2 = *u2.rw_shr2;
-			// operator convert
-			std::shared_ptr<ref_type> rw_shr2_explicit = u2.rw_shr2;
-			// operator =
-			ls << "rw_shr2 before modification: " << &**u2.rw_shr2 << zx::endl; // read
-			u2.rw_shr2 = std::make_shared<ref_type>(321); // write
-			ls << "rw_shr2 after modification: " << &**u2.rw_shr2 << zx::endl; // read again
-			// operator ->
-			a = u2.rw_shr2->a;
+			Assert::AreEqual(new_val,
+							 u.shr_computer->a);
 		}
 	};
 }

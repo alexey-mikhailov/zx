@@ -42,7 +42,8 @@ The property mechanism gives possibility to use fields like a get & set method p
 - get the data via operator* or operator->
 - set the data via precedig = (equal sign)
 
-Access behaviour classification
+
+Access Behaviour Classification
 -------------------------------
 
 We know that some properties let you only get value without permission (_read only_), other of them let you do both of _read and write_ operations. We do not consider _write only_ properties because they are used very seldom and sometimes people consider them as antipattern. 
@@ -54,11 +55,40 @@ We know that some properties let you only get value without permission (_read on
  Computer         | __Read & Write.__ <br>To get/set value, it will be computed during every access. 
  Wrapper          | __Read & Write.__ <br>To get value, it will be refer to memory where field data is. <br>To set value, it will be computed during every access. 
 
-Dereference behaviour classification
----------------------
 
-The next classification of properties is dereference behaviour. To tell about them, let's check use case first. 
-Let the perfect C++ service class is looking like:
+Dereference Behaviour Classification
+------------------------------------
+
+Shortly we need to expose the following types of properties: 
+
+Dereference Behaviour | Semantic                                                               | Getter Return Value
+----------------------|------------------------------------------------------------------------|---------------------------------
+By Value              | I own it. It's cheap to copy. Take it.                                 | Derefers to value (object copy). 
+By Reference          | I own it. It's either expensive to copy, or polymorphic or reseatable. | Derefers to reference. 
+By Unique Pointer     | I own it. But I you can get only raw pointer/reference.                | Derefers to reference. 
+By Shared Pointer     | I don't own it.                                                        | Derefers to pointer previously being derefered to shared pointer. 
+
+Full list of property types: 
+
+Type Name        | Access Behaviour | Exposure Type  | Dereference Behaviour
+-----------------|------------------|----------------|---------------------------
+zx_ref_getter    | Getter           | Reference      | By Reference/Pointer
+zx_ref_formula   | Formula          | Reference      | By Reference/Pointer
+zx_ref_computer  | Computer         | Reference      | By Reference/Pointer
+zx_ref_wrapper   | Wrapper          | Reference      | By Reference/Pointer
+zx_unq_getter    | Getter           | Reference      | By Reference/Pointer
+zx_shr_getter    | Getter           | Shared Pointer | By Reference/Pointer
+zx_shr_formula   | Formula          | Shared Pointer | By Reference/Pointer
+zx_shr_computer  | Computer         | Shared Pointer | By Reference/Pointer
+zx_shr_wrapper   | Wrapper          | Shared Pointer | By Reference/Pointer
+zx_val_getter    | Getter           | Value          | By Value
+zx_val_formula   | Formula          | Value          | By Value
+zx_val_computer  | Computer         | Value          | By Value
+zx_val_wrapper   | Wrapper          | Value          | By Value
+
+Justification of this choise may be Matthieu M's answer on the following Stack Overflow thread: https://stackoverflow.com/questions/22755469/smart-pointers-in-c-apis. 
+
+Corresponding ti it, the perfect C++ class interface is looking like:
 
 ```c++
 class t, polymorphic_t;
@@ -75,10 +105,10 @@ public:
         return std::make_unique(*_polymorphic_value);
     }
 
-	// Expose new generated object (by val/ref no matter)
-	std::unique_ptr<polymorphic_t> concat() const
+	// Expose new generated object by reference
+	std::unique_ptr<polymorphic_t> factory_method() const
     {
-        return std::make_unique<...>() { ... + ... };
+        return std::make_unique<...> ...;
     }
 
 	// Expose by reference
@@ -105,41 +135,27 @@ private:
 };
 ```
 
-This code sample is based on several aspects of Modern C++. Corresponding to [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) and [Law of Demeter](https://stackoverflow.com/questions/23112178/what-is-the-right-way-to-expose-resources-owned-by-a-class/23114713), no reason to expose class internals via unique_ptr. 
+This code sample is based on several aspects of Modern C++. Corresponding to [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) and [Law of Demeter](https://stackoverflow.com/questions/23112178/what-is-the-right-way-to-expose-resources-owned-by-a-class/23114713), no reason to expose class internals via unique_ptr itself. 
 
-Namely, these rules of Modern C++ influenced this properties concept: 
+Namely, these rules of Modern C++ influenced this concept: 
 
 - C.9: Minimize exposure of members
 - F.7: For general use, take T* or T& arguments rather than smart pointers
 - F.26: Use a unique_ptr<T> to transfer ownership where a pointer is needed
 - F.27: Use a shared_ptr<T> to share ownership
 
-So, shortly we need to expose the following types of properties: 
 
-Dereference Behaviour | Semantic                                                               | Getter Return Value
-----------------------|------------------------------------------------------------------------|---------------------------------
-By Value              | I own it. It's cheap to copy. Take it.                                 | Derefers to value (object copy). 
-By Reference          | I own it. It's either expensive to copy, or polymorphic or reseatable. | Derefers to reference. 
-By Shared Pointer     | I don't own it.                                                        | Derefers to pointer previously being derefered to shared pointer. 
-~~By Unique Pointer~~ | ~~Oops~~       	                                                       | Deprecated due to broken Law of Demeter. 
+Safety, Thread Safety and ABI
+-----------------------------
 
-Full list of property types: 
+Getters have syntax with copying address to your data. Nevertheless, you can use this syntax sugar to expose secure data. Nobody can write to this address, because getters already expose copy of your data or your pointer.  
 
-Type Name        | Access Behaviour | Dereference Behaviour
------------------|------------------|----------------------------
-zx_ref_getter    | Getter           | By Reference
-zx_ref_formula   | Formula          | By Reference
-zx_ref_computer  | Computer         | By Reference
-zx_ref_wrapper   | Wrapper          | By Reference
-zx_shr_getter    | Getter           | By Shared Pointer
-zx_shr_formula   | Formula          | By Shared Pointer
-zx_shr_computer  | Computer         | By Shared Pointer
-zx_shr_wrapper   | Wrapper          | By Shared Pointer
-zx_val_getter    | Getter           | By Value
-zx_val_formula   | Formula          | By Value
-zx_val_computer  | Computer         | By Value
-zx_val_wrapper   | Wrapper          | By Value
+Properties are not thread safe due to performance considerations. 
 
-Thus, properties are no more than syntax sugar for get/set method pairs. 
+If your ABI client assume to depend on ZX, then conceptually properties shouldn't raise any problems. 
+
+
+Further Explanation
+-------------------
 
 Fore more information see [./core_test/propertytest](./core_test/propertytest) folder. 

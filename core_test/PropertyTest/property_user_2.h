@@ -1,10 +1,20 @@
 # pragma once
 # include "zx.h"
 
+// Magic number revelation :)
+constexpr zx::i32 val_type_x = 10i32;
+constexpr zx::i32 val_type_y = 15i32;
+constexpr zx::i32 property_user_ro_i32 = 8i32;
+constexpr zx::i32 property_user_ref_arg = 123i32;
+constexpr zx::i32 property_user_unq_arg = 456i32;
+constexpr zx::i32 property_user_shr_arg = 789i32;
+constexpr zx::i32 property_user_valarg1 = 3i32;
+constexpr zx::i32 property_user_valarg2 = 5i32;
+
 struct val_type
 {
-	int x = 0;
-	int y = 0;
+	zx::i32 x = val_type_x;
+	zx::i32 y = val_type_y;
 
 	val_type operator+(const val_type& other) const
 	{
@@ -20,31 +30,34 @@ struct val_type
 class ref_type
 {
 public:
-	int a;
-	ref_type(int a) : a(a) { }
+	zx::i32 a;
+	ref_type(zx::i32 a) : a(a) { }
 
 	static ref_type null;
 };
 
-ref_type ref_type::null(0);
+ref_type ref_type::null(zx::zero::i32);
 
 class property_user_2
 {
-	const int _ro_val1 = 8;
-	const val_type _ro_val2;
+	const zx::i32 _ro_i32 = property_user_ro_i32;
+	const val_type _ro_val;
 	val_type _rw_val;
 
-	ref_type* _rw_ref1 = new ref_type(123);
+	ref_type* _rw_ref1 = new ref_type(property_user_ref_arg);
 	ref_type* _rw_ref2;
 
-	std::shared_ptr<ref_type> _rw_shr1 = std::make_shared<ref_type>(123);;
+	std::unique_ptr<ref_type> _ro_unq = std::make_unique<ref_type>(property_user_unq_arg);
+
+	std::shared_ptr<ref_type> _rw_shr1 = std::make_shared<ref_type>(property_user_shr_arg);
 	std::shared_ptr<ref_type> _rw_shr2;
 
 public:
-	property_user_2(val_type ii) : _ro_val2(ii) {}
+	property_user_2() {}
+	property_user_2(val_type ii) : _ro_val(ii) {}
 
-	zx::val_getter<const int> ro_val1 = &_ro_val1;
-	zx::val_getter<const val_type> ro_val2 = &_ro_val2;
+	zx::val_getter<const int> ro_i32 = &_ro_i32;
+	zx::val_getter<const val_type> ro_val = &_ro_val;
 
 	zx::val_wrapper<property_user_2, val_type> rw_val =
 	{
@@ -64,12 +77,12 @@ public:
 
 		[](property_user_2& user)
 		{
-			return user._rw_val + user._ro_val2;
+			return user._rw_val + user._ro_val;
 		},
 
 		[](property_user_2& user, const val_type & value)
 		{
-			user._rw_val = value - user._ro_val2;
+			user._rw_val = value - user._ro_val;
 		}
 	};
 
@@ -79,13 +92,13 @@ public:
 
 		[](property_user_2& user)
 		{
-			return user._rw_val - user._ro_val2;
+			return user._rw_val - user._ro_val;
 		}
 	};
 
-	zx::ref_getter<ref_type> ro_ref1 = &_rw_ref1;
+	zx::ref_getter<ref_type> ref_getter = &_rw_ref1;
 
-	zx::ref_wrapper<property_user_2, ref_type> rw_ref1 =
+	zx::ref_wrapper<property_user_2, ref_type> ref_wrapper =
 	{
 		this, &_rw_ref1,
 
@@ -97,7 +110,7 @@ public:
 		}
 	};
 
-	zx::ref_formula<property_user_2, ref_type> ro_ref2
+	zx::ref_formula<property_user_2, ref_type> ref_formula
 	{
 		this,
 
@@ -107,7 +120,7 @@ public:
 		}
 	};
 
-	zx::ref_computer<property_user_2, ref_type> rw_ref2
+	zx::ref_computer<property_user_2, ref_type> ref_computer
 	{
 		this,
 		[](property_user_2 & user) -> ref_type &
@@ -121,11 +134,13 @@ public:
 		}
 	};
 
-	zx::shr_getter<ref_type> ro_shr1 = _rw_shr1;
+	zx::unq_getter<ref_type> unq_getter = &_ro_unq;
 
-	zx::shr_wrapper<property_user_2, ref_type> rw_shr1 =
+	zx::shr_getter<ref_type> shr_getter = &_rw_shr1;
+
+	zx::shr_wrapper<property_user_2, ref_type> shr_wrapper =
 	{
-		this, _rw_shr1,
+		this, &_rw_shr1,
 
 		[](property_user_2& user, std::shared_ptr<ref_type> value)
 		{
@@ -135,7 +150,7 @@ public:
 		}
 	};
 
-	zx::shr_formula<property_user_2, ref_type> ro_shr2
+	zx::shr_formula<property_user_2, ref_type> shr_formula
 	{
 		this,
 
@@ -145,7 +160,7 @@ public:
 		}
 	};
 
-	zx::shr_computer<property_user_2, ref_type> rw_shr2
+	zx::shr_computer<property_user_2, ref_type> shr_computer
 	{
 		this,
 

@@ -5,29 +5,29 @@ namespace zx
 	template <class Data>
 	struct shr_getter
 	{
-		shr_getter(std::shared_ptr<Data> data) : _data(data) {}
+		shr_getter(std::shared_ptr<Data>* data) : _data(data) {}
 		
 		std::shared_ptr<Data> operator*() const
 		{
-			return _data;
+			return *_data;
 		}
 
 		Data* operator->() const
 		{
-			return _data.get();
+			return _data->get();
 		}
 
-		operator std::shared_ptr<Data>()
+		operator std::shared_ptr<Data>() const
 		{
-			return _data;
+			return *_data;
 		}
 
 	private:
 		// prevent copy
-		shr_getter(const shr_getter &){}
+		shr_getter(const shr_getter&){}
 		shr_getter& operator=(const shr_getter&){}
 
-		std::shared_ptr<Data> _data;
+		std::shared_ptr<Data>* _data;
 	};
 
 }

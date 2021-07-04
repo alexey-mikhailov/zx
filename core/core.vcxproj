@@ -145,6 +145,7 @@
     <ClInclude Include="properties\zx_shr_formula.h" />
     <ClInclude Include="properties\zx_shr_getter.h" />
     <ClInclude Include="properties\zx_shr_wrapper.h" />
+    <ClInclude Include="properties\zx_unq_getter.h" />
     <ClInclude Include="properties\zx_val_computer.h" />
     <ClInclude Include="properties\zx_val_formula.h" />
     <ClInclude Include="properties\zx_val_getter.h" />
