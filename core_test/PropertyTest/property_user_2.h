@@ -103,7 +103,7 @@ public:
 
 		[](property_user_2& user) -> ref_type &
 		{
-			return user._rw_ref1 ? *user._rw_ref1 : ref_type::null;
+			return user._rw_ref2 ? *user._rw_ref2 : ref_type::null;
 		}
 	};
 

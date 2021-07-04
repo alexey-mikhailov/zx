@@ -82,7 +82,7 @@ namespace zx_test
 
 			// Reference wrapper test
 			// operator *
-			auto& rw_ref = *u2.rw_ref1;
+			auto& rw_ref1 = *u2.rw_ref1;
 			// operator convert
 			ref_type& rw_ref_Explicit_ref = u2.rw_ref1;
 			ref_type* rw_ref_explicit_ptr = u2.rw_ref1;
