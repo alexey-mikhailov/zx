@@ -25,6 +25,22 @@ logger_stream& logger_stream::operator<<(int value)
 	return *this;
 }
 
+logger_stream& logger_stream::operator<<(long long value)
+{
+	_ss.str("");
+	_ss << std::dec << value;
+	Logger::WriteMessage(_ss.str().c_str());
+	return *this;
+}
+
+logger_stream& logger_stream::operator<<(unsigned long long value)
+{
+	_ss.str("");
+	_ss << std::dec << value;
+	Logger::WriteMessage(_ss.str().c_str());
+	return *this;
+}
+
 logger_stream& logger_stream::operator<<(float value)
 {
 	_ss.str("");
@@ -40,3 +56,10 @@ logger_stream& logger_stream::operator<<(double value)
 	Logger::WriteMessage(_ss.str().c_str());
 	return *this;
 }
+
+logger_stream& logger_stream::operator<<(const std::string& value)
+{
+	Logger::WriteMessage(value.c_str());
+	return *this;
+}
+

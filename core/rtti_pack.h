@@ -10,7 +10,7 @@ namespace zx
 	{
 		static std::deque<std::type_index> get()
 		{
-			auto result = rtti_pack<Args...>::invoke();
+			auto result = rtti_pack<Args...>::get();
 			result.push_front(typeid(First));
 			return result;
 		}

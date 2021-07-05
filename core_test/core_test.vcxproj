@@ -186,6 +186,7 @@
     <ClCompile Include="PropertyTest\PropertyTest.cpp" />
     <ClCompile Include="PropertyTest\property_user_1.cpp" />
     <ClCompile Include="DiContainerTest\SignalUser.cpp" />
+    <ClCompile Include="ReflectionTest\ReflectionTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DiContainerTest\TypeToInjectBase.h" />

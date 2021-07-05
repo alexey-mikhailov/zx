@@ -33,6 +33,7 @@
     <ClCompile Include="DiContainerTest\SignalUser.cpp">
       <Filter>DiContainerTest</Filter>
     </ClCompile>
+    <ClCompile Include="ReflectionTest\ReflectionTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
