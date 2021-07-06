@@ -86,7 +86,7 @@ zx_val_formula   | Formula          | Value          | By Value
 zx_val_computer  | Computer         | Value          | By Value
 zx_val_wrapper   | Wrapper          | Value          | By Value
 
-Justification of this choise may be Matthieu M's answer on the following Stack Overflow thread: https://stackoverflow.com/questions/22755469/smart-pointers-in-c-apis. 
+Justification of this choise may be Matthieu M's answer in the following thread: https://stackoverflow.com/questions/22755469/smart-pointers-in-c-apis. 
 
 Corresponding ti it, the perfect C++ class interface is looking like:
 

@@ -1,9 +1,24 @@
 # include "CppUnitTest.h"
-# include "TestDiContainer.h"
-# include "SomeInjectee.h"
-# include "SignalUser.h"
+# include "test_di_container.h"
+# include "some_injectee.h"
+# include "signal_user.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace Microsoft
+{
+	namespace VisualStudio
+	{
+		namespace CppUnitTestFramework
+		{
+			template<> static std::wstring ToString<type_to_inject>(
+				const type_to_inject& instance)
+			{
+				return wide_nameof(type_to_inject);
+			}
+		}
+	}
+}
 
 namespace zx_test
 {
@@ -13,50 +28,49 @@ namespace zx_test
 		TEST_METHOD(CreateDiContainerTest)
 		{
 			// di_container::ctor -> di_container::bind_all
-			auto diContainer = TestDiContainer();
+			auto di_container = test_di_container();
 		}
 
 		TEST_METHOD(InjectInstancesTest)
 		{
-			auto type = zx::type::i<TypeToInject>();
+			auto type = zx::type::i<type_to_inject>();
 
-			auto diContainer = TestDiContainer();
-			auto injectee = SomeInjectee();
-			const auto interfaceInst = injectee.GetInterfaceInstance();
+			auto di_container = test_di_container();
+			auto injectee = some_injectee();
+			const auto interface_inst = injectee.get_interface_instance();
 
 			// Singleton container inject test
-			Assert::IsNotNull(interfaceInst);
+			Assert::IsNotNull(interface_inst);
 
-			const auto b = dynamic_cast<TypeToInject *>(interfaceInst);
+			const auto b = dynamic_cast<type_to_inject *>(interface_inst);
 
 			// Inheritance check
 			Assert::IsTrue(b != nullptr);
 
 			// Read-write check
-			b->PublicField = 15;
-			Assert::AreEqual(b->PublicField, 15);
+			b->public_field = 15;
+			Assert::AreEqual(b->public_field, 15);
 
 			// Nominated container inject test
-			Assert::IsNotNull(injectee.GetInjected1());
+			Assert::IsNotNull(injectee.get_injected_1());
 
 			// Nominated container inject test
-			Assert::IsNotNull(injectee.GetInjected2());
+			Assert::IsNotNull(injectee.get_injected_2());
 
 			// Different named instances
-			const auto bInst1 = injectee.GetInjected1();
-			const auto bInst2 = injectee.GetInjected2();
+			const auto b_inst_1 = injectee.get_injected_1();
+			const auto b_inst_2 = injectee.get_injected_2();
 
-			Assert::AreNotEqual((void *)(bInst1),
-								(void *)(bInst2));
+			Assert::AreNotSame(*b_inst_1, *b_inst_2);
 		}
 
 		TEST_METHOD(SignalTest)
 		{
-			auto diContainer = TestDiContainer();
-			auto injectee = SomeInjectee();
-			auto signalUser = SignalUser();
+			auto di_container = test_di_container();
+			auto injectee = some_injectee();
+			auto signal_user = ::signal_user();
 
-			const auto result = injectee.DoSomething();
+			const auto result = injectee.do_something();
 			Assert::AreEqual(result, 4.0);
 		}
 	};

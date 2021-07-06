@@ -1,11 +1,11 @@
 # pragma once
 
-class TypeToInjectBase
+class type_to_inject_base
 {
 public:
-	TypeToInjectBase() = default;
+	type_to_inject_base() = default;
 
 private:
-	int							_field1 = 1234;
+	int _field1 = 1234;
 };
 

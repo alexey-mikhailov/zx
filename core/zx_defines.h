@@ -7,6 +7,7 @@
 # endif
 
 # define nameof(x) (#x)
+# define wide_nameof(x) (L#x)
 
 namespace zx
 {

@@ -5,17 +5,11 @@
     <ClCompile Include="DiContainerTest\DiContainerTest.cpp">
       <Filter>DiContainerTest</Filter>
     </ClCompile>
-    <ClCompile Include="DiContainerTest\SomeInjectee.cpp">
+    <ClCompile Include="DiContainerTest\some_injectee.cpp">
       <Filter>DiContainerTest\TestTypes</Filter>
     </ClCompile>
-    <ClCompile Include="DiContainerTest\TestDiContainer.cpp">
+    <ClCompile Include="DiContainerTest\test_di_container.cpp">
       <Filter>DiContainerTest</Filter>
-    </ClCompile>
-    <ClCompile Include="DiContainerTest\TypeToInject.cpp">
-      <Filter>DiContainerTest\TestTypes</Filter>
-    </ClCompile>
-    <ClCompile Include="DiContainerTest\TypeToInjectBase.cpp">
-      <Filter>DiContainerTest\TestTypes</Filter>
     </ClCompile>
     <ClCompile Include="logger_stream.cpp" />
     <ClCompile Include="PropertyTest\PropertyTest.cpp">
@@ -30,27 +24,21 @@
     <ClCompile Include="EventTest\EventTest.cpp">
       <Filter>EventTest</Filter>
     </ClCompile>
-    <ClCompile Include="DiContainerTest\SignalUser.cpp">
-      <Filter>DiContainerTest</Filter>
-    </ClCompile>
     <ClCompile Include="ReflectionTest\ReflectionTest.cpp" />
+    <ClCompile Include="DiContainerTest\signal_user.cpp">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="DiContainerTest\test_types.cpp">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="DiContainerTest\IInterfaceToInject.h">
+    <ClInclude Include="DiContainerTest\some_injectee.h">
       <Filter>DiContainerTest\TestTypes</Filter>
     </ClInclude>
-    <ClInclude Include="DiContainerTest\SomeInjectee.h">
-      <Filter>DiContainerTest\TestTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="DiContainerTest\TestDiContainer.h">
+    <ClInclude Include="DiContainerTest\test_di_container.h">
       <Filter>DiContainerTest</Filter>
-    </ClInclude>
-    <ClInclude Include="DiContainerTest\TypeToInject.h">
-      <Filter>DiContainerTest\TestTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="DiContainerTest\TypeToInjectBase.h">
-      <Filter>DiContainerTest\TestTypes</Filter>
     </ClInclude>
     <ClInclude Include="logger_stream.h" />
     <ClInclude Include="PropertyTest\property_user_2.h">
@@ -65,14 +53,17 @@
     <ClInclude Include="EventTest\global_methods.h">
       <Filter>EventTest</Filter>
     </ClInclude>
-    <ClInclude Include="DiContainerTest\SignalUser.h">
-      <Filter>DiContainerTest</Filter>
-    </ClInclude>
-    <ClInclude Include="DiContainerTest\TestSignalPack.h">
-      <Filter>DiContainerTest</Filter>
-    </ClInclude>
     <ClInclude Include="EventTest\some_class.h">
       <Filter>EventTest</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\signal_user.h">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\test_signal_pack.h">
+      <Filter>DiContainerTest\TestTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DiContainerTest\test_types.h">
+      <Filter>DiContainerTest\TestTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

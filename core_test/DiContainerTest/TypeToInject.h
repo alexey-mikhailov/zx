@@ -3,13 +3,13 @@
 # include "IInterfaceToInject.h"
 # include "TypeToInjectBase.h"
 
-class TypeToInject : public TypeToInjectBase, public IInterfaceToInject
+class type_to_inject : public type_to_inject_base, public interface_to_inject
 {
 public:
-	TypeToInject() = default;
+	type_to_inject() = default;
 
-	int SomeMethod() override;
+	int some_method() override;
 
-	int PublicField;
+	int public_field;
 };
 

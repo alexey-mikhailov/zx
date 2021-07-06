@@ -1,8 +1,8 @@
 #pragma once
 
-struct IInterfaceToInject
+struct interface_to_inject
 {
-	virtual ~IInterfaceToInject() = default;
-	virtual int SomeMethod() = 0;
+	virtual ~interface_to_inject() = default;
+	virtual int some_method() = 0;
 };
 
