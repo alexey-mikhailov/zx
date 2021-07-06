@@ -1,6 +1,6 @@
 # pragma once
 # include "zx_defines.h"
-# include "rtti_pack.h"
+# include "tmpl_args_converter.h"
 # include "rtti_args.h"
 
 namespace zx
@@ -54,7 +54,7 @@ namespace zx
 
 				if constexpr (std::is_default_constructible_v<T>)
 				{
-					const rtti_args arg_types = rtti_pack<>::get();
+					const rtti_args arg_types = rtti_args::empty;
 
 					auto& fms = value->_data->factory_methods;
 					const auto fit = fms.find(arg_types);
@@ -80,41 +80,32 @@ namespace zx
 		template <typename T, typename ReflCtor>
 		static const type& ensure()
 		{
-			const auto it = __instances.find(typeid(T));
+			auto it = __instances.find(typeid(T));
 			if (it == __instances.end())
 			{
 				auto value = new type(type_data::create<T>());
 				__instances[typeid(T)] = value;
-
-				if constexpr (std::is_default_constructible_v<T>)
-				{
-					const rtti_args arg_types = rtti_pack<>::get();
-
-					auto& fms = value->_data->factory_methods;
-					const auto fit = fms.find(arg_types);
-
-					if (fit == fms.end())
-					{
-						void* (*temp)() =
-							[]() -> void*
-						{
-							return new T();
-						};
-
-						fms[arg_types] = reinterpret_cast<fnptr>(temp);
-					}
-				}
-
-				return *value;
 			}
 
-			return *it->second;
+			it = __instances.find(typeid(T));
+			const auto& value = *it->second;
+
+			auto arg_types = ReflCtor::make_args();
+
+			auto& fms = value._data->factory_methods;
+			const auto fit = fms.find(arg_types);
+
+			if (fit == fms.end())
+			{
+				fms[arg_types] = ReflCtor::make_fnptr();
+			}
+			return value;
 		}
 
 		template <class... Args>
 		void* instantiate(Args... args) const
 		{
-			const rtti_args arg_types = rtti_pack<Args...>::get();
+			const rtti_args arg_types = tmpl_args_converter<Args...>::to_rtti();
 			for (auto& fm : _data->factory_methods)
 			{
 				if (arg_types == fm.first)
@@ -133,67 +124,6 @@ namespace zx
 
 	private:
 		ZX_API type(type_data *data);
-	};
-
-	template<typename T>
-	struct refl
-	{
-		template<typename... Sig>
-		struct ctor;
-
-		template<typename First, typename... Args>
-		struct ctor <First, Args...>
-		{
-			static_assert(std::is_constructible_v<T, First, Args...>, "Type is not constructible from these args. ");
-
-			static rtti_args make_args()
-			{
-				return rtti_pack<First, Args...>::get();
-			}
-
-			static fnptr make_fnptr()
-			{
-				void* (*temp)(First, Args...) =
-					[](First first, Args... args) -> void*
-				{
-					return new T(first, args...);
-				};
-
-				return reinterpret_cast<fnptr>(temp);
-			}
-
-			static const zx::type& ensure()
-			{
-				return type::ensure<T, zx::refl<T>::template ctor<First, Args...>>();
-			}
-		};
-
-		template<>
-		struct ctor <>
-		{
-			static_assert(std::is_default_constructible_v<T>, "Type is not default constructible. ");
-
-			static rtti_args make_args()
-			{
-				return rtti_pack<>::get();
-			}
-
-			static fnptr make_fnptr()
-			{
-				void* (*temp)() =
-					[]() -> void*
-				{
-					return new T();
-				};
-
-				return reinterpret_cast<fnptr>(temp);
-			}
-
-			static const zx::type& ensure()
-			{
-				return type::ensure<T, zx::refl<T>::template ctor<>>();
-			}
-		};
 	};
 }
 

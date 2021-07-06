@@ -14,6 +14,8 @@ namespace zx
 		}
 
 		ZX_API bool operator ==(const rtti_args& other) const;
+
+		ZX_API static const rtti_args empty;
 	};
 }
 

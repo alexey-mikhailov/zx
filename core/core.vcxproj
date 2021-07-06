@@ -152,9 +152,8 @@
     <ClInclude Include="properties\zx_val_getter.h" />
     <ClInclude Include="properties\zx_val_wrapper.h" />
     <ClInclude Include="rtti_args.h" />
-    <ClInclude Include="rtti_pack.h" />
+    <ClInclude Include="tmpl_args_converter.h" />
     <ClInclude Include="zx_constants.h" />
-    <ClInclude Include="zx_constructor.h" />
     <ClInclude Include="zx_event.h" />
     <ClInclude Include="zx_global_functions.h" />
     <ClInclude Include="zx_it_range.h" />
@@ -168,6 +167,7 @@
     <ClInclude Include="inject_data.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="singleton_container.h" />
+    <ClInclude Include="zx_reflector.h" />
     <ClInclude Include="zx_structs.h" />
     <ClInclude Include="zx_type.h" />
   </ItemGroup>

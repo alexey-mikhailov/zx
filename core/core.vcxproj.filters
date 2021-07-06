@@ -25,9 +25,6 @@
     <ClInclude Include="inject_data.h">
       <Filter>Public</Filter>
     </ClInclude>
-    <ClInclude Include="zx_type.h">
-      <Filter>Public</Filter>
-    </ClInclude>
     <ClInclude Include="zx_metadata.h" />
     <ClInclude Include="nomination_container.h">
       <Filter>Private</Filter>
@@ -71,16 +68,26 @@
     <ClInclude Include="properties\zx_ref_computer.h">
       <Filter>Public\Properties</Filter>
     </ClInclude>
-    <ClInclude Include="rtti_pack.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="rtti_args.h" />
     <ClInclude Include="zx_it_range.h" />
     <ClInclude Include="zx_global_functions.h" />
-    <ClInclude Include="zx_event.h" />
     <ClInclude Include="zx_constants.h" />
     <ClInclude Include="properties\zx_unq_getter.h">
       <Filter>Public\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_type.h">
+      <Filter>Public\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="tmpl_args_converter.h">
+      <Filter>Public\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="rtti_args.h">
+      <Filter>Public\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_event.h">
+      <Filter>Public\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_reflector.h">
+      <Filter>Public\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +106,6 @@
     <ClCompile Include="inject_data.cpp">
       <Filter>Public</Filter>
     </ClCompile>
-    <ClCompile Include="zx_type.cpp">
-      <Filter>Public</Filter>
-    </ClCompile>
     <ClCompile Include="zx_metadata.cpp" />
     <ClCompile Include="nomination_container.cpp">
       <Filter>Private</Filter>
@@ -109,8 +113,13 @@
     <ClCompile Include="pch.cpp">
       <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="rtti_args.cpp" />
     <ClCompile Include="zx_global_functions.cpp" />
+    <ClCompile Include="zx_type.cpp">
+      <Filter>Public\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="rtti_args.cpp">
+      <Filter>Public\Reflection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Private">
@@ -121,6 +130,12 @@
     </Filter>
     <Filter Include="Public\Properties">
       <UniqueIdentifier>{ec371116-ce4f-4359-8449-1c4b10f1a7eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Reflection">
+      <UniqueIdentifier>{4a61dd03-e49b-4120-acea-0080289ed2f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\Events">
+      <UniqueIdentifier>{148c796f-9a94-4fcb-8589-0e9bc62d4e6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
