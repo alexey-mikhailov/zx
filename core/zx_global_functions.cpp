@@ -25,7 +25,7 @@ namespace zx
 
 				memcpy(static_cast<__int8*>(injectee) + field.offset,
 					   &instance,
-					   field.size);
+					   sizeof(void*));
 			}
 		}
 		else if (field.inject_type == inject_type::named_instance)
@@ -43,7 +43,7 @@ namespace zx
 
 				memcpy(static_cast<__int8*>(injectee) + field.offset,
 					   &instance,
-					   field.size);
+					   sizeof(void*));
 			}
 		}
 	}
