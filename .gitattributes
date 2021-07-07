@@ -3,6 +3,18 @@
 ###############################################################################
 * text=auto
 
+*.md text eol=crlf
+*.h text eol=crlf
+*.c text eol=crlf
+*.hpp text eol=crlf
+*.cpp text eol=crlf
+*.vcproj text eol=crlf
+*.vcxproj text eol=crlf
+*.vcxproj.user text eol=crlf
+*.filters text eol=crlf
+*.sln text eol=crlf
+*.natvis text eol=crlf
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
