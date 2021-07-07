@@ -6,11 +6,11 @@ class some_injectee
 {
 	static struct ctor { ctor(); } __ctor;
 
-	test_signal_pack* _signal_pack = nullptr;
+	test_signal_pack*	_signal_pack = nullptr;
 	interface_to_inject* _interface_inst = nullptr;
-	int							_value = 0;
-	type_to_inject* _class_inst_1 = nullptr;
-	type_to_inject* _class_inst_2 = nullptr;
+	int					_value = 0;
+	type_to_inject*		_class_inst_1 = nullptr;
+	type_to_inject*		_class_inst_2 = nullptr;
 
 public:
 	some_injectee();

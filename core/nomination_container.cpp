@@ -8,10 +8,10 @@ namespace zx
 	{
 	}
 
-	void *nomination_container::get_or_add(const type &type,   // NOLINT(performance-unnecessary-value-param)
+	void* nomination_container::get_or_add(const type& type,
 										   const std::string& name)
 	{
-		void *result = nullptr;
+		void* result = nullptr;
 
 		for (const auto& signature : _signatures)
 		{

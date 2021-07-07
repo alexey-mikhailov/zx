@@ -6,13 +6,13 @@ namespace zx
 	class singleton_container
 	{
 	public:
-		explicit singleton_container(const class di_container *owner);
+		explicit singleton_container(const class di_container* owner);
 		virtual ~singleton_container() = default;
 
 		template<class T>
-		T *get_or_add();
+		T* get_or_add();
 
-		void *get_or_add(const type &type);
+		void* get_or_add(const type& type);
 
 		template<class TImplementation>
 		bind_singleton_result bind_singleton();
@@ -21,10 +21,9 @@ namespace zx
 		bind_singleton_result bind_singleton();
 
 	private:
-		const class di_container*	_owner;
-
-		std::vector<singleton_signature> _signatures;
-		std::map<type, void *> _singletons;
+		const class di_container*			_owner;
+		std::vector<singleton_signature>	_signatures;
+		std::map<type, void*>				_singletons;
 	};
 
 

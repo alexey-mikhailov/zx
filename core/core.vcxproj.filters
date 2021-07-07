@@ -123,6 +123,9 @@
     <ClCompile Include="zx_rtti_args.cpp">
       <Filter>Public\Reflection</Filter>
     </ClCompile>
+    <ClCompile Include="zx_rtti_weak_ptr.cpp">
+      <Filter>Public\Reflection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Private">

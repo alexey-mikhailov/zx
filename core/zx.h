@@ -19,6 +19,7 @@
 # include "zx_event.h"
 # include "zx_type.h"
 # include "zx_reflector.h"
+# include "zx_rtti_weak_ptr.h"
 # include "zx_field.h"
 # include "inject_data.h"
 # include "di_container.h"

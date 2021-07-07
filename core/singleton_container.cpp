@@ -3,14 +3,14 @@
 
 namespace zx
 {
-	singleton_container::singleton_container(const di_container *owner) :
+	singleton_container::singleton_container(const di_container* owner) :
 		_owner(owner)
 	{
 	}
 
-	void* singleton_container::get_or_add(const type &type)
+	void* singleton_container::get_or_add(const type& type)
 	{
-		void *result = nullptr;
+		void* result = nullptr;
 
 		for (const auto& signature : _signatures)
 		{
