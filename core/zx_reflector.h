@@ -1,7 +1,7 @@
 # pragma once
 
 # include "zx_type.h"
-# include "rtti_args.h"
+# include "zx_rtti_args.h"
 
 namespace zx
 {
@@ -16,7 +16,7 @@ namespace zx
 		{
 			static_assert(std::is_constructible_v<T, First, Args...>, "Type is not constructible from these args. ");
 
-			static rtti_args make_args()
+			static rtti::args make_args()
 			{
 				return tmpl_args_converter<First, Args...>::to_rtti();
 			}
@@ -43,7 +43,7 @@ namespace zx
 		{
 			static_assert(std::is_default_constructible_v<T>, "Type is not default constructible. ");
 
-			static rtti_args make_args()
+			static rtti::args make_args()
 			{
 				return tmpl_args_converter<>::to_rtti();
 			}

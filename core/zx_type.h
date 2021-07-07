@@ -1,7 +1,7 @@
 # pragma once
 # include "zx_defines.h"
-# include "tmpl_args_converter.h"
-# include "rtti_args.h"
+# include "zx_tmpl_args_converter.h"
+# include "zx_rtti_args.h"
 
 namespace zx
 {
@@ -20,7 +20,7 @@ namespace zx
 
 		std::type_index index = typeid(nullptr);
 		std::string name;
-		std::unordered_map<rtti_args, fnptr> factory_methods;
+		std::unordered_map<rtti::args, fnptr> factory_methods;
 		bool is_pointer;
 		bool is_abstract;
 	};
@@ -54,7 +54,7 @@ namespace zx
 
 				if constexpr (std::is_default_constructible_v<T>)
 				{
-					const rtti_args arg_types = rtti_args::empty;
+					const rtti::args arg_types = rtti::args::empty;
 
 					auto& fms = value->_data->factory_methods;
 					const auto fit = fms.find(arg_types);
@@ -105,7 +105,7 @@ namespace zx
 		template <class... Args>
 		void* instantiate(Args... args) const
 		{
-			const rtti_args arg_types = tmpl_args_converter<Args...>::to_rtti();
+			const rtti::args arg_types = tmpl_args_converter<Args...>::to_rtti();
 			for (auto& fm : _data->factory_methods)
 			{
 				if (arg_types == fm.first)

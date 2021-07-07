@@ -151,8 +151,8 @@
     <ClInclude Include="properties\zx_val_formula.h" />
     <ClInclude Include="properties\zx_val_getter.h" />
     <ClInclude Include="properties\zx_val_wrapper.h" />
-    <ClInclude Include="rtti_args.h" />
-    <ClInclude Include="tmpl_args_converter.h" />
+    <ClInclude Include="zx_rtti_args.h" />
+    <ClInclude Include="zx_tmpl_args_converter.h" />
     <ClInclude Include="zx_constants.h" />
     <ClInclude Include="zx_event.h" />
     <ClInclude Include="zx_global_functions.h" />
@@ -173,7 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="di_container.cpp" />
-    <ClCompile Include="rtti_args.cpp" />
+    <ClCompile Include="zx_rtti_args.cpp" />
     <ClCompile Include="zx_global_functions.cpp" />
     <ClCompile Include="zx_metadata.cpp" />
     <ClCompile Include="nomination_container.cpp" />

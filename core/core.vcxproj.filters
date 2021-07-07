@@ -77,16 +77,19 @@
     <ClInclude Include="zx_type.h">
       <Filter>Public\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="tmpl_args_converter.h">
+    <ClInclude Include="zx_tmpl_args_converter.h">
       <Filter>Public\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="rtti_args.h">
+    <ClInclude Include="zx_rtti_args.h">
       <Filter>Public\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="zx_event.h">
       <Filter>Public\Events</Filter>
     </ClInclude>
     <ClInclude Include="zx_reflector.h">
+      <Filter>Public\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_rtti_weak_ptr.h">
       <Filter>Public\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
@@ -117,7 +120,7 @@
     <ClCompile Include="zx_type.cpp">
       <Filter>Public\Reflection</Filter>
     </ClCompile>
-    <ClCompile Include="rtti_args.cpp">
+    <ClCompile Include="zx_rtti_args.cpp">
       <Filter>Public\Reflection</Filter>
     </ClCompile>
   </ItemGroup>
