@@ -13,7 +13,7 @@ namespace zx
 		public:
 			struct ref_cntr
 			{
-				unsigned long strongs;
+				unsigned long riffs;
 				unsigned long weaks;
 			};
 
@@ -33,7 +33,7 @@ namespace zx
 			ZX_API weak_ptr& operator=(weak_ptr&& other);
 
 			ZX_API void* get() const;
-			ZX_API unsigned long strn_count() const;
+			ZX_API unsigned long riff_count() const;
 			ZX_API unsigned long weak_count() const;
 			ZX_API explicit operator bool() const;
 
@@ -58,7 +58,7 @@ namespace zx
 			template <typename T>
 			static std::shared_ptr<T> to_shared_ptr(const weak_ptr& ptr)
 			{
-				if (ptr.ref_cntr->strongs)
+				if (ptr.ref_cntr->riffs)
 				{
 					std::shared_ptr<T> result;
 					auto offset = reinterpret_cast<void**>(&result);
@@ -67,7 +67,7 @@ namespace zx
 					*offset = (void**)ptr.ref_cntr - 1;
 
 					// Change ref counters as last as possible. 
-					++ptr.ref_cntr->strongs;
+					++ptr.ref_cntr->riffs;
 					++ptr.ref_cntr->weaks;
 					return result;
 				}

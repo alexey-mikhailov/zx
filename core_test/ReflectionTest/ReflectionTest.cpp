@@ -14,8 +14,10 @@ namespace zx_test
 		{
 # ifdef _WIN64
 			Assert::AreEqual(40ui64, sizeof(zx::type));
+			Assert::AreEqual(16ui64, sizeof(zx::rtti::weak_ptr));
 # else ifdef _WIN32
 			Assert::AreEqual(20ui32, sizeof(zx::type));
+			Assert::AreEqual( 8ui32, sizeof(zx::rtti::weak_ptr));
 # endif
 		}
 
@@ -139,7 +141,7 @@ namespace zx_test
 
 			// Test weak pointer
 			Assert::IsFalse(rtti_wpt ? true : false);
-			Assert::AreEqual(0ul, rtti_wpt.strn_count());
+			Assert::AreEqual(0ul, rtti_wpt.riff_count());
 			Assert::AreEqual(0ul, rtti_wpt.weak_count());
 
 			{
@@ -152,7 +154,7 @@ namespace zx_test
 			}
 
 			Assert::IsFalse(rtti_wpt ? true : false);
-			Assert::AreEqual(0ul, rtti_wpt.strn_count());
+			Assert::AreEqual(0ul, rtti_wpt.riff_count());
 			Assert::AreEqual(1ul, rtti_wpt.weak_count());
 
 			// Ref counter is valid, but data lost. 
@@ -176,7 +178,7 @@ namespace zx_test
 
 			// Test weak pointer 1
 			Assert::IsTrue(rtti_wpt1 ? true : false);
-			Assert::AreEqual(1ul, rtti_wpt1.strn_count());
+			Assert::AreEqual(1ul, rtti_wpt1.riff_count());
 			Assert::AreEqual(2ul, rtti_wpt1.weak_count());
 
 			// INSTANTIATE WEAK POINTER 2
@@ -184,7 +186,7 @@ namespace zx_test
 
 			// Test weak pointer 2
 			Assert::IsTrue(rtti_wpt2 ? true : false);
-			Assert::AreEqual(1ul, rtti_wpt2.strn_count());
+			Assert::AreEqual(1ul, rtti_wpt2.riff_count());
 			Assert::AreEqual(3ul, rtti_wpt2.weak_count());
 
 			// INSTANTIATE SHARED POINTER 1
@@ -200,9 +202,9 @@ namespace zx_test
 			Assert::AreEqual(2l, shr1.use_count());
 
 			// Test RTTI weak pointers
-			Assert::AreEqual(2ul, rtti_wpt1.strn_count());
+			Assert::AreEqual(2ul, rtti_wpt1.riff_count());
 			Assert::AreEqual(4ul, rtti_wpt1.weak_count());
-			Assert::AreEqual(2ul, rtti_wpt2.strn_count());
+			Assert::AreEqual(2ul, rtti_wpt2.riff_count());
 			Assert::AreEqual(4ul, rtti_wpt2.weak_count());
 
 			// INSTANTIATE SHARED POINTER 2
@@ -227,18 +229,18 @@ namespace zx_test
 			Assert::AreEqual(3l, shr2.use_count());
 
 			// Test RTTI weak pointers
-			Assert::AreEqual(3ul, rtti_wpt1.strn_count());
+			Assert::AreEqual(3ul, rtti_wpt1.riff_count());
 			Assert::AreEqual(5ul, rtti_wpt1.weak_count());
-			Assert::AreEqual(3ul, rtti_wpt2.strn_count());
+			Assert::AreEqual(3ul, rtti_wpt2.riff_count());
 			Assert::AreEqual(5ul, rtti_wpt2.weak_count());
 
 			// ASSIGN TO EACH OTHER
 			rtti_wpt2 = rtti_wpt1;
 
 			// Test RTTI weak pointers
-			Assert::AreEqual(3ul, rtti_wpt1.strn_count());
+			Assert::AreEqual(3ul, rtti_wpt1.riff_count());
 			Assert::AreEqual(5ul, rtti_wpt1.weak_count());
-			Assert::AreEqual(3ul, rtti_wpt2.strn_count());
+			Assert::AreEqual(3ul, rtti_wpt2.riff_count());
 			Assert::AreEqual(5ul, rtti_wpt2.weak_count());
 
 			// Test shared pointer 1

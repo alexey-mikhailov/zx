@@ -66,11 +66,11 @@ namespace zx
 			return address;
 		}
 
-		unsigned long weak_ptr::strn_count() const
+		unsigned long weak_ptr::riff_count() const
 		{
 			if (ref_cntr)
 			{
-				return ref_cntr->strongs;
+				return ref_cntr->riffs;
 			}
 			else
 			{
@@ -94,7 +94,7 @@ namespace zx
 		{
 			if (ref_cntr)
 			{
-				return ref_cntr->strongs;
+				return ref_cntr->riffs;
 			}
 			else
 			{
