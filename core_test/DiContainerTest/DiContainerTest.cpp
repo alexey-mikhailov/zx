@@ -33,35 +33,46 @@ namespace zx_test
 
 		TEST_METHOD(InjectInstancesTest)
 		{
-			auto type = zx::type::i<type_to_inject>();
+			auto& type = zx::type::i<type_to_inject>();
 
 			auto di_container = test_di_container();
 			auto injectee = some_injectee();
-			const auto interface_inst = injectee.get_interface_instance();
+			const auto abstract_instance = injectee.get_interface_instance();
 
 			// Singleton container inject test
-			Assert::IsNotNull(interface_inst);
+			Assert::AreEqual(true, (bool)abstract_instance);
 
-			const auto b = dynamic_cast<type_to_inject *>(interface_inst);
+			const auto concrete_instance = dynamic_cast<type_to_inject *>(abstract_instance.get());
 
 			// Inheritance check
-			Assert::IsTrue(b != nullptr);
+			Assert::IsTrue(concrete_instance != nullptr);
 
 			// Read-write check
-			b->public_field = 15;
-			Assert::AreEqual(b->public_field, 15);
+			Assert::AreEqual(singleton_arg, concrete_instance->public_field);
+			constexpr int new_value = 15;
+			concrete_instance->public_field = new_value;
+			Assert::AreEqual(new_value, concrete_instance->public_field);
 
 			// Nominated container inject test
-			Assert::IsNotNull(injectee.get_injected_1());
+			auto concrete_instance_1 = injectee.get_class_instance_1();
+			Assert::AreEqual(true, (bool)concrete_instance_1);
+
+			// Read-write check
+			Assert::AreEqual(nominated1_arg, concrete_instance_1->public_field);
+			concrete_instance_1->public_field = new_value;
+			Assert::AreEqual(new_value, concrete_instance_1->public_field);
 
 			// Nominated container inject test
-			Assert::IsNotNull(injectee.get_injected_2());
+			auto concrete_instance_2 = injectee.get_class_instance_2();
+			Assert::AreEqual(true, (bool)concrete_instance_2);
 
-			// Different named instances
-			const auto b_inst_1 = injectee.get_injected_1();
-			const auto b_inst_2 = injectee.get_injected_2();
+			// Read-write check
+			Assert::AreEqual(nominated2_arg, concrete_instance_2->public_field);
+			concrete_instance_2->public_field = new_value;
+			Assert::AreEqual(new_value, concrete_instance_2->public_field);
 
-			Assert::AreNotSame(*b_inst_1, *b_inst_2);
+			// Different named instances check
+			Assert::AreNotSame(*concrete_instance_1, *concrete_instance_2);
 		}
 
 		TEST_METHOD(SignalTest)

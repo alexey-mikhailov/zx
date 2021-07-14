@@ -6,7 +6,6 @@ namespace zx
 	{
 		value,
 		rawptr,
-		unqptr,
 		shrptr
 	};
 

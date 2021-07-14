@@ -24,7 +24,7 @@ namespace zx
 			static fnptr make_fnptr()
 			{
 				void* (*temp)(First, Args...) =
-					[](First first, Args... args) -> void*
+				[](First first, Args... args) -> void*
 				{
 					return new T(first, args...);
 				};

@@ -18,7 +18,11 @@ private:
 class type_to_inject : public type_to_inject_base, public interface_to_inject
 {
 public:
-	type_to_inject() = default;
+	type_to_inject() = delete;
+	type_to_inject(int public_field) : 
+		public_field(public_field)
+	{
+	}
 
 	int some_method() override;
 

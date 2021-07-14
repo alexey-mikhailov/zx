@@ -8,8 +8,8 @@ namespace zx
 {
 	struct field_data
 	{
-		type						owner_type;
-		type						type;
+		const type&					owner_type;
+		const type&					type;
 		std::string					name;
 		unsigned					offset;
 		unsigned					size;
@@ -40,8 +40,24 @@ namespace zx
 		field_data* _data;
 
 	public:
-		const type& owner_type = _data->owner_type;
-		const type& type = _data->type;
+		ref_formula<field, const type> owner_type =
+		{
+			this, 
+			[](field& field) -> const zx::type&
+			{
+				return field._data->owner_type;
+			}
+		};
+
+		ref_formula<field, const type> type =
+		{
+			this, 
+			[](field& field) -> const zx::type&
+			{
+				return field._data->type;
+			}
+		};
+
 		const std::string& name = _data->name;
 		const unsigned& offset = _data->offset;
 		const unsigned& size = _data->size;
@@ -93,19 +109,15 @@ namespace zx
 			std::is_default_constructible<Owner>::value,
 			"Only default constructible field owner supported. ");
 
-		const auto owner_type = type::i<Owner>();
+		auto& owner_type = type::i<Owner>();
 
-		auto expose_type = expose_type::value;
-		if (std::is_pointer<Data>::value)
-		{
-			expose_type = expose_type::rawptr;
-		}
+		auto expose_type = expose_type::shrptr;
 
-		const auto type = type::i<typename std::remove_pointer<Data>::type>();
+		auto& type = type::i<typename std::remove_pointer<Data>::type>();
 
-		const auto offset = reinterpret_cast<size_t>(&(static_cast<Owner *>(nullptr)->*member));
+		auto offset = reinterpret_cast<size_t>(&(static_cast<Owner *>(nullptr)->*member));
 
-		const auto size = sizeof(typename std::remove_pointer<Data>::type);
+		auto size = sizeof(typename std::remove_pointer<Data>::type);
 
 		auto data = new field_data
 		{
@@ -135,19 +147,26 @@ namespace zx
 			std::is_default_constructible<Owner>::value,
 			"Only default constructible field owner supported. ");
 
-		const auto owner_type = type::i<Owner>();
+		auto& owner_type = type::i<Owner>();
 
 		auto expose_type = expose_type::value;
-		if (std::is_pointer<Data>::value)
+		if (inject_type == inject_type::none)
 		{
-			expose_type = expose_type::rawptr;
+			if (std::is_pointer<Data>::value)
+			{
+				expose_type = expose_type::rawptr;
+			}
+		}
+		else
+		{
+			expose_type = expose_type::shrptr;
 		}
 
-		const auto type = type::i<typename std::remove_pointer<Data>::type>();
+		auto& type = type::i<typename std::remove_pointer<Data>::type>();
 
-		const auto offset = reinterpret_cast<size_t>(&(static_cast<Owner *>(nullptr)->*member));
+		auto offset = reinterpret_cast<size_t>(&(static_cast<Owner *>(nullptr)->*member));
 
-		const auto size = sizeof(typename std::remove_pointer<Data>::type);
+		auto size = sizeof(typename std::remove_pointer<Data>::type);
 
 		auto data = new field_data
 		{

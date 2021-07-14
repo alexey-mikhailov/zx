@@ -92,7 +92,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <ImportLibrary>$(SolutionDir)lib\$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)lib\$(ProjectName)\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,7 +110,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <ImportLibrary>$(SolutionDir)lib\$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)lib\$(ProjectName)\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -162,10 +162,12 @@
     <ClInclude Include="properties\zx_val_getter.h" />
     <ClInclude Include="properties\zx_val_wrapper.h" />
     <ClInclude Include="zx_rtti_args.h" />
+    <ClInclude Include="zx_rtti_functions.h" />
+    <ClInclude Include="zx_rtti_shared_ptr.h" />
     <ClInclude Include="zx_tmpl_args_converter.h" />
     <ClInclude Include="zx_constants.h" />
     <ClInclude Include="zx_event.h" />
-    <ClInclude Include="zx_global_functions.h" />
+    <ClInclude Include="zx_di_functions.h" />
     <ClInclude Include="zx_it_range.h" />
     <ClInclude Include="zx_metadata.h" />
     <ClInclude Include="nomination_container.h" />
@@ -185,7 +187,7 @@
   <ItemGroup>
     <ClCompile Include="di_container.cpp" />
     <ClCompile Include="zx_rtti_args.cpp" />
-    <ClCompile Include="zx_global_functions.cpp" />
+    <ClCompile Include="zx_di_functions.cpp" />
     <ClCompile Include="zx_metadata.cpp" />
     <ClCompile Include="nomination_container.cpp" />
     <ClCompile Include="zx_field.cpp" />
@@ -195,6 +197,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="singleton_container.cpp" />
+    <ClCompile Include="zx_rtti_shared_ptr.cpp" />
     <ClCompile Include="zx_rtti_weak_ptr.cpp" />
     <ClCompile Include="zx_structs.cpp" />
     <ClCompile Include="zx_type.cpp" />

@@ -8,9 +8,9 @@ namespace zx
 	namespace rtti
 	{
 		/// <summary>
-		/// Weak RTTI handle to STL shared pointer
+		/// Strong RTTI handle to STL shared pointer
 		/// </summary>
-		class weak_ptr final
+		class shared_ptr final
 		{
 		public:
 			struct ref_cntr
@@ -26,21 +26,22 @@ namespace zx
 				std::atomic<zx::ulong> weaks;
 			};
 
-			ZX_API static weak_ptr empty;
+			ZX_API static shared_ptr empty;
 
 		private:
 			void*			_address;
 			ref_cntr*		_ref_cntr;
-			const zx::type*		_type;
+			const zx::type*	_type;
+			ZX_API static std::map<const std::type_index, void(*)(void*)> __deleters;
 
 		public:
-			ZX_API weak_ptr();
-			ZX_API weak_ptr(const weak_ptr& other);
-			ZX_API weak_ptr(weak_ptr&& other);
-			ZX_API ~weak_ptr();
+			ZX_API shared_ptr();
+			ZX_API shared_ptr(const shared_ptr& other);
+			ZX_API shared_ptr(shared_ptr&& other);
+			ZX_API ~shared_ptr();
 
-			ZX_API weak_ptr& operator=(const weak_ptr& other);
-			ZX_API weak_ptr& operator=(weak_ptr&& other);
+			ZX_API shared_ptr& operator=(const shared_ptr& other);
+			ZX_API shared_ptr& operator=(shared_ptr&& other);
 
 			ZX_API const zx::type& get_type() const;
 			ZX_API void* get() const;
@@ -49,10 +50,11 @@ namespace zx
 			ZX_API explicit operator bool() const;
 
 			template <typename T>
-			static weak_ptr from(const std::shared_ptr<T>& shr)
+			static shared_ptr from(const std::shared_ptr<T>& shr)
 			{
-				weak_ptr result;
+				shared_ptr result;
 				result._type = &zx::type::i<T>();
+
 				auto offset = (void**)const_cast<std::shared_ptr<T>*>(&shr);
 				result._address = *offset++;
 
@@ -60,15 +62,22 @@ namespace zx
 				offset = ((void**)*offset + 1);
 				result._ref_cntr = (ref_cntr*)offset;
 
-				// Increase weak counter as last as possible. 
-				// It is non-existing weak reference in std::shared_ptr term. 
-				// But we need it to keep reference counter data. 
-				++result._ref_cntr->weaks;
+				// Change ref counters as last as possible. 
+				++result._ref_cntr->riffs;
+
+				__deleters[result._type->index] = [](void* address)
+				{
+					// Delete in place,
+					// because address allocated in stack. 
+					auto casted = reinterpret_cast<T*>(address);
+					casted->~T();
+				};
+
 				return result;
 			}
 
 			template <typename T>
-			static std::shared_ptr<T> to_shared_ptr(const weak_ptr& ptr)
+			static std::shared_ptr<T> to_shared_ptr(const shared_ptr& ptr)
 			{
 				if (ptr._ref_cntr->riffs)
 				{
@@ -90,7 +99,7 @@ namespace zx
 				}
 			}
 
-			ZX_API static void to_shared_ptr_unsafe(const weak_ptr& ptr,
+			ZX_API static void to_shared_ptr_unsafe(const shared_ptr& ptr, 
 													void** where_to);
 		};
 	}

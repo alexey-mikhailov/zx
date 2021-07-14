@@ -4,7 +4,7 @@
 class signal_user
 {
 	static struct ctor { ctor(); } __ctor;
-	test_signal_pack* _signal_pack;
+	std::shared_ptr<test_signal_pack> _signal_pack;
 
 public:
 	explicit signal_user();

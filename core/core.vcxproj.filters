@@ -69,7 +69,7 @@
       <Filter>Public\Properties</Filter>
     </ClInclude>
     <ClInclude Include="zx_it_range.h" />
-    <ClInclude Include="zx_global_functions.h" />
+    <ClInclude Include="zx_di_functions.h" />
     <ClInclude Include="zx_constants.h" />
     <ClInclude Include="properties\zx_unq_getter.h">
       <Filter>Public\Properties</Filter>
@@ -90,6 +90,12 @@
       <Filter>Public\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="zx_rtti_weak_ptr.h">
+      <Filter>Public\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_rtti_shared_ptr.h">
+      <Filter>Public\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_rtti_functions.h">
       <Filter>Public\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,7 +122,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="zx_global_functions.cpp" />
+    <ClCompile Include="zx_di_functions.cpp" />
     <ClCompile Include="zx_type.cpp">
       <Filter>Public\Reflection</Filter>
     </ClCompile>
@@ -124,6 +130,9 @@
       <Filter>Public\Reflection</Filter>
     </ClCompile>
     <ClCompile Include="zx_rtti_weak_ptr.cpp">
+      <Filter>Public\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_rtti_shared_ptr.cpp">
       <Filter>Public\Reflection</Filter>
     </ClCompile>
   </ItemGroup>

@@ -109,6 +109,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>$(SolutionDir)lib\$(ProjectName)\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -130,6 +131,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>$(SolutionDir)lib\$(ProjectName)\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -189,7 +191,8 @@
     <ClCompile Include="PropertyTest\PropertyTest.cpp" />
     <ClCompile Include="PropertyTest\property_user_1.cpp" />
     <ClCompile Include="DiContainerTest\signal_user.cpp" />
-    <ClCompile Include="ReflectionTest\ReflectionTest.cpp" />
+    <ClCompile Include="ReflectionTest\RttiSmartPointersTest.cpp" />
+    <ClCompile Include="ReflectionTest\ZxTypeTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DiContainerTest\test_types.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="DiContainerTest\test_signal_pack.h" />
     <ClInclude Include="DiContainerTest\signal_user.h" />
     <ClInclude Include="PropertyTest\property_user_2.h" />
+    <ClInclude Include="ReflectionTest\smart_pointer_checker.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\core\core.vcxproj">

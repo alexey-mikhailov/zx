@@ -1,4 +1,4 @@
-# include "zx_global_functions.h"
+# include "zx_di_functions.h"
 # include "zx_metadata.h"
 # include "di_container.h"
 # include "singleton_container.h"
@@ -23,9 +23,11 @@ namespace zx
 				const auto instance =
 					container->singleton_container->get_or_add(field.type);
 
-				memcpy(static_cast<__int8*>(injectee) + field.offset,
-					   &instance,
-					   sizeof(void*));
+				auto field_address = 
+					reinterpret_cast<void**>(
+						static_cast<__int8*>(injectee) + field.offset);
+
+				zx::rtti::shared_ptr::to_shared_ptr_unsafe(instance, field_address);
 			}
 		}
 		else if (field.inject_type == inject_type::named_instance)
@@ -41,9 +43,11 @@ namespace zx
 						field.type,
 						named_instance.get_name());
 
-				memcpy(static_cast<__int8*>(injectee) + field.offset,
-					   &instance,
-					   sizeof(void*));
+				auto field_address =
+					reinterpret_cast<void**>(
+						static_cast<__int8*>(injectee) + field.offset);
+
+				zx::rtti::shared_ptr::to_shared_ptr_unsafe(instance, field_address);
 			}
 		}
 	}
@@ -65,13 +69,13 @@ namespace zx
 			auto field = it->second;
 			if (field.inject_type != inject_type::none)
 			{
-				if (field.expose_type == expose_type::rawptr)
+				if (field.expose_type == expose_type::shrptr)
 				{
 					inject_field(target, field, di_containers);
 				}
 				else
 				{
-					throw std::logic_error("Field to inject is not rawptr. ");
+					throw std::logic_error("Field to inject is not shrptr. ");
 				}
 			}
 		}

@@ -5,22 +5,26 @@
 namespace zx
 {
 	singleton_signature::singleton_signature(bool is_mapped_to_interface,
-											 type interface_type,  // NOLINT(performance-unnecessary-value-param, performance-unnecessary-value-param)
-											 type implementation_type) :  // NOLINT(performance-unnecessary-value-param)
+											 const type& interface_type,
+											 const type& implementation_type,
+											 std::function<zx::rtti::shared_ptr()> singleton_creator) :
 		is_mapped_to_interface(is_mapped_to_interface),
 		interface_type(interface_type),
-		implementation_type(implementation_type)
+		implementation_type(implementation_type),
+		singleton_creator(std::move(singleton_creator))
 	{
 	}
 
 	nomination_signature::nomination_signature(bool is_mapped_to_interface,
-											   type interface_type,  // NOLINT(performance-unnecessary-value-param)
-											   type implementation_type,   // NOLINT(performance-unnecessary-value-param)
-											   std::string name) :
+											   const type& interface_type,
+											   const type& implementation_type,
+											   std::string name, 
+											   std::function<zx::rtti::shared_ptr()> singleton_creator) :
 		is_mapped_to_interface(is_mapped_to_interface),
 		interface_type(interface_type),
 		implementation_type(implementation_type),
-		name(std::move(name))
+		name(std::move(name)), 
+		singleton_creator(std::move(singleton_creator))
 	{
 	}
 
@@ -54,8 +58,23 @@ namespace zx
 			_signature.name);
 	}
 
-	nomination_identity::nomination_identity(const zx::type &type,   
-											 std::string name):
+	singleton_identity::singleton_identity(const zx::type &type) :
+		type(type)
+	{
+	}
+
+	bool singleton_identity::operator<(const singleton_identity& other) const
+	{
+		return type < other.type;
+	}
+
+	bool singleton_identity::operator>(const singleton_identity& other) const
+	{
+		return type > other.type;
+	}
+
+	nomination_identity::nomination_identity(const zx::type &type,
+											 std::string name) :
 		type(type),
 		name(std::move(name))
 	{

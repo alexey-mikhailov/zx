@@ -15,6 +15,7 @@ namespace zx
 			result->name = typeid(T).name();
 			result->is_pointer = std::is_pointer<T>::value;
 			result->is_abstract = std::is_abstract<T>::value;
+			result->is_default_constructible = std::is_default_constructible<T>::value;
 			return result;
 		}
 
@@ -23,10 +24,11 @@ namespace zx
 		std::unordered_map<rtti::args, fnptr> factory_methods;
 		bool is_pointer;
 		bool is_abstract;
+		bool is_default_constructible;
 	};
 
 
-	class type
+	class type final
 	{
 		type_data *_data;
 		ZX_API static std::map<std::type_index, zx::type *> __instances;
@@ -39,9 +41,8 @@ namespace zx
 		const std::string& name = _data->name;
 		const bool& is_pointer = _data->is_pointer;
 		const bool& is_abstract = _data->is_abstract;
+		const bool& is_default_constructible = _data->is_default_constructible;
 		
-		ZX_API type(const zx::type &other);
-
 		/// Gets instance of abstract type. 
 		template <class T>
 		static const zx::type& i()
@@ -88,7 +89,7 @@ namespace zx
 			}
 
 			it = __instances.find(typeid(T));
-			const auto& value = *it->second;
+			auto& value = *it->second;
 
 			auto arg_types = ReflCtor::make_args();
 
@@ -124,6 +125,7 @@ namespace zx
 
 	private:
 		ZX_API type(type_data *data);
+		ZX_API type(const zx::type &other);
 	};
 }
 

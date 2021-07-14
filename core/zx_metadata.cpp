@@ -10,7 +10,7 @@ namespace zx
 
 	void metadata::add_field(const field& field)
 	{
-		const auto ownerTypeIndex = field.owner_type.index;
+		const auto ownerTypeIndex = field.owner_type->index;
 		__fields[ownerTypeIndex][field.name] = field;
 	}
 

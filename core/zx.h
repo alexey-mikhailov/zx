@@ -20,9 +20,10 @@
 # include "zx_type.h"
 # include "zx_reflector.h"
 # include "zx_rtti_weak_ptr.h"
+# include "zx_rtti_shared_ptr.h"
 # include "zx_field.h"
 # include "inject_data.h"
 # include "di_container.h"
 # include "zx_metadata.h"
-# include "zx_global_functions.h"
+# include "zx_di_functions.h"
 

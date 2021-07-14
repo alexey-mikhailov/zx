@@ -24,12 +24,17 @@
     <ClCompile Include="EventTest\EventTest.cpp">
       <Filter>EventTest</Filter>
     </ClCompile>
-    <ClCompile Include="ReflectionTest\ReflectionTest.cpp" />
     <ClCompile Include="DiContainerTest\signal_user.cpp">
       <Filter>DiContainerTest\TestTypes</Filter>
     </ClCompile>
     <ClCompile Include="DiContainerTest\test_types.cpp">
       <Filter>DiContainerTest\TestTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionTest\ZxTypeTest.cpp">
+      <Filter>ReflectionTest</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionTest\RttiSmartPointersTest.cpp">
+      <Filter>ReflectionTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +70,9 @@
     <ClInclude Include="DiContainerTest\test_types.h">
       <Filter>DiContainerTest\TestTypes</Filter>
     </ClInclude>
+    <ClInclude Include="ReflectionTest\smart_pointer_checker.h">
+      <Filter>ReflectionTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DiContainerTest">
@@ -78,6 +86,9 @@
     </Filter>
     <Filter Include="EventTest">
       <UniqueIdentifier>{fa94cb31-1fa1-423b-b3a6-2ba960f49a83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReflectionTest">
+      <UniqueIdentifier>{c8abb990-40e2-4389-adfe-47c60d38631e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

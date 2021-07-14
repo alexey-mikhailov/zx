@@ -36,17 +36,17 @@ some_injectee::some_injectee()
 	zx::inject_dependencies(this);
 }
 
-interface_to_inject* some_injectee::get_interface_instance() const
+std::shared_ptr<interface_to_inject> some_injectee::get_interface_instance() const
 {
 	return  _interface_inst;
 }
 
-type_to_inject* some_injectee::get_injected_1() const
+std::shared_ptr<type_to_inject> some_injectee::get_class_instance_1() const
 {
 	return _class_inst_1;
 }
 
-type_to_inject* some_injectee::get_injected_2() const 
+std::shared_ptr<type_to_inject> some_injectee::get_class_instance_2() const 
 {
 	return _class_inst_2; 
 }

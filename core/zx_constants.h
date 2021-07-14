@@ -22,6 +22,15 @@ namespace zx
 	typedef ::float_t  f32;
 	typedef ::double_t f64;
 
+	// Cursed long
+	typedef long	      ilong;
+	typedef unsigned long ulong;
+	
+	# ifdef _WIN32
+	typedef long long			double_ilong;
+	typedef unsigned long long	double_ulong;
+	# endif
+
 	namespace zero
 	{
 		constexpr zx::i08 i08 = 0i8;
@@ -34,6 +43,13 @@ namespace zx
 		constexpr zx::u64 u64 = 0ui64;
 		constexpr zx::f32 f32 = 0.0f;
 		constexpr zx::f64 f64 = 0.0;
+		constexpr zx::ilong ilong = 0l;
+		constexpr zx::ulong ulong = 0ul;
+		
+		# ifdef _WIN32
+		constexpr zx::double_ilong double_ilong = 0i64;
+		constexpr zx::double_ulong double_ulong = 0ui64;
+		# endif
 	}
 	namespace one
 	{
@@ -47,5 +63,12 @@ namespace zx
 		constexpr zx::u64 u64 = 1ui64;
 		constexpr zx::f32 f32 = 1.0f;
 		constexpr zx::f64 f64 = 1.0;
+		constexpr zx::ilong ilong = 1l;
+		constexpr zx::ulong ulong = 1ul;
+
+		# ifdef _WIN32
+		constexpr zx::double_ilong double_ilong = 1i64;
+		constexpr zx::double_ulong double_ulong = 1ui64;
+		# endif
 	}
 }
