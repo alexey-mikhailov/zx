@@ -170,36 +170,36 @@
     <ClInclude Include="zx_di_functions.h" />
     <ClInclude Include="zx_it_range.h" />
     <ClInclude Include="zx_metadata.h" />
-    <ClInclude Include="nomination_container.h" />
+    <ClInclude Include="zx_nomination_container.h" />
     <ClInclude Include="zx_field.h" />
     <ClInclude Include="zx_defines.h" />
-    <ClInclude Include="di_container.h" />
+    <ClInclude Include="zx_di_container.h" />
     <ClInclude Include="zx_enums.h" />
     <ClInclude Include="zx.h" />
-    <ClInclude Include="inject_data.h" />
+    <ClInclude Include="zx_inject_data.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="singleton_container.h" />
+    <ClInclude Include="zx_singleton_container.h" />
     <ClInclude Include="zx_reflector.h" />
     <ClInclude Include="zx_rtti_weak_ptr.h" />
-    <ClInclude Include="zx_structs.h" />
+    <ClInclude Include="zx_di_structs.h" />
     <ClInclude Include="zx_type.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="di_container.cpp" />
+    <ClCompile Include="zx_di_container.cpp" />
     <ClCompile Include="zx_rtti_args.cpp" />
     <ClCompile Include="zx_di_functions.cpp" />
     <ClCompile Include="zx_metadata.cpp" />
-    <ClCompile Include="nomination_container.cpp" />
+    <ClCompile Include="zx_nomination_container.cpp" />
     <ClCompile Include="zx_field.cpp" />
-    <ClCompile Include="inject_data.cpp" />
+    <ClCompile Include="zx_inject_data.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="singleton_container.cpp" />
+    <ClCompile Include="zx_singleton_container.cpp" />
     <ClCompile Include="zx_rtti_shared_ptr.cpp" />
     <ClCompile Include="zx_rtti_weak_ptr.cpp" />
-    <ClCompile Include="zx_structs.cpp" />
+    <ClCompile Include="zx_di_structs.cpp" />
     <ClCompile Include="zx_type.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 # pragma once
-# include "singleton_container.h"
-# include "nomination_container.h"
+# include "zx_singleton_container.h"
+# include "zx_nomination_container.h"
 # include "properties/zx_ref_getter.h"
 
 namespace zx

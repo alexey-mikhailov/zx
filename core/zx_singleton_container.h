@@ -1,5 +1,5 @@
 # pragma once
-# include "zx_structs.h"
+# include "zx_di_structs.h"
 # include "zx_rtti_functions.h"
 
 namespace zx

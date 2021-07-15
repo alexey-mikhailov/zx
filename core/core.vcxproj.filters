@@ -1,14 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="singleton_container.h">
+    <ClInclude Include="zx_singleton_container.h">
       <Filter>Private</Filter>
-    </ClInclude>
-    <ClInclude Include="di_container.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_field.h">
-      <Filter>Public</Filter>
     </ClInclude>
     <ClInclude Include="zx.h">
       <Filter>Public</Filter>
@@ -19,14 +13,7 @@
     <ClInclude Include="zx_enums.h">
       <Filter>Public</Filter>
     </ClInclude>
-    <ClInclude Include="zx_structs.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="inject_data.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_metadata.h" />
-    <ClInclude Include="nomination_container.h">
+    <ClInclude Include="zx_nomination_container.h">
       <Filter>Private</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
@@ -68,9 +55,6 @@
     <ClInclude Include="properties\zx_ref_computer.h">
       <Filter>Public\Properties</Filter>
     </ClInclude>
-    <ClInclude Include="zx_it_range.h" />
-    <ClInclude Include="zx_di_functions.h" />
-    <ClInclude Include="zx_constants.h" />
     <ClInclude Include="properties\zx_unq_getter.h">
       <Filter>Public\Properties</Filter>
     </ClInclude>
@@ -98,31 +82,41 @@
     <ClInclude Include="zx_rtti_functions.h">
       <Filter>Public\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="zx_di_container.h">
+      <Filter>Public\DI</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_inject_data.h">
+      <Filter>Public\DI</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_field.h">
+      <Filter>Public\DI</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_di_structs.h">
+      <Filter>Public\DI</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_di_functions.h">
+      <Filter>Public\DI</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_metadata.h">
+      <Filter>Public\DI</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_it_range.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_constants.h">
+      <Filter>Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="singleton_container.cpp">
+    <ClCompile Include="zx_singleton_container.cpp">
       <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="di_container.cpp">
-      <Filter>Public</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_field.cpp">
-      <Filter>Public</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_structs.cpp">
-      <Filter>Public</Filter>
-    </ClCompile>
-    <ClCompile Include="inject_data.cpp">
-      <Filter>Public</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_metadata.cpp" />
-    <ClCompile Include="nomination_container.cpp">
+    <ClCompile Include="zx_nomination_container.cpp">
       <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="zx_di_functions.cpp" />
     <ClCompile Include="zx_type.cpp">
       <Filter>Public\Reflection</Filter>
     </ClCompile>
@@ -134,6 +128,24 @@
     </ClCompile>
     <ClCompile Include="zx_rtti_shared_ptr.cpp">
       <Filter>Public\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_di_container.cpp">
+      <Filter>Public\DI</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_inject_data.cpp">
+      <Filter>Public\DI</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_field.cpp">
+      <Filter>Public\DI</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_di_structs.cpp">
+      <Filter>Public\DI</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_di_functions.cpp">
+      <Filter>Public\DI</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_metadata.cpp">
+      <Filter>Public\DI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +163,9 @@
     </Filter>
     <Filter Include="Public\Events">
       <UniqueIdentifier>{148c796f-9a94-4fcb-8589-0e9bc62d4e6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\DI">
+      <UniqueIdentifier>{d207462d-6d45-4c58-9659-d0fad46bb321}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

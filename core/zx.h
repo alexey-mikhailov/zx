@@ -22,8 +22,8 @@
 # include "zx_rtti_weak_ptr.h"
 # include "zx_rtti_shared_ptr.h"
 # include "zx_field.h"
-# include "inject_data.h"
-# include "di_container.h"
+# include "zx_inject_data.h"
+# include "zx_di_container.h"
 # include "zx_metadata.h"
 # include "zx_di_functions.h"
 

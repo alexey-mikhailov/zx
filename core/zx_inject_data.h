@@ -13,10 +13,6 @@ namespace zx
 		ZX_API virtual bool operator!=(const inject_data& other) const;
 	};
 
-	//class injected_instance final : public inject_data
-	//{
-	//};
-
 	class named_instance final : public inject_data
 	{
 	public:

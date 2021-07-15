@@ -1,15 +1,14 @@
-#include "PCH.h"
-#include "nomination_container.h"
+# include "zx_singleton_container.h"
+# include "zx_di_container.h"
 
 namespace zx
 {
-	nomination_container::nomination_container(const di_container* owner) :
+	singleton_container::singleton_container(const di_container* owner) :
 		_owner(owner)
 	{
 	}
 
-	zx::rtti::shared_ptr nomination_container::get_or_add(const type& type,
-														  const std::string& name)
+	zx::rtti::shared_ptr singleton_container::get_or_add(const type& type)
 	{
 		zx::rtti::shared_ptr result;
 
@@ -19,10 +18,9 @@ namespace zx
 				? signature.interface_type
 				: signature.implementation_type;
 
-			if (type == type_to_map && name == signature.name)
+			if (type == type_to_map)
 			{
-				auto id = nomination_identity(type_to_map, name);
-				auto search_result = _singletons.find(id);
+				auto search_result = _singletons.find(type_to_map);
 
 				if (search_result != _singletons.end())
 				{
@@ -33,10 +31,10 @@ namespace zx
 					result = signature.singleton_creator();
 
 					// Check one more time due to possible recursion
-					search_result = _singletons.find(id);
+					search_result = _singletons.find(type_to_map);
 					if (search_result == _singletons.end())
 					{
-						_singletons.insert(std::make_pair(id, result));
+						_singletons.insert(std::make_pair(singleton_identity(type_to_map), result));
 						break;
 					}
 				}
