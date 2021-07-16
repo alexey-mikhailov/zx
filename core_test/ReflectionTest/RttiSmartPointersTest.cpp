@@ -35,12 +35,12 @@ namespace zx_test
 				std::initializer_list<int>{ 1, 2, 3 }
 			);
 
-			rtti_wpt = zx::rtti::weak_ptr::from(shr1);
+			rtti_wpt = shr1;
 			Assert::IsTrue(rtti_wpt ? true : false);
 			Assert::AreEqual(1ul, rtti_wpt.riff_count());
 			Assert::AreEqual(2ul, rtti_wpt.weak_count());
 
-			auto shr2 = zx::rtti::weak_ptr::to_shared_ptr<std::vector<int>>(rtti_wpt);
+			std::shared_ptr<std::vector<int>> shr2 = rtti_wpt;
 			Assert::IsTrue(shr2 ? true : false);
 			Assert::AreEqual(2l, shr2.use_count());
 			# ifdef _WIN64
@@ -50,14 +50,13 @@ namespace zx_test
 			# endif
 
 			std::shared_ptr<std::vector<int>> shr3;
-			zx::rtti::weak_ptr::to_shared_ptr_unsafe(
-				rtti_wpt, reinterpret_cast<void**>(&shr3));
-			Assert::IsTrue(shr2 ? true : false);
+			rtti_wpt.write_to(reinterpret_cast<void**>(&shr3));
+			Assert::IsTrue(shr3 ? true : false);
 			Assert::AreEqual(3l, shr3.use_count());
 			# ifdef _WIN64
-			Assert::AreEqual(3ui64, shr2->size());
+			Assert::AreEqual(3ui64, shr3->size());
 			# else ifdef _WIN32
-			Assert::AreEqual(3ui32, shr2->size());
+			Assert::AreEqual(3ui32, shr3->size());
 			# endif
 		}
 
@@ -84,7 +83,7 @@ namespace zx_test
 					Assert::AreEqual(2ul, checker.counter->weaks);
 
 					{
-						std::weak_ptr<std::vector<int>> wkp1 = shr;
+						std::weak_ptr<std::vector<int>> wkp2 = shr;
 
 						Assert::AreEqual(1ul, checker.counter->riffs);
 						Assert::AreEqual(3ul, checker.counter->weaks);
@@ -116,17 +115,18 @@ namespace zx_test
 				(
 					std::initializer_list<int>{ 1, 2, 3 }
 				);
+				
 				checker.look_at(shr1);
 				Assert::AreEqual(1ul, checker.counter->riffs);
 				Assert::AreEqual(1ul, checker.counter->weaks);
 
-				auto rtti_wpt1 = zx::rtti::weak_ptr::from(shr1);
+				zx::rtti::weak_ptr rtti_wpt1 = shr1;
 				Assert::IsTrue(rtti_wpt1 ? true : false);
 				Assert::AreEqual(1ul, checker.counter->riffs);
 				Assert::AreEqual(2ul, checker.counter->weaks);
 
 				{
-					auto rtti_wpt2 = zx::rtti::weak_ptr::from(shr1);
+					zx::rtti::weak_ptr rtti_wpt2 = shr1;
 					Assert::IsTrue(rtti_wpt1 ? true : false);
 					Assert::AreEqual(1ul, checker.counter->riffs);
 					Assert::AreEqual(3ul, checker.counter->weaks);
@@ -163,7 +163,7 @@ namespace zx_test
 			);
 
 			// INSTANTIATE RTTI POINTER 1
-			rtti_wpt1 = zx::rtti::weak_ptr::from(shr0);
+			rtti_wpt1 = shr0;
 
 			// Test rtti pointer 1
 			Assert::IsTrue(rtti_wpt1 ? true : false);
@@ -171,7 +171,7 @@ namespace zx_test
 			Assert::AreEqual(2ul, rtti_wpt1.weak_count());
 
 			// INSTANTIATE RTTI POINTER 2
-			rtti_wpt2 = zx::rtti::weak_ptr::from(shr0);
+			rtti_wpt2 = shr0;
 
 			// Test rtti pointer 2
 			Assert::IsTrue(rtti_wpt2 ? true : false);
@@ -179,7 +179,7 @@ namespace zx_test
 			Assert::AreEqual(3ul, rtti_wpt2.weak_count());
 
 			// INSTANTIATE SHARED POINTER 1
-			auto shr1 = zx::rtti::weak_ptr::to_shared_ptr<std::vector<int>>(rtti_wpt1);
+			std::shared_ptr<std::vector<int>> shr1 = rtti_wpt1;
 
 			// Test shared pointer 1
 			Assert::IsTrue(shr1 ? true : false);
@@ -197,7 +197,7 @@ namespace zx_test
 			Assert::AreEqual(3ul, rtti_wpt2.weak_count());
 
 			// INSTANTIATE SHARED POINTER 2
-			auto shr2 = zx::rtti::weak_ptr::to_shared_ptr<std::vector<int>>(rtti_wpt2);
+			std::shared_ptr<std::vector<int>> shr2 = rtti_wpt2;
 
 			// Test shared pointer 1
 			Assert::IsTrue(shr1 ? true : false);
@@ -258,18 +258,28 @@ namespace zx_test
 				std::initializer_list<int>{ 1, 2, 3 }
 			);
 
-			auto rtti_shr = zx::rtti::shared_ptr::from(shr1);
+			zx::rtti::shared_ptr rtti_shr = shr1;
 			Assert::IsTrue(rtti_shr ? true : false);
 			Assert::AreEqual(2ul, rtti_shr.riff_count());
 			Assert::AreEqual(1ul, rtti_shr.weak_count());
 
-			auto shr2 = zx::rtti::shared_ptr::to_shared_ptr<std::vector<int>>(rtti_shr);
+			std::shared_ptr<std::vector<int>> shr2 = rtti_shr;
 			Assert::IsTrue(shr2 ? true : false);
 			Assert::AreEqual(3l, shr2.use_count());
 			# ifdef _WIN64
 			Assert::AreEqual(3ui64, shr2->size());
 			# else ifdef _WIN32
 			Assert::AreEqual(3ui32, shr2->size());
+			# endif
+
+			auto shr3 = std::make_shared<std::vector<int>>();
+			rtti_shr.write_to(reinterpret_cast<void**>(&shr3));
+			Assert::IsTrue(shr3 ? true : false);
+			Assert::AreEqual(4l, shr3.use_count());
+			# ifdef _WIN64
+			Assert::AreEqual(3ui64, shr3->size());
+			# else ifdef _WIN32
+			Assert::AreEqual(3ui32, shr3->size());
 			# endif
 		}
 
@@ -296,7 +306,7 @@ namespace zx_test
 					Assert::AreEqual(1ul, checker.counter->weaks);
 
 					{
-						auto shr2 = shr1;
+						auto shr3 = shr1;
 
 						Assert::AreEqual(3ul, checker.counter->riffs);
 						Assert::AreEqual(1ul, checker.counter->weaks);
@@ -320,74 +330,63 @@ namespace zx_test
 
 		TEST_METHOD(RttiSharedPointer_OutOfScope)
 		{
-			smart_pointer_checker checker;
-
 			// Instantiate empty rtti pointer
-			zx::rtti::shared_ptr rtti_shr;
-
-			// Test rtti pointer
-			Assert::IsFalse(rtti_shr ? true : false);
+			smart_pointer_checker checker;
 
 			{
 				auto shr1 = std::make_shared<std::vector<int>>
 				(
 					std::initializer_list<int>{ 1, 2, 3 }
 				);
+
 				checker.look_at(shr1);
 				Assert::AreEqual(1ul, checker.counter->riffs);
 				Assert::AreEqual(1ul, checker.counter->weaks);
 
-				rtti_shr = zx::rtti::shared_ptr::from(shr1);
-				Assert::IsTrue(rtti_shr ? true : false);
+				zx::rtti::shared_ptr rtti_shr1 = shr1;
+				Assert::IsTrue(rtti_shr1 ? true : false);
 				Assert::AreEqual(2ul, checker.counter->riffs);
 				Assert::AreEqual(1ul, checker.counter->weaks);
+
+				{
+					zx::rtti::shared_ptr rtti_shr2 = shr1;
+					Assert::IsTrue(rtti_shr1 ? true : false);
+					Assert::AreEqual(3ul, checker.counter->riffs);
+					Assert::AreEqual(1ul, checker.counter->weaks);
+
+					{
+						zx::rtti::shared_ptr rtti_shr3 = rtti_shr1;
+
+						Assert::IsTrue(rtti_shr1 ? true : false);
+						Assert::AreEqual(4ul, checker.counter->riffs);
+						Assert::AreEqual(1ul, checker.counter->weaks);
+					}
+
+					Assert::IsTrue(rtti_shr1 ? true : false);
+					Assert::AreEqual(3ul, checker.counter->riffs);
+					Assert::AreEqual(1ul, checker.counter->weaks);
+				}
 			}
 
-			Assert::IsTrue(rtti_shr ? true : false);
-			Assert::AreEqual(1ul, checker.counter->riffs);
-			Assert::AreEqual(1ul, checker.counter->weaks);
-
-			// Ref counter and data still valid. 
-			auto shr2 = zx::rtti::shared_ptr::to_shared_ptr<std::vector<int>>(rtti_shr);
-			Assert::IsTrue(shr2 ? true : false);
-			Assert::AreEqual(2l, shr2.use_count());
+			// UB in release build
+			# ifdef _DEBUG
+			Assert::AreNotEqual(0ul, checker.counter->riffs);
+			Assert::AreNotEqual(0ul, checker.counter->weaks);
+			# endif 
 		}
 
 		TEST_METHOD(RttiSharedPointer_CopyMoveAssign)
 		{
-			struct A
-			{
-				int value1;
-				int value2;
-				int value3;
-
-				A(int v1, int v2, int v3) :
-					value1(v1), 
-					value2(v2), 
-					value3(v3)
-				{
-				}
-
-				~A()
-				{
-				}
-
-				size_t size() const
-				{
-					return 3ui64;
-				}
-			};
-
 			zx::rtti::shared_ptr rtti_shr1;
 			zx::rtti::shared_ptr rtti_shr2;
 
-			auto shr0 = std::make_shared<A>(1, 2, 3);
-			/*(
+			auto shr0 = std::make_shared<std::vector<int>>
+			(
 				std::initializer_list<int>{ 1, 2, 3 }
-			);*/
+			);
 
 			// INSTANTIATE RTTI POINTER 1
-			rtti_shr1 = zx::rtti::shared_ptr::from(shr0);
+			rtti_shr1 = shr0;
 
 			// Test rtti pointer 1
 			Assert::IsTrue(rtti_shr1 ? true : false);
@@ -395,7 +394,7 @@ namespace zx_test
 			Assert::AreEqual(1ul, rtti_shr1.weak_count());
 
 			// INSTANTIATE RTTI POINTER 2
-			rtti_shr2 = zx::rtti::shared_ptr::from(shr0);
+			rtti_shr2 = shr0;
 
 			// Test rtti pointer 2
 			Assert::IsTrue(rtti_shr2 ? true : false);
@@ -403,7 +402,7 @@ namespace zx_test
 			Assert::AreEqual(1ul, rtti_shr2.weak_count());
 
 			// INSTANTIATE SHARED POINTER 1
-			auto shr1 = zx::rtti::shared_ptr::to_shared_ptr<A>(rtti_shr1);
+			std::shared_ptr<std::vector<int>> shr1 = rtti_shr1;
 
 			// Test shared pointer 1
 			Assert::IsTrue(shr1 ? true : false);
@@ -421,7 +420,7 @@ namespace zx_test
 			Assert::AreEqual(1ul, rtti_shr2.weak_count());
 
 			// INSTANTIATE SHARED POINTER 2
-			auto shr2 = zx::rtti::shared_ptr::to_shared_ptr<A>(rtti_shr2);
+			std::shared_ptr<std::vector<int>> shr2 = rtti_shr2;
 
 			// Test shared pointer 1
 			Assert::IsTrue(shr1 ? true : false);

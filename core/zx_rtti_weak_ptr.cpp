@@ -70,25 +70,7 @@ namespace zx
 
 		weak_ptr::~weak_ptr()
 		{
-			if (_ref_cntr)
-			{
-				--_ref_cntr->weaks;
-
-				if (_ref_cntr->weaks == zx::zero::ulong)
-				{
-					// Zero weak count is state 
-					// when resource already
-					// called delete in place. 
-					// Because shared pointers
-					// keep weak pointer equals at least one. 
-					//
-					// Vfptr have to call virtual dtor
-					// of inherited ref counter type. 
-					// So, resource at _address will be deallocated here. 
-					auto stl_ref_cntr = reinterpret_cast<weak_ptr::stl_ref_cntr*>((void**)_ref_cntr - 1);
-					delete stl_ref_cntr;
-				}
-			}
+			decrement(_ref_cntr, _address);
 		}
 
 		const zx::type& weak_ptr::get_type() const
@@ -137,27 +119,51 @@ namespace zx
 			}
 		}
 
-		void weak_ptr::to_shared_ptr_unsafe(const weak_ptr & ptr, void ** where_to)
+		void weak_ptr::write_to(void ** tmpl_shr_ptr_addr)
 		{
-			if (ptr._ref_cntr->riffs)
+			auto target_address = tmpl_shr_ptr_addr;
+			auto target_ref_cntr = reinterpret_cast<ref_cntr**>(tmpl_shr_ptr_addr + 1);
+			decrement(*target_ref_cntr, *target_address);
+
+			if (_ref_cntr->riffs)
 			{
-				auto offset = reinterpret_cast<void**>(where_to);
-				*offset = ptr._address;
-				++offset;
-				*offset = (void**)ptr._ref_cntr - 1;
+				*target_address = _address;
+				*target_ref_cntr = _ref_cntr;
 
 				// Change ref counters as last as possible. 
-				++ptr._ref_cntr->riffs;
+				++_ref_cntr->riffs;
 			}
 			else
 			{
 				// We've lost data.
 				// It's better to be honest and return it explicitly. 
-				auto offset = reinterpret_cast<void**>(where_to);
-				*offset = nullptr;
-				++offset;
-				*offset = nullptr;
+				*target_address = nullptr;
+				*target_ref_cntr = nullptr;
 			}
 		}
+
+		void weak_ptr::decrement(ref_cntr* ref_cntr,
+								 void* address)
+		{
+			if (ref_cntr)
+			{
+				--ref_cntr->weaks;
+
+				if (ref_cntr->weaks == zx::zero::ulong)
+				{
+					// Zero weak count is state 
+					// when resource already
+					// called delete in place. 
+					// Because shared pointers
+					// keep weak pointer equals at least one. 
+					//
+					// Vfptr have to call virtual dtor
+					// of inherited ref counter type. 
+					// So, resource at _address will be deallocated here. 
+					delete ref_cntr;
+				}
+			}
+		}
+
 	}
 }

@@ -15,12 +15,6 @@ namespace zx
 		public:
 			struct ref_cntr
 			{
-				std::atomic<zx::ulong> riffs;
-				std::atomic<zx::ulong> weaks;
-			};
-
-			struct stl_ref_cntr
-			{
 				void* vfptr;
 				std::atomic<zx::ulong> riffs;
 				std::atomic<zx::ulong> weaks;
@@ -31,13 +25,22 @@ namespace zx
 		private:
 			void*			_address;
 			ref_cntr*		_ref_cntr;
-			const zx::type*		_type;
+			const zx::type*	_type;
 
 		public:
 			ZX_API weak_ptr();
 			ZX_API weak_ptr(const weak_ptr& other);
 			ZX_API weak_ptr(weak_ptr&& other);
 			ZX_API ~weak_ptr();
+
+			template <class T>
+			weak_ptr(const std::shared_ptr<T>& tmpl);
+
+			template <class T>
+			weak_ptr(std::shared_ptr<T>&& tmpl);
+
+			template <class T>
+			operator std::shared_ptr<T>() const;
 
 			ZX_API weak_ptr& operator=(const weak_ptr& other);
 			ZX_API weak_ptr& operator=(weak_ptr&& other);
@@ -48,50 +51,63 @@ namespace zx
 			ZX_API unsigned long weak_count() const;
 			ZX_API explicit operator bool() const;
 
-			template <typename T>
-			static weak_ptr from(const std::shared_ptr<T>& shr)
+			ZX_API void write_to(void** tmpl_shr_ptr_addr);
+
+		private:
+			/// <summary>
+			/// Decrements ref counter. 
+			/// </summary>
+			/// <param name="ref_cntr">Reference counter. May be nullptr. </param>
+			/// <param name="address">Address to data. May be nullptr. </param>
+			static void decrement(ref_cntr* ref_cntr,
+								  void* address);
+		};
+		
+		template<class T>
+		weak_ptr::weak_ptr(const std::shared_ptr<T>& tmpl)
+		{
+			_type = &zx::type::i<T>();
+			auto offset = (void**)const_cast<std::shared_ptr<T>*>(&tmpl);
+			_address = *offset++;
+			_ref_cntr = (ref_cntr*)*offset;
+
+			// Increase weak counter as last as possible. 
+			++_ref_cntr->weaks;
+		}
+		
+		template<class T>
+		weak_ptr::weak_ptr(std::shared_ptr<T>&& tmpl)
+		{
+			_type = &zx::type::i<T>();
+			auto offset = (void**)const_cast<std::shared_ptr<T>*>(&tmpl);
+			_address = *offset++;
+			_ref_cntr = (ref_cntr*)*offset;
+
+			// Increase weak counter as last as possible. 
+			++_ref_cntr->weaks;
+		}
+		
+		template<class T>
+		weak_ptr::operator std::shared_ptr<T>() const
+		{
+			if (_ref_cntr->riffs)
 			{
-				weak_ptr result;
-				result._type = &zx::type::i<T>();
-				auto offset = (void**)const_cast<std::shared_ptr<T>*>(&shr);
-				result._address = *offset++;
+				std::shared_ptr<T> result;
+				auto offset = reinterpret_cast<void**>(&result);
+				*offset = _address;
+				++offset;
+				*offset = _ref_cntr;
 
-				// Offset one pointer right due to counter type vfptr. 
-				offset = ((void**)*offset + 1);
-				result._ref_cntr = (ref_cntr*)offset;
-
-				// Increase weak counter as last as possible. 
-				// It is non-existing weak reference in std::shared_ptr term. 
-				// But we need it to keep reference counter data. 
-				++result._ref_cntr->weaks;
+				// Change ref counters as last as possible. 
+				++_ref_cntr->riffs;
 				return result;
 			}
-
-			template <typename T>
-			static std::shared_ptr<T> to_shared_ptr(const weak_ptr& ptr)
+			else
 			{
-				if (ptr._ref_cntr->riffs)
-				{
-					std::shared_ptr<T> result;
-					auto offset = reinterpret_cast<void**>(&result);
-					*offset = ptr._address;
-					++offset;
-					*offset = (void**)ptr._ref_cntr - 1;
-
-					// Change ref counters as last as possible. 
-					++ptr._ref_cntr->riffs;
-					return result;
-				}
-				else
-				{
-					// We've lost data.
-					// It's better to be honest and return it explicitly. 
-					return std::shared_ptr<T>();
-				}
+				// We've lost data.
+				// It's better to be honest and return it explicitly. 
+				return std::shared_ptr<T>();
 			}
-
-			ZX_API static void to_shared_ptr_unsafe(const weak_ptr& ptr,
-													void** where_to);
-		};
+		}
 	}
 }

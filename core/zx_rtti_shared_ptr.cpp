@@ -71,30 +71,10 @@ namespace zx
 
 		shared_ptr::~shared_ptr()
 		{
-			if (_ref_cntr)
-			{
-				--_ref_cntr->riffs;
-
-				if (_ref_cntr->riffs == zx::zero::ulong)
-				{
-					// Must perform delete in place. 
-					__deleters[_type->index](_address);
-
-					--_ref_cntr->weaks;
-
-					if (_ref_cntr->weaks == zx::zero::ulong)
-					{
-						// Vfptr have to call virtual dtor
-						// of inherited ref counter type. 
-						// So, resource at _address will be deallocated here. 
-						auto stl_ref_cntr = reinterpret_cast<shared_ptr::stl_ref_cntr*>((void**)_ref_cntr - 1);
-						delete stl_ref_cntr;
-					}
-				}
-			}
+			decrement(_type, _ref_cntr, _address);
 		}
 
-        ZX_API const zx::type & shared_ptr::get_type() const
+        const zx::type & shared_ptr::get_type() const
         {
 			return *_type;
         }
@@ -139,28 +119,59 @@ namespace zx
 				return false;
 			}
 		}
-		
-		void shared_ptr::to_shared_ptr_unsafe(const shared_ptr& ptr, 
-											  void** where_to)
+
+		void shared_ptr::write_to(void** where_to)
 		{
-			if (ptr._ref_cntr && ptr._ref_cntr->riffs)
+			auto target_address = where_to;
+			auto target_ref_cntr = reinterpret_cast<ref_cntr**>(where_to + 1);
+			decrement(nullptr, *target_ref_cntr, *target_address);
+
+			if (_ref_cntr && _ref_cntr->riffs)
 			{
-				auto offset = reinterpret_cast<void**>(where_to);
-				*offset = ptr._address;
-				++offset;
-				*offset = (void**)ptr._ref_cntr - 1;
+				*target_address = _address;
+				*target_ref_cntr = _ref_cntr;
 
 				// Change ref counters as last as possible. 
-				++ptr._ref_cntr->riffs;
+				++_ref_cntr->riffs;
 			}
 			else
 			{
 				// We've lost data.
 				// It's better to be honest and return it explicitly. 
-				auto offset = reinterpret_cast<void**>(where_to);
-				*offset = nullptr;
-				++offset;
-				*offset = nullptr;
+				*target_address = nullptr;
+				*target_ref_cntr = nullptr;
+			}
+		}
+
+		void shared_ptr::decrement(const type* type, 
+								   ref_cntr* ref_cntr, 
+								   void* address)
+		{
+			if (ref_cntr)
+			{
+				--ref_cntr->riffs;
+
+				if (ref_cntr->riffs == zx::zero::ulong)
+				{
+					// Must perform delete in place. 
+					// type = 0 when target is STL shared pointer. 
+					// In this case delete in place will be deferred 
+					// till reference counter still exist. 
+					if (type)
+					{
+						__deleters[type->index](address);
+					}
+
+					--ref_cntr->weaks;
+
+					if (ref_cntr->weaks == zx::zero::ulong)
+					{
+						// Vfptr have to call virtual dtor
+						// of inherited ref counter type. 
+						// So, resource at _address will be deallocated here. 
+						delete ref_cntr;
+					}
+				}
 			}
 		}
 	}

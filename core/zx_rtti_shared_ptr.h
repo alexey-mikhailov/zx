@@ -15,12 +15,6 @@ namespace zx
 		public:
 			struct ref_cntr
 			{
-				std::atomic<zx::ulong> riffs;
-				std::atomic<zx::ulong> weaks;
-			};
-
-			struct stl_ref_cntr
-			{
 				void* vfptr;
 				std::atomic<zx::ulong> riffs;
 				std::atomic<zx::ulong> weaks;
@@ -40,6 +34,15 @@ namespace zx
 			ZX_API shared_ptr(shared_ptr&& other);
 			ZX_API ~shared_ptr();
 
+			template <class T>
+			shared_ptr(const std::shared_ptr<T>&);
+
+			template <class T>
+			shared_ptr(const std::shared_ptr<T>&&);
+
+			template <class T>
+			operator std::shared_ptr<T>() const;
+
 			ZX_API shared_ptr& operator=(const shared_ptr& other);
 			ZX_API shared_ptr& operator=(shared_ptr&& other);
 
@@ -49,58 +52,83 @@ namespace zx
 			ZX_API unsigned long weak_count() const;
 			ZX_API explicit operator bool() const;
 
-			template <typename T>
-			static shared_ptr from(const std::shared_ptr<T>& shr)
+			ZX_API void write_to(void** where_to);
+
+		private:
+			/// <summary>
+			/// Decrements ref counter. 
+			/// </summary>
+			/// <param name="type">Type of data inside. May be nullptr. </param>
+			/// <param name="ref_cntr">Reference counter. May be nullptr. </param>
+			/// <param name="address">Address to data. May be nullptr. </param>
+			static void decrement(const type* type, 
+								  ref_cntr* ref_cntr, 
+								  void* address);
+		};
+		
+		template<class T>
+		shared_ptr::shared_ptr(const std::shared_ptr<T>& tmpl)
+		{
+			_type = &zx::type::i<T>();
+
+			auto offset = (void**)const_cast<std::shared_ptr<T>*>(&tmpl);
+			_address = *offset++;
+			_ref_cntr = (ref_cntr*)*offset;
+
+			__deleters[_type->index] = [](void* address)
 			{
-				shared_ptr result;
-				result._type = &zx::type::i<T>();
+				// Delete in place,
+				// because address allocated in stack. 
+				auto casted = reinterpret_cast<T*>(address);
+				casted->~T();
+			};
 
-				auto offset = (void**)const_cast<std::shared_ptr<T>*>(&shr);
-				result._address = *offset++;
+			// Change ref counters as last as possible. 
+			++_ref_cntr->riffs;
+		}
 
-				// Offset one pointer right due to counter type vfptr. 
-				offset = ((void**)*offset + 1);
-				result._ref_cntr = (ref_cntr*)offset;
+		template<class T>
+		shared_ptr::shared_ptr(const std::shared_ptr<T>&& tmpl)
+		{
+			_type = &zx::type::i<T>();
+
+			auto offset = (void**)const_cast<std::shared_ptr<T>*>(&tmpl);
+			_address = *offset++;
+			_ref_cntr = (ref_cntr*)*offset;
+
+			__deleters[_type->index] = [](void* address)
+			{
+				// Delete in place,
+				// because address allocated in stack. 
+				auto casted = reinterpret_cast<T*>(address);
+				casted->~T();
+			};
+
+			// Change ref counters as last as possible. 
+			++_ref_cntr->riffs;
+		}
+
+		template<class T>
+		shared_ptr::operator std::shared_ptr<T>() const
+		{
+			if (_ref_cntr && _ref_cntr->riffs)
+			{
+				std::shared_ptr<T> result;
+				auto offset = reinterpret_cast<void**>(&result);
+				*offset = _address;
+				++offset;
+				*offset = _ref_cntr;
 
 				// Change ref counters as last as possible. 
-				++result._ref_cntr->riffs;
-
-				__deleters[result._type->index] = [](void* address)
-				{
-					// Delete in place,
-					// because address allocated in stack. 
-					auto casted = reinterpret_cast<T*>(address);
-					casted->~T();
-				};
-
+				++_ref_cntr->riffs;
 				return result;
 			}
-
-			template <typename T>
-			static std::shared_ptr<T> to_shared_ptr(const shared_ptr& ptr)
+			else
 			{
-				if (ptr._ref_cntr->riffs)
-				{
-					std::shared_ptr<T> result;
-					auto offset = reinterpret_cast<void**>(&result);
-					*offset = ptr._address;
-					++offset;
-					*offset = (void**)ptr._ref_cntr - 1;
-
-					// Change ref counters as last as possible. 
-					++ptr._ref_cntr->riffs;
-					return result;
-				}
-				else
-				{
-					// We've lost data.
-					// It's better to be honest and return it explicitly. 
-					return std::shared_ptr<T>();
-				}
+				// We've lost data.
+				// It's better to be honest and return it explicitly. 
+				return std::shared_ptr<T>();
 			}
-
-			ZX_API static void to_shared_ptr_unsafe(const shared_ptr& ptr, 
-													void** where_to);
-		};
+		}
 	}
 }

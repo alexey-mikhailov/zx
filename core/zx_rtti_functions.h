@@ -8,8 +8,7 @@ namespace zx
 		template <typename T, typename... Args>
 		shared_ptr make_shared(Args... args)
 		{
-			auto value = std::make_shared<T>(args...);
-			return zx::rtti::shared_ptr::from(value);
+			return std::make_shared<T>(args...);
 		}
 	}
 }

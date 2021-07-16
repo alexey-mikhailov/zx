@@ -20,14 +20,14 @@ namespace zx
 			for (auto it = di_containers.begin; it != di_containers.end; ++it)
 			{
 				auto container = it->second;
-				const auto instance =
+				auto instance =
 					container->singleton_container->get_or_add(field.type);
 
 				auto field_address = 
 					reinterpret_cast<void**>(
 						static_cast<__int8*>(injectee) + field.offset);
 
-				zx::rtti::shared_ptr::to_shared_ptr_unsafe(instance, field_address);
+				instance.write_to(field_address);
 			}
 		}
 		else if (field.inject_type == inject_type::named_instance)
@@ -38,7 +38,7 @@ namespace zx
 			for (auto it = di_containers.begin; it != di_containers.end; ++it)
 			{
 				auto container = it->second;
-				const auto instance =
+				auto instance =
 					container->nomination_container->get_or_add(
 						field.type,
 						named_instance.get_name());
@@ -47,7 +47,7 @@ namespace zx
 					reinterpret_cast<void**>(
 						static_cast<__int8*>(injectee) + field.offset);
 
-				zx::rtti::shared_ptr::to_shared_ptr_unsafe(instance, field_address);
+				instance.write_to(field_address);
 			}
 		}
 	}
