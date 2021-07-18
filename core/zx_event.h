@@ -143,6 +143,34 @@ namespace zx
 		std::shared_ptr<std::mutex> _mutex = std::make_shared<std::mutex>();
 
 	public:
+		multicast_delegate() = default;
+		multicast_delegate(const multicast_delegate& other)
+		{
+			static_assert(
+				false, 
+				"You cannot implicitly copy the `zx::multicast_delegate`. "
+				"Use method `copy` instead. ");
+		}
+
+		multicast_delegate(multicast_delegate&& other) :
+			_delegates(std::move(other._delegates)),
+			_mutex(std::move(other._mutex))
+		{
+		}
+
+		/// <summary>
+		/// Explicitly copies the instance of `multicast_delegate`. 
+		/// Both of them will refer to the same delegate list. 
+		/// </summary>
+		/// <returns>New copied instance. </returns>
+		multicast_delegate copy() const
+		{
+			multicast_delegate result;
+			result._delegates = _delegates;
+			result._mutex = _mutex;
+			return std::move(result);
+		}
+
 		operator bool()
 		{
 			std::lock_guard<std::mutex> lk(*_mutex);
@@ -276,7 +304,7 @@ namespace zx
 		{
 			std::unordered_map<size_t, struct i_delegate*> map;
 
-			delegate_map() {  }
+			delegate_map() = default;
 
 			~delegate_map()
 			{
@@ -344,6 +372,34 @@ namespace zx
 		std::shared_ptr<std::mutex> _mutex = std::make_shared<std::mutex>();
 
 	public:
+		multicast_delegate() = default;
+		multicast_delegate(const multicast_delegate& other)
+		{
+			static_assert(
+				false, 
+				"You cannot implicitly copy the `zx::multicast_delegate`. "
+				"Use method `copy` instead. ");
+		}
+
+		multicast_delegate(multicast_delegate&& other) :
+			_delegates(std::move(other._delegates)), 
+			_mutex(std::move(other._mutex))
+		{
+		}
+
+		/// <summary>
+		/// Explicitly copies the instance of `multicast_delegate`. 
+		/// Both of them will refer to the same delegate list. 
+		/// </summary>
+		/// <returns>New copied instance. </returns>
+		multicast_delegate copy() const
+		{
+			multicast_delegate result;
+			result._delegates = _delegates;
+			result._mutex = _mutex;
+			return std::move(result);
+		}
+
 		operator bool()
 		{
 			std::lock_guard<std::mutex> lk(*_mutex);
@@ -459,6 +515,14 @@ namespace zx
 		event(multicast_delegate<R(Args ...)>& del) :
 			_del(del)
 		{
+		}
+
+		event(const event& other) : _del(other._del)
+		{
+			static_assert(
+				false,
+				"You cannot copy instance of `zx::event`. "
+				"Consider to override copy constructor of `zx::event` owning type properly. ");
 		}
 
 		void operator+=(R(*value)(Args...)) const 

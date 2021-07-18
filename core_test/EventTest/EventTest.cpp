@@ -6,6 +6,25 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+namespace Microsoft
+{
+	namespace VisualStudio
+	{
+		namespace CppUnitTestFramework
+		{
+			template<> static std::wstring ToString<event_user>(
+				const event_user& instance)
+			{
+				std::wstringstream ss;
+				ss  << L"event_user { address : " 
+					<< std::hex << &instance << std::dec 
+					<< L" } ";
+
+				return ss.str();
+			}
+		}
+	}
+}
 
 namespace zx_test
 {
@@ -25,12 +44,16 @@ namespace zx_test
 		ls << L"Sum of " << a << " and " << b << L" is " << result << zx::endl;
 	}
 
+	const event_user& on_identity_requested(const event_user& sender)
+	{
+		return sender;
+	}
+
 	TEST_CLASS(EventTest)
 	{
 	public:
 		TEST_METHOD(SubscribeFireUnsubscribe)
 		{
-			std::wstringstream ss;
 			event_user user;
 
 			user.something_complete += on_something_happened;
@@ -50,6 +73,27 @@ namespace zx_test
 			user.add(1.2, 3.4);
 		}
 
+		TEST_METHOD(EventIdentity)
+		{
+			event_user user1;
+			user1.identity_requested += on_identity_requested;
+			event_user user2(user1);
+
+			// Copy result check
+			Assert::AreEqual(user1.get_copyable_resource(), 
+							 user2.get_copyable_resource());
+
+			auto [result_user1, counter1] = user1.request_identity();
+			Assert::AreSame(user1, result_user1);
+			Assert::AreEqual(1ui64, counter1);
+
+			auto [result_user2, counter2] = user2.request_identity();
+			Assert::IsNull(&result_user2); // must be struct at <NULL>
+			Assert::AreEqual(0ui64, counter2);
+
+			user1.identity_requested -= on_identity_requested;
+		}
+
 		TEST_METHOD(MultithreadingTest)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(250));
@@ -65,7 +109,11 @@ namespace zx_test
 				std::vector<std::thread> threads(150);
 				for (auto&& thread : threads)
 				{
-					thread = std::thread(sbscribe_invoke_unsubscribe, del1, del2, del3, del4);
+					thread = std::thread(subscribe_invoke_unsubscribe, 
+										 del1.copy(), 
+										 del2.copy(), 
+										 del3.copy(), 
+										 del4.copy());
 				}
 
 				for (auto&& thread : threads)

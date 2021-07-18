@@ -315,6 +315,13 @@ public class Unloader
 }
 ```
 
+-----------------------------------------
+**NOTE**
+
+`zx::event` and `zx::multicast_delegate` are non-copyable types, they prevent copy of delegates they use. You cannot copy instance of `zx::event` but you can do it explicitly for `zx::multicast_delegate` via `copy` method call. It was designed to not to get a bummer like pretending subscriber calls resulted from implicit copy. 
+
+-----------------------------------------
+
 Fore more information see unit test folder: [./core_test/eventtest](./core_test/eventtest/)
 
 Reflection

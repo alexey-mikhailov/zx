@@ -30,7 +30,7 @@ inline void glob4()
 }
 
 
-inline void sbscribe_invoke_unsubscribe(
+inline void subscribe_invoke_unsubscribe(
 	zx::multicast_delegate<int(int, int)> del1,
 	zx::multicast_delegate<void(int, int)> del2,
 	zx::multicast_delegate<int()> del3,
