@@ -106,32 +106,32 @@ namespace zx
 			/// Iterable interface for std::vector
 			/// to immutable (const) element. 
 			template <class T>
-			using vector = generic<const std::vector<T>>;
+			using vector = generic<std::vector<T>>;
 
 			/// Iterable interface for std::deque
 			/// to immutable (const) element. 
 			template <class T>
-			using deque = generic<const std::deque<T>>;
+			using deque = generic<std::deque<T>>;
 
 			/// Iterable interface for std::list
 			/// to immutable (const) element. 
 			template <class T>
-			using list = generic<const std::list<T>>;
+			using list = generic<std::list<T>>;
 
 			/// Iterable interface for std::set
 			/// to immutable (const) element. 
 			template <class T>
-			using set = generic<const std::set<T>>;
+			using set = generic<std::set<T>>;
 
 			/// Iterable interface for std::unordered_map
 			/// to immutable (const) element. 
 			template <class K, class V>
-			using unordered_map = generic<const std::unordered_map<K, V>>;
+			using unordered_map = generic<std::unordered_map<K, V>>;
 
 			/// Iterable interface for std::map
 			/// to immutable (const) element. 
 			template <class K, class V>
-			using map = generic<const std::map<K, V>>;
+			using map = generic<std::map<K, V>>;
 		}
 	}
 
@@ -193,12 +193,12 @@ namespace zx
 			/// Iterator range for part of whole iterator range
 			/// of std::unordered_map to immutable (const) element. 
 			template <class K, class V>
-			using unordered_map = generic<const std::unordered_map<K, V>::template const_iterator>;
+			using unordered_map = generic<std::unordered_map<K, V>::template const_iterator>;
 
 			/// Iterator range for part of whole iterator range
 			/// of std::map to immutable (const) element. 
 			template <class K, class V>
-			using map = generic<const std::map<K, V>::template const_iterator>;
+			using map = generic<std::map<K, V>::template const_iterator>;
 		}
 
 		/// Mutable version of iterator ranges. 
@@ -207,32 +207,32 @@ namespace zx
 			/// Iterator range for part of whole iterator range
 			/// of std::vector to mutable (non-const) element. 
 			template <class T>
-			using vector = generic<std::vector<T>::template const_iterator>;
+			using vector = generic<std::vector<T>::template iterator>;
 
 			/// Iterator range for part of whole iterator range
 			/// of std::deque to mutable (non-const) element. 
 			template <class T>
-			using deque = generic<std::deque<T>::template const_iterator>;
+			using deque = generic<std::deque<T>::template iterator>;
 
 			/// Iterator range for part of whole iterator range
 			/// of std::list to mutable (non-const) element. 
 			template <class T>
-			using list = generic<std::list<T>::template const_iterator>;
+			using list = generic<std::list<T>::template iterator>;
 
 			/// Iterator range for part of whole iterator range
 			/// of std::set to mutable (non-const) element. 
 			template <class T>
-			using set = generic<std::set<T>::template const_iterator>;
+			using set = generic<std::set<T>::template iterator>;
 
 			/// Iterator range for part of whole iterator range
 			/// of std::unordered_map to mutable (non-const) element. 
 			template <class K, class V>
-			using unordered_map = generic<const std::unordered_map<K, V>::template const_iterator>;
+			using unordered_map = generic<std::unordered_map<K, V>::template iterator>;
 
 			/// Iterator range for part of whole iterator range
 			/// of std::map to mutable (non-const) element. 
 			template <class K, class V>
-			using map = generic<const std::map<K, V>::template const_iterator>;
+			using map = generic<std::map<K, V>::template iterator>;
 		}
 	}
 }

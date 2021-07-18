@@ -36,6 +36,9 @@
     <ClCompile Include="ReflectionTest\RttiSmartPointersTest.cpp">
       <Filter>ReflectionTest</Filter>
     </ClCompile>
+    <ClCompile Include="IterablesTest\IterablesTest.cpp">
+      <Filter>IterablesTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -89,6 +92,9 @@
     </Filter>
     <Filter Include="ReflectionTest">
       <UniqueIdentifier>{c8abb990-40e2-4389-adfe-47c60d38631e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IterablesTest">
+      <UniqueIdentifier>{36b600dd-c9b6-463a-b3d3-24df98920f08}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

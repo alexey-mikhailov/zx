@@ -180,6 +180,7 @@
     <ClCompile Include="DiContainerTest\DiContainerTest.cpp" />
     <ClCompile Include="EventTest\EventTest.cpp" />
     <ClCompile Include="EventTest\event_user.cpp" />
+    <ClCompile Include="IterablesTest\IterablesTest.cpp" />
     <ClCompile Include="logger_stream.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
