@@ -9,43 +9,44 @@ namespace zx
 {
 	void inject_field(void* injectee,
 					  const field& field,
-					  it_range<
-						  std::unordered_map<
+					  iterable::imm::unordered_map<
 							  std::string,
-							  di_container*>::iterator> di_containers)
+							  di_container*> di_containers)
 	{
-		if (field.inject_type == inject_type::singleton || 
-			field.inject_type == inject_type::signal_pack)
+		if (field.get_inject_type() == inject_type::singleton || 
+			field.get_inject_type() == inject_type::signal_pack)
 		{
-			for (auto it = di_containers.begin; it != di_containers.end; ++it)
+			for (auto&& [name, container] : di_containers)
 			{
-				auto container = it->second;
 				auto instance =
-					container->singleton_container->get_or_add(field.type);
+					container->singleton_container->get_or_add(field.get_type());
 
-				auto field_address = 
-					reinterpret_cast<void**>(
-						static_cast<__int8*>(injectee) + field.offset);
+				auto field_address = reinterpret_cast<void**>
+				(
+					static_cast<__int8*>(injectee) + 
+					field.get_offset()
+				);
 
 				instance.write_to(field_address);
 			}
 		}
-		else if (field.inject_type == inject_type::named_instance)
+		else if (field.get_inject_type() == inject_type::named_instance)
 		{
-			const inject_data& inject_data = field.inject_data;
+			const inject_data& inject_data = field.get_inject_data();
 			auto named_instance = dynamic_cast<const zx::named_instance&>(inject_data);
 
-			for (auto it = di_containers.begin; it != di_containers.end; ++it)
+			for (auto&& [name, container] : di_containers)
 			{
-				auto container = it->second;
 				auto instance =
 					container->nomination_container->get_or_add(
-						field.type,
+						field.get_type(),
 						named_instance.get_name());
 
-				auto field_address =
-					reinterpret_cast<void**>(
-						static_cast<__int8*>(injectee) + field.offset);
+				auto field_address = reinterpret_cast<void**>
+				(
+					static_cast<__int8*>(injectee) + 
+					field.get_offset()
+				);
 
 				instance.write_to(field_address);
 			}
@@ -54,22 +55,15 @@ namespace zx
 
 	void inject_dependencies(const type& type, void* target)
 	{
-		const it_range<
-			std::unordered_map<
-			std::string,
-			di_container*>::iterator> di_containers =
-		{
-			di_container::__instances.begin(),
-			di_container::__instances.end()
-		};
+		iterable::imm::unordered_map<std::string, di_container*>
+			di_containers = di_container::__instances;
 
 		const auto fields = metadata::get_fields(type);
-		for (auto it = fields.begin; it != fields.end; ++it)
+		for (auto&& [name, field] : fields)
 		{
-			auto field = it->second;
-			if (field.inject_type != inject_type::none)
+			if (field.get_inject_type() != inject_type::none)
 			{
-				if (field.expose_type == expose_type::shrptr)
+				if (field.get_expose_type() == expose_type::shrptr)
 				{
 					inject_field(target, field, di_containers);
 				}

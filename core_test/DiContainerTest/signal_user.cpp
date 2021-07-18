@@ -5,7 +5,7 @@ signal_user::ctor signal_user::__ctor;
 signal_user::ctor::ctor()
 {
 	zx::metadata::add_field(
-		nameof(_testSignalPack), 
+		nameof(_signal_pack),
 		&signal_user::_signal_pack, 
 		zx::inject_type::signal_pack);
 }

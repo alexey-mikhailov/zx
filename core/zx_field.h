@@ -40,45 +40,21 @@ namespace zx
 		field_data* _data;
 
 	public:
-		ref_formula<field, const type> owner_type =
-		{
-			this, 
-			[](field& field) -> const zx::type&
-			{
-				return field._data->owner_type;
-			}
-		};
-
-		ref_formula<field, const type> type =
-		{
-			this, 
-			[](field& field) -> const zx::type&
-			{
-				return field._data->type;
-			}
-		};
-
-		const std::string& name = _data->name;
-		const unsigned& offset = _data->offset;
-		const unsigned& size = _data->size;
-		const expose_type& expose_type = _data->expose_type;
-		const inject_type& inject_type = _data->inject_type;
-		
-		ref_formula<field, inject_data> inject_data =
-		{
-			this,
-			[](field& field) -> zx::inject_data&
-			{
-				return *field._data->inject_data;
-			}
-		};
-
 		field() : _data(nullptr) {}
 		field(const field& other) : _data(other._data) {}
 		field(const field&& other) noexcept : _data(other._data) {}
 		~field() = default;
 		field& operator=(const field& other);
 		field& operator=(const field&& other);
+
+		const type& get_owner_type() const { return _data->owner_type; }
+		const type& get_type() const { return _data->type; }
+		const std::string& get_name() const { return _data->name; }
+		unsigned get_offset() const { return _data->offset; }
+		unsigned get_size() const { return _data->size; }
+		expose_type get_expose_type() const { return _data->expose_type; }
+		const inject_type& get_inject_type() const { return _data->inject_type; }
+		const inject_data& get_inject_data() const { return *_data->inject_data; }
 
 	private:
 		ZX_API field(field_data* data) : _data(data) {}

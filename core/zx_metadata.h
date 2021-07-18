@@ -35,7 +35,7 @@ namespace zx
 							   const std::string& name);
 
 		ZX_API 
-		static it_range<std::unordered_map<std::string, field>::iterator> 
+		static iterable::imm::unordered_map<std::string, field> 
 		get_fields(const type& type);
 
 		ZX_API

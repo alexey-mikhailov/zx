@@ -231,12 +231,11 @@ namespace zx
 
 		auto get_delegates()
 		{
-			return it_range<
-				typename std::unordered_map<
-					size_t, 
-					i_delegate*>::iterator>(
-							_delegates->map.begin(), 
-							_delegates->map.end());
+			return iterable::imm::
+				unordered_map<size_t, i_delegate*>
+			(
+				_delegates->map
+			);
 		}
 
 		void handle_every(const std::function<void(Ret)>& routine, 

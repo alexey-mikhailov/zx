@@ -58,10 +58,10 @@ double some_injectee::do_something()
 
 	const auto delegates = _signal_pack->something_happened.get_delegates();
 
-	double lastResult = {};
-	for (auto it = delegates.begin; it != delegates.end; ++it)
+	double lastResult {};
+	for (auto&& [hash, dlgt] : delegates)
 	{
-		lastResult = it->second->invoke(calculated1, calculated2);
+		lastResult = dlgt->invoke(calculated1, calculated2);
 
 		ls << "something_happened returns result: ";
 		ls << lastResult << zx::endl;

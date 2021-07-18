@@ -10,8 +10,8 @@ namespace zx
 
 	void metadata::add_field(const field& field)
 	{
-		const auto ownerTypeIndex = field.owner_type->index;
-		__fields[ownerTypeIndex][field.name] = field;
+		const auto ownerTypeIndex = field.get_owner_type().index;
+		__fields[ownerTypeIndex][field.get_name()] = field;
 	}
 
 	field metadata::get_field(const type& type, 
@@ -27,11 +27,11 @@ namespace zx
 		return it->second;
 	}
 
-	it_range<std::unordered_map<std::string, field>::iterator> 
+	iterable::imm::unordered_map<std::string, field>
 	metadata::get_fields(const type& type)
 	{
 		auto& fields = __fields[type.index];
-		return { fields.begin(), fields.end() };
+		return fields;
 	}
 
 	void metadata::for_each_field_of_type(
