@@ -69,7 +69,7 @@ namespace zx
 				}
 				else
 				{
-					throw std::logic_error("Field to inject is not shrptr. ");
+					throw exception(reason::field_is_not_shrptr);
 				}
 			}
 		}

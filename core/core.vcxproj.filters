@@ -106,6 +106,9 @@
     <ClInclude Include="zx_constants.h">
       <Filter>Public</Filter>
     </ClInclude>
+    <ClInclude Include="zx_exceptions.h">
+      <Filter>Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="zx_singleton_container.cpp">
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="zx_metadata.cpp">
       <Filter>Public\DI</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_exceptions.cpp">
+      <Filter>Public</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 # pragma once
 # include "zx_defines.h"
+# include "zx_exceptions.h"
 # include "zx_tmpl_args_converter.h"
 # include "zx_rtti_args.h"
 
@@ -116,7 +117,7 @@ namespace zx
 				}
 			}
 
-			throw std::logic_error("No factory method during instantiate call. ");
+			throw zx::exception(zx::reason::no_factory_method);
 		}
 
 		ZX_API bool operator ==(const type& other) const;

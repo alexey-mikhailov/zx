@@ -21,7 +21,7 @@ namespace zx
 		const auto it = fields.find(name);
 		if (it == fields.end())
 		{
-			throw std::logic_error("Field not found. ");
+			throw exception(reason::field_not_found);
 		}
 
 		return it->second;

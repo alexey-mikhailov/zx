@@ -3,6 +3,7 @@
 # include "zx_defines.h"
 # include "zx_constants.h"
 # include "zx_enums.h"
+# include "zx_exceptions.h"
 # include "properties/zx_val_getter.h"
 # include "properties/zx_val_wrapper.h"
 # include "properties/zx_val_formula.h"

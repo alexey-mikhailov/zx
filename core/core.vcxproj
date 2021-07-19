@@ -161,6 +161,7 @@
     <ClInclude Include="properties\zx_val_formula.h" />
     <ClInclude Include="properties\zx_val_getter.h" />
     <ClInclude Include="properties\zx_val_wrapper.h" />
+    <ClInclude Include="zx_exceptions.h" />
     <ClInclude Include="zx_rtti_args.h" />
     <ClInclude Include="zx_rtti_functions.h" />
     <ClInclude Include="zx_rtti_shared_ptr.h" />
@@ -186,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="zx_di_container.cpp" />
+    <ClCompile Include="zx_exceptions.cpp" />
     <ClCompile Include="zx_rtti_args.cpp" />
     <ClCompile Include="zx_di_functions.cpp" />
     <ClCompile Include="zx_metadata.cpp" />
