@@ -1,91 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 	<Type Name="zx::val_getter&lt;*&gt;">
-		<DisplayString>{ *_data }</DisplayString>
-	</Type>
-	<Type Name="zx::ref_getter&lt;*&gt;">
-		<DisplayString>{ *_data }</DisplayString>
-	</Type>
-	<Type Name="zx::shr_getter&lt;*&gt;">
-		<DisplayString>{ *_data }</DisplayString>
+		<DisplayString>zx::val_getter {{ { *_data } }}</DisplayString>
 	</Type>
 	<Type Name="zx::val_wrapper&lt;*&gt;">
-		<DisplayString>{ *_data }</DisplayString>
+		<DisplayString>zx::val_wrapper {{ { *_data } }}</DisplayString>
+	</Type>
+	<Type Name="zx::val_computer&lt;*&gt;">
+		<DisplayString>zx::val_computer</DisplayString>
+	</Type>
+	<Type Name="zx::val_formula&lt;*&gt;">
+		<DisplayString>zx::val_formula</DisplayString>
+	</Type>
+	<Type Name="zx::ref_getter&lt;*&gt;">
+		<DisplayString>zx::ref_getter {{ { **_data } }}</DisplayString>
 	</Type>
 	<Type Name="zx::ref_wrapper&lt;*&gt;">
-		<DisplayString>{ *_data }</DisplayString>
+		<DisplayString>zx::ref_wrapper {{ { **_data } }}</DisplayString>
+	</Type>
+	<Type Name="zx::ref_computer&lt;*&gt;">
+		<DisplayString>zx::ref_computer</DisplayString>
+	</Type>
+	<Type Name="zx::ref_formula&lt;*&gt;">
+		<DisplayString>zx::ref_formula</DisplayString>
+	</Type>
+	<Type Name="zx::shr_getter&lt;*&gt;">
+		<DisplayString>zx::shr_getter {{ { **_data } }}</DisplayString>
 	</Type>
 	<Type Name="zx::shr_wrapper&lt;*&gt;">
-		<DisplayString>{ *_data }</DisplayString>
+		<DisplayString>zx::shr_wrapper {{ { **_data } }}</DisplayString>
+	</Type>
+	<Type Name="zx::shr_computer&lt;*&gt;">
+		<DisplayString>zx::shr_computer</DisplayString>
+	</Type>
+	<Type Name="zx::shr_formula&lt;*&gt;">
+		<DisplayString>zx::shr_formula</DisplayString>
+	</Type>
+	<Type Name="zx::unq_getter&lt;*&gt;">
+		<DisplayString>zx::unq_getter {{ { **_data } }}</DisplayString>
 	</Type>
 	<Type Name="zx::type">
-		<DisplayString>{ _data->name }</DisplayString>
+		<DisplayString>zx::type { _data->name }</DisplayString>
 		<Expand>
 			<Item Name="index">_data->index</Item>
-			<Item Name="is_pointer">_data->is_pointer</Item>
-			<Item Name="is_abstract">_data->is_abstract</Item>
+			<Item Name="is pointer">_data->is_pointer</Item>
+			<Item Name="is abstract">_data->is_abstract</Item>
+			<Item Name="is default constructible">_data->is_default_constructible</Item>
+		</Expand>
+	</Type>
+	<Type Name="zx::rtti::shared_ptr">
+		<DisplayString>zx::rtti::shared_ptr (riffs: {_ref_cntr->riffs}, weaks: {_ref_cntr->weaks}) of {*_type}</DisplayString>
+		<Expand>
+			<Item Name="address">_address</Item>
+			<Item Name="ref counter">_ref_cntr</Item>
+			<Item Name="type">_type</Item>
+		</Expand>
+	</Type>
+	<Type Name="zx::rtti::weak_ptr">
+		<DisplayString>zx::rtti::weak_ptr (riffs: {_ref_cntr->riffs}, weaks: {_ref_cntr->weaks}) of {*_type}</DisplayString>
+		<Expand>
+			<Item Name="address">_address</Item>
+			<Item Name="ref counter">_ref_cntr</Item>
+			<Item Name="type">_type</Item>
 		</Expand>
 	</Type>
 	<Type Name="zx::field">
-		<DisplayString>{ _name }</DisplayString>
+		<DisplayString>zx::field { _data->name }</DisplayString>
 		<Expand>
-			<Item Name="owner type">_owner_type</Item>
-			<Item Name="type">_type</Item>
-			<Item Name="offset">_offset</Item>
-			<Item Name="size">_size</Item>
-			<Item Name="inject data">_inject_data</Item>
+			<Item Name="owner type">_data->owner_type</Item>
+			<Item Name="type">_data->type</Item>
+			<Item Name="offset">_data->offset</Item>
+			<Item Name="size">_data->size</Item>
+			<Item Name="inject data">*_data->inject_data</Item>
 		</Expand>
 	</Type>
 	<Type Name="zx::inject_data">
 		<DisplayString>zx::inject_data</DisplayString>
 	</Type>
-	<Type Name="zx::injected_instance">
-		<DisplayString>zx::injected_instance</DisplayString>
-	</Type>
 	<Type Name="zx::named_instance">
-		<DisplayString>{ _name }</DisplayString>
+		<DisplayString>zx::named_instance { _name }</DisplayString>
 	</Type>
 	<Type Name="zx::di_container">
-		<DisplayString>{ _name }</DisplayString>
+		<DisplayString>zx::di_container { _name }</DisplayString>
 		<Expand>
-			<Item Name="singleton container">_singleton_container</Item>
-			<Item Name="nomination container">_nomination_container</Item>
+			<Item Name="singleton container">*_singleton_container</Item>
+			<Item Name="nomination container">*_nomination_container</Item>
 		</Expand>
 	</Type>
 	<Type Name="zx::singleton_container">
-		<DisplayString>{{ signatures { _signatures }, singletons { _singletons } }}</DisplayString>
+		<DisplayString>zx::singeton_container {{ signatures { _signatures }, singletons { _singletons } }}</DisplayString>
 		<Expand>
 			<Item Name="signatures">_signatures</Item>
 			<Item Name="singletons">_singletons</Item>
 		</Expand>
 	</Type>
 	<Type Name="zx::nomination_container">
-		<DisplayString>{{ signatures { _signatures }, singletons { _singletons } }}</DisplayString>
+		<DisplayString>zx::nomination_container {{ signatures { _signatures }, singletons { _singletons } }}</DisplayString>
 		<Expand>
 			<Item Name="signatures">_signatures</Item>
 			<Item Name="singletons">_singletons</Item>
 		</Expand>
 	</Type>
 	<Type Name="zx::singleton_signature">
-		<DisplayString Condition="is_mapped_to_interface == false">{ implementation_type }</DisplayString>
-		<DisplayString Condition="is_mapped_to_interface == true">{{ { interface_type } = { implementation_type }  }}</DisplayString>
+		<DisplayString Condition="is_mapped_to_interface == false">zx::singleton_signature {{ { implementation_type } }}</DisplayString>
+		<DisplayString Condition="is_mapped_to_interface == true">zx::singleton_signature {{ { interface_type } = { implementation_type }  }}</DisplayString>
 		<Expand>
 			<Item Name="is mapped to interface">is_mapped_to_interface</Item>
 			<Item Name="interface type">interface_type</Item>
 			<Item Name="implementation type">implementation_type</Item>
+			<Item Name="singleton creator">singleton_creator</Item>
 		</Expand>
 	</Type>
 	<Type Name="zx::nomination_signature">
-		<DisplayString Condition="is_mapped_to_interface == false">{{ { implementation_type } , { name } }}</DisplayString>
-		<DisplayString Condition="is_mapped_to_interface == true">{{ { interface_type } = { implementation_type } , name  }}</DisplayString>
+		<DisplayString Condition="is_mapped_to_interface == false">zx::nomination_signature {{ { implementation_type } , { name } }}</DisplayString>
+		<DisplayString Condition="is_mapped_to_interface == true">zx::nomination_signature {{ { interface_type } = { implementation_type } , { name } }}</DisplayString>
 		<Expand>
 			<Item Name="is mapped to interface">is_mapped_to_interface</Item>
 			<Item Name="interface type">interface_type</Item>
 			<Item Name="implementation type">implementation_type</Item>
+			<Item Name="singleton creator">singleton_creator</Item>
 		</Expand>
 	</Type>
 	<Type Name="zx::nomination_identity">
-		<DisplayString>{{ { type } , { name } }}</DisplayString>
+		<DisplayString>zx::nomination_identity {{ { type } , { name } }}</DisplayString>
 		<Expand>
 			<Item Name="type">type</Item>
 			<Item Name="name">name</Item>
