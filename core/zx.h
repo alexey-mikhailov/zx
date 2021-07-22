@@ -20,5 +20,5 @@
 # include "zx_rtti_shared_ptr.h"
 # include "zx_di_functions.h"
 # include "zx_di_container.h"
-# include "zx_metadata.h"
+# include "zx_meta_registry.h"
 
