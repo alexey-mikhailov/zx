@@ -11,11 +11,11 @@
 
 namespace zx
 {
-	typedef void(*fnptr)();
-	typedef void(*action)();
+	using fnptr =  void(*)();
+	using action = void(*)();
 
 	template <class Ret>
-	using	func = Ret(*)();
+	using func =   Ret(*)();
 
 
 	template<class Data, class Owner>

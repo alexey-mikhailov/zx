@@ -18,6 +18,10 @@ namespace zx
 			{
 				return "Field to inject is not shared pointer";
 			}
+			case reason::named_instance_expected:
+			{
+				return "Named instance expected. Bad downcast. ";
+			}
 			default:
 			{
 				return "Unspecified error in module zx. ";

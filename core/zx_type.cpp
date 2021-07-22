@@ -4,7 +4,7 @@ namespace zx
 {
 	std::map<std::type_index, type *> type::__instances;
 
-	type type::null = type(new type_data());
+	type type::null = type(type_data());
 
 	type::type(const type& other) :
 		_data(other._data)
@@ -30,8 +30,8 @@ namespace zx
 		return _data > other._data;
 	}
 
-	type::type(type_data* data) :
-		_data(data)
+	type::type(type_data data) :
+		_data(std::make_shared<type_data>(std::move(data)))
 	{
 	}
 }

@@ -46,7 +46,7 @@ namespace zx
 			ZX_API shared_ptr& operator=(const shared_ptr& other);
 			ZX_API shared_ptr& operator=(shared_ptr&& other);
 
-			ZX_API const zx::type& get_type() const;
+			ZX_API zx::type get_type() const;
 			ZX_API void* get() const;
 			ZX_API unsigned long riff_count() const;
 			ZX_API unsigned long weak_count() const;
@@ -75,7 +75,7 @@ namespace zx
 			_address = *offset++;
 			_ref_cntr = (ref_cntr*)*offset;
 
-			__deleters[_type->index] = [](void* address)
+			__deleters[_type->get_index()] = [](void* address)
 			{
 				// Delete in place,
 				// because address allocated in stack. 
@@ -96,7 +96,7 @@ namespace zx
 			_address = *offset++;
 			_ref_cntr = (ref_cntr*)*offset;
 
-			__deleters[_type->index] = [](void* address)
+			__deleters[_type->get_index()] = [](void* address)
 			{
 				// Delete in place,
 				// because address allocated in stack. 

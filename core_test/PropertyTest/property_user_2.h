@@ -63,7 +63,7 @@ public:
 	{
 		this, &_rw_val,
 
-		[](property_user_2& user, const val_type & value)
+		[](property_user_2& user, const val_type& value)
 		{
 			user._rw_val = value;
 
@@ -80,7 +80,7 @@ public:
 			return user._rw_val + user._ro_val;
 		},
 
-		[](property_user_2& user, const val_type & value)
+		[](property_user_2& user, const val_type& value)
 		{
 			user._rw_val = value - user._ro_val;
 		}
@@ -114,7 +114,7 @@ public:
 	{
 		this,
 
-		[](property_user_2& user) -> ref_type &
+		[](property_user_2& user) -> ref_type&
 		{
 			return user._rw_ref2 ? *user._rw_ref2 : ref_type::null;
 		}
@@ -123,7 +123,7 @@ public:
 	zx::ref_computer<property_user_2, ref_type> ref_computer
 	{
 		this,
-		[](property_user_2 & user) -> ref_type &
+		[](property_user_2 & user) -> ref_type&
 		{
 			return user._rw_ref2 ? *user._rw_ref2 : ref_type::null;
 		},

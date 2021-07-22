@@ -2,47 +2,50 @@
 
 namespace zx 
 {
-	std::unordered_map<
-		std::type_index, 
+	namespace meta
+	{
 		std::unordered_map<
-			std::string, 
-			field>> metadata::__fields;
+			std::type_index,
+			std::unordered_map<
+			std::string,
+			field>> registry::__fields;
 
-	void metadata::add_field(const field& field)
-	{
-		const auto ownerTypeIndex = field.get_owner_type().index;
-		__fields[ownerTypeIndex][field.get_name()] = field;
-	}
-
-	field metadata::get_field(const type& type, 
-							  const std::string& name)
-	{
-		auto& fields = __fields[type.index];
-		const auto it = fields.find(name);
-		if (it == fields.end())
+		void registry::add_field(field field)
 		{
-			throw exception(reason::field_not_found);
+			const auto ownerTypeIndex = field.get_owner_type().get_index();
+			__fields[ownerTypeIndex][field.get_name()] = field;
 		}
 
-		return it->second;
-	}
-
-	iterable::imm::unordered_map<std::string, field>
-	metadata::get_fields(const type& type)
-	{
-		auto& fields = __fields[type.index];
-		return fields;
-	}
-
-	void metadata::for_each_field_of_type(
-		const type& type, 
-		const std::function<void(const field&)>& routine)
-	{
-		auto& fields = __fields[type.index];
-
-		for (auto& field : fields)
+		field registry::get_field(type type,
+								  const std::string& name)
 		{
-			routine(field.second);
+			auto& fields = __fields[type.get_index()];
+			const auto it = fields.find(name);
+			if (it == fields.end())
+			{
+				throw exception(reason::field_not_found);
+			}
+
+			return it->second;
+		}
+
+		iterable::imm::unordered_map<std::string, field>
+			registry::get_fields(type type)
+		{
+			auto& fields = __fields[type.get_index()];
+			return fields;
+		}
+
+		void registry::for_each_field_of_type(
+			type type,
+			const std::function<void(field)>& routine)
+		{
+			auto& fields = __fields[type.get_index()];
+
+			for (auto& field : fields)
+			{
+				routine(field.second);
+			}
 		}
 	}
 }

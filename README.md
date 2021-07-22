@@ -109,6 +109,7 @@ Deeper Overview
 
 Each following section will consider every dedicated missing language/framework feature in C++/STL. For simplicity, we will start with comparison to existing language solutions, describe known problems and try to supply graceful replacement. 
 
+![Dependency Graph Image](doc/zx_core.png)
 
 
 Properties

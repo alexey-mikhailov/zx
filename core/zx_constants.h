@@ -9,26 +9,28 @@ namespace zx
 	inline const char* whitespace = " ";
 	inline const wchar_t* widespace = L" ";
 
+	# ifdef _WIN32
 	inline const char* endl = "\r\n";
+	# endif
 
-	typedef ::int8_t   i08;
-	typedef ::int16_t  i16;
-	typedef ::int32_t  i32;
-	typedef ::int64_t  i64;
-	typedef ::uint8_t  u08;
-	typedef ::uint16_t u16;
-	typedef ::uint32_t u32;
-	typedef ::uint64_t u64;
-	typedef ::float_t  f32;
-	typedef ::double_t f64;
+	using i08 = ::int8_t   ;
+	using i16 = ::int16_t  ;
+	using i32 = ::int32_t  ;
+	using i64 = ::int64_t  ;
+	using u08 = ::uint8_t  ;
+	using u16 = ::uint16_t ;
+	using u32 = ::uint32_t ;
+	using u64 = ::uint64_t ;
+	using f32 = ::float_t  ;
+	using f64 = ::double_t ;
 
 	// Cursed long
-	typedef long	      ilong;
-	typedef unsigned long ulong;
+	using ilong =		 long;
+	using ulong =		 unsigned long;
 	
 	# ifdef _WIN32
-	typedef long long			double_ilong;
-	typedef unsigned long long	double_ulong;
+	using double_ilong = long long;
+	using double_ulong = unsigned long long;
 	# endif
 
 	namespace zero

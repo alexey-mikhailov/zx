@@ -1,20 +1,23 @@
 # include "zx_di_functions.h"
 # include "zx_metadata.h"
 # include "zx_di_container.h"
+# include "zx_inject_data.h"
 # include "zx_singleton_container.h"
 # include "zx_nomination_container.h"
 # include "zx_it_range.h"
 
 namespace zx
 {
+	using namespace meta;
+
 	void inject_field(void* injectee,
-					  const field& field,
+					  field field,
 					  iterable::imm::unordered_map<
 							  std::string,
 							  di_container*> di_containers)
 	{
-		if (field.get_inject_type() == inject_type::singleton || 
-			field.get_inject_type() == inject_type::signal_pack)
+		if (field.get_pawn_type() == fieldpawn_type::singleton || 
+			field.get_pawn_type() == fieldpawn_type::signal_pack)
 		{
 			for (auto&& [name, container] : di_containers)
 			{
@@ -30,25 +33,32 @@ namespace zx
 				instance.write_to(field_address);
 			}
 		}
-		else if (field.get_inject_type() == inject_type::named_instance)
+		else if (field.get_pawn_type() == fieldpawn_type::named_fieldpawn)
 		{
-			const inject_data& inject_data = field.get_inject_data();
-			auto named_instance = dynamic_cast<const zx::named_instance&>(inject_data);
+			const fieldpawn& pawn = field.get_pawn();
+			auto named_fieldpawn = dynamic_cast<const meta::named_fieldpawn*>(&pawn);
 
-			for (auto&& [name, container] : di_containers)
+			if (named_fieldpawn)
 			{
-				auto instance =
-					container->nomination_container->get_or_add(
-						field.get_type(),
-						named_instance.get_name());
+				for (auto&& [name, container] : di_containers)
+				{
+					auto instance =
+						container->nomination_container->get_or_add(
+							field.get_type(),
+							named_fieldpawn->get_name());
 
-				auto field_address = reinterpret_cast<void**>
-				(
-					static_cast<__int8*>(injectee) + 
-					field.get_offset()
-				);
+					auto field_address = reinterpret_cast<void**>
+					(
+						static_cast<__int8*>(injectee) +
+						field.get_offset()
+					);
 
-				instance.write_to(field_address);
+					instance.write_to(field_address);
+				}
+			}
+			else
+			{
+				throw zx::exception(reason::named_instance_expected);
 			}
 		}
 	}
@@ -58,10 +68,10 @@ namespace zx
 		iterable::imm::unordered_map<std::string, di_container*>
 			di_containers = di_container::__instances;
 
-		const auto fields = metadata::get_fields(type);
+		const auto fields = meta::registry::get_fields(type);
 		for (auto&& [name, field] : fields)
 		{
-			if (field.get_inject_type() != inject_type::none)
+			if (field.get_pawn_type() != fieldpawn_type::none)
 			{
 				if (field.get_expose_type() == expose_type::shrptr)
 				{
@@ -73,5 +83,20 @@ namespace zx
 				}
 			}
 		}
+	}
+	
+	std::unique_ptr<named_fieldpawn> make_named_fieldpawn(char const* name)
+	{
+		return std::make_unique<named_fieldpawn>(name);
+	}
+
+	std::unique_ptr<named_fieldpawn> make_named_fieldpawn(std::string name)
+	{
+		return std::make_unique<named_fieldpawn>(std::move(name));
+	}
+
+	std::unique_ptr<named_fieldpawn> make_named_fieldpawn(std::string&& name)
+	{
+		return std::make_unique<named_fieldpawn>(std::move(name));
 	}
 }

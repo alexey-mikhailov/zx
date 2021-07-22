@@ -13,9 +13,9 @@ namespace zx_test
 		TEST_METHOD(CheckRttiTypeSize)
 		{
 # ifdef _WIN64
-			Assert::AreEqual(48ui64, sizeof(zx::type));
+			Assert::AreEqual(16ui64, sizeof(zx::type));
 # else ifdef _WIN32
-			Assert::AreEqual(24ui32, sizeof(zx::type));
+			Assert::AreEqual( 8ui32, sizeof(zx::type));
 # endif
 		}
 
@@ -39,7 +39,7 @@ namespace zx_test
 
 			// Default ctor will be added to metadata of zx::type
 			// if type is default constructible. 
-			const zx::type& some_type = zx::type::i<some_t>();
+			zx::type some_type = zx::type::i<some_t>();
 			
 			// Ensure all non-default ctors you need. Manually :(
 			zx::refl<some_t>::ctor<ctor_arg_t>::ensure();
@@ -62,7 +62,7 @@ namespace zx_test
 
 			ls  << "[new T()]: " << zx::endl
 				<< "Instantiated " << instance_amount << " "
-				<< "instances of type \"" << some_type.name << "\". "
+				<< "instances of type \"" << some_type.get_name() << "\". "
 				<< "Time spent: " << spent_for_new << "ms. " << zx::endl;
 
 			// Test execution time convention
@@ -91,7 +91,7 @@ namespace zx_test
 			std::chrono::duration<double, std::milli> spent_for_inst = after - before;
 			ls  << "[zx::type::instantiate()]: " << zx::endl
 				<< "Instantiated " << instance_amount << " "
-				<< "instances of type \"" << some_type.name << "\". "
+				<< "instances of type \"" << some_type.get_name() << "\". "
 				<< "Time spent: " << spent_for_inst << "ms. " << zx::endl;
 
 			// Test execution time convention

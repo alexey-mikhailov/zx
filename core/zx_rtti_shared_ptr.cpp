@@ -74,7 +74,7 @@ namespace zx
 			decrement(_type, _ref_cntr, _address);
 		}
 
-        const zx::type & shared_ptr::get_type() const
+        zx::type shared_ptr::get_type() const
         {
 			return *_type;
         }
@@ -159,7 +159,7 @@ namespace zx
 					// till reference counter still exist. 
 					if (type)
 					{
-						__deleters[type->index](address);
+						__deleters[type->get_index()](address);
 					}
 
 					--ref_cntr->weaks;

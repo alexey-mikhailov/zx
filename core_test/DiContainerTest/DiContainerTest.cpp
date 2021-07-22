@@ -27,8 +27,24 @@ namespace zx_test
 	public:
 		TEST_METHOD(CreateDiContainerTest)
 		{
+			// 
 			// di_container::ctor -> di_container::bind_all
+			// 
 			auto di_container = test_di_container();
+
+			auto field_name = nameof(_interface_inst);
+			auto field = zx::meta::registry::get_field(
+				zx::type::i<some_injectee>(),
+				field_name);
+
+			Assert::AreEqual(std::string(field_name),
+							 field.get_name());
+
+			# ifdef _WIN64
+			Assert::AreEqual(16ui64, sizeof(field));
+			# else ifdef _WIN32
+			Assert::AreEqual(8ui64, sizeof(field));
+			# endif
 		}
 
 		TEST_METHOD(InjectInstancesTest)

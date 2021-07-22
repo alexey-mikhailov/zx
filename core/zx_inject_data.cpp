@@ -1,20 +1,34 @@
-#include "PCH.h"
-#include "zx_inject_data.h"
+# include "zx_inject_data.h"
 
 namespace zx
 {
-	bool inject_data::operator==(const inject_data& other) const
+	namespace meta
 	{
-		return this == &other;
-	}
+		fieldpawn::fieldpawn(fieldpawn_type type) :
+			_type(type)
+		{
+		}
 
-	bool inject_data::operator!=(const inject_data& other) const
-	{
-		return this != &other;
-	}
+		fieldpawn::fieldpawn(fieldpawn&& other) :
+			_type(std::exchange(other._type, fieldpawn_type::none))
+		{
+		}
 
-	named_instance::named_instance(std::string name) :
-		_name(std::move(name))
-	{
+		fieldpawn_type fieldpawn::get_type() const
+		{
+			return _type;
+		}
+
+		named_fieldpawn::named_fieldpawn(std::string name) :
+			fieldpawn(fieldpawn_type::named_fieldpawn),
+			_name(std::move(name))
+		{
+		}
+
+		named_fieldpawn::named_fieldpawn(named_fieldpawn && other) :
+			fieldpawn(std::move(other)),
+			_name(std::move(other._name))
+		{
+		}
 	}
 }

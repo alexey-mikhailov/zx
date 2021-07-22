@@ -9,14 +9,14 @@ namespace zx
 	struct type_data
 	{
 		template <class T>
-		static type_data* create()
+		static type_data create()
 		{
-			auto result = new type_data();
-			result->index = typeid(T);
-			result->name = typeid(T).name();
-			result->is_pointer = std::is_pointer<T>::value;
-			result->is_abstract = std::is_abstract<T>::value;
-			result->is_default_constructible = std::is_default_constructible<T>::value;
+			auto result = type_data();
+			result.index = typeid(T);
+			result.name = typeid(T).name();
+			result.is_pointer = std::is_pointer<T>::value;
+			result.is_abstract = std::is_abstract<T>::value;
+			result.is_default_constructible = std::is_default_constructible<T>::value;
 			return result;
 		}
 
@@ -31,102 +31,111 @@ namespace zx
 
 	class type final
 	{
-		type_data *_data;
+		std::shared_ptr<type_data> _data;
 		ZX_API static std::map<std::type_index, zx::type *> __instances;
 
 	public:
 		ZX_API static zx::type null;
 
+		ZX_API type(const zx::type& other);
+
 		// Properties
-		const std::type_index& index = _data->index;
-		const std::string& name = _data->name;
-		const bool& is_pointer = _data->is_pointer;
-		const bool& is_abstract = _data->is_abstract;
-		const bool& is_default_constructible = _data->is_default_constructible;
+		std::type_index get_index() const { return _data->index; }
+		const std::string& get_name() const { return _data->name; }
+		bool is_pointer() const {return _data->is_pointer; }
+		bool is_abstract() const { return _data->is_abstract; }
+		bool is_default_constructible() const { return _data->is_default_constructible; }
 		
-		/// Gets instance of abstract type. 
 		template <class T>
-		static const zx::type& i()
-		{
-			const auto it = __instances.find(typeid(T));
-			if (it == __instances.end())
-			{
-				auto value = new type(type_data::create<T>());
-				__instances[typeid(T)] = value;
-
-				if constexpr (std::is_default_constructible_v<T>)
-				{
-					const rtti::args arg_types = rtti::args::empty;
-
-					auto& fms = value->_data->factory_methods;
-					const auto fit = fms.find(arg_types);
-
-					if (fit == fms.end())
-					{
-						void* (*temp)() =
-						[]() -> void*
-						{
-							return new T();
-						};
-
-						fms[arg_types] = reinterpret_cast<fnptr>(temp);
-					}
-				}
-
-				return *value;
-			}
-
-			return *it->second;
-		}
+		static const type& i();
 
 		template <typename T, typename ReflCtor>
-		static const type& ensure()
-		{
-			auto it = __instances.find(typeid(T));
-			if (it == __instances.end())
-			{
-				auto value = new type(type_data::create<T>());
-				__instances[typeid(T)] = value;
-			}
-
-			it = __instances.find(typeid(T));
-			auto& value = *it->second;
-
-			auto arg_types = ReflCtor::make_args();
-
-			auto& fms = value._data->factory_methods;
-			const auto fit = fms.find(arg_types);
-
-			if (fit == fms.end())
-			{
-				fms[arg_types] = ReflCtor::make_fnptr();
-			}
-			return value;
-		}
+		static const type& ensure();
 
 		template <class... Args>
-		void* instantiate(Args... args) const
+		void* instantiate(Args... args) const;
+
+		ZX_API bool operator ==(const type& other) const;
+		ZX_API bool operator <(const type& other) const;
+		ZX_API bool operator >(const type& other) const;
+
+	private:
+		ZX_API type(type_data data);
+	};
+
+	template <class T>
+	static const type& type::i()
+	{
+		const auto it = __instances.find(typeid(T));
+		if (it == __instances.end())
 		{
-			const rtti::args arg_types = tmpl_args_converter<Args...>::to_rtti();
-			for (auto& fm : _data->factory_methods)
+			auto value = new type(type_data::create<T>());
+			__instances[typeid(T)] = value;
+
+			if constexpr (std::is_default_constructible_v<T>)
 			{
-				if (arg_types == fm.first)
+				const rtti::args arg_types = rtti::args::empty;
+
+				auto& fms = value->_data->factory_methods;
+				const auto fit = fms.find(arg_types);
+
+				if (fit == fms.end())
 				{
-					auto temp = reinterpret_cast<void* (*)(Args ...)>(fm.second);
-					return temp(args...);
+					void* (*temp)() =
+						[]() -> void*
+					{
+						return new T();
+					};
+
+					fms[arg_types] = reinterpret_cast<fnptr>(temp);
 				}
 			}
 
-			throw zx::exception(zx::reason::no_factory_method);
+			return *value;
 		}
 
-		ZX_API bool operator ==(const type& other) const;
-		ZX_API bool operator <(const type &other) const;
-		ZX_API bool operator >(const type &other) const;
+		return *it->second;
+	}
 
-	private:
-		ZX_API type(type_data *data);
-		ZX_API type(const zx::type &other);
-	};
+	template <typename T, typename ReflCtor>
+	static const type& type::ensure()
+	{
+		auto it = __instances.find(typeid(T));
+		if (it == __instances.end())
+		{
+			auto value = new type(type_data::create<T>());
+			__instances[typeid(T)] = value;
+		}
+
+		it = __instances.find(typeid(T));
+		auto& value = *it->second;
+
+		auto arg_types = ReflCtor::make_args();
+
+		auto& fms = value._data->factory_methods;
+		const auto fit = fms.find(arg_types);
+
+		if (fit == fms.end())
+		{
+			fms[arg_types] = ReflCtor::make_fnptr();
+		}
+		return value;
+	}
+
+	template <class... Args>
+	void* type::instantiate(Args... args) const
+	{
+		const rtti::args arg_types = tmpl_args_converter<Args...>::to_rtti();
+		for (auto& fm : _data->factory_methods)
+		{
+			if (arg_types == fm.first)
+			{
+				auto temp = reinterpret_cast<void* (*)(Args ...)>(fm.second);
+				return temp(args...);
+			}
+		}
+
+		throw zx::exception(zx::reason::no_factory_method);
+	}
 }
 

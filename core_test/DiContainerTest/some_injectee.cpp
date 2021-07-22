@@ -7,26 +7,32 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 
 some_injectee::ctor some_injectee::__ctor;
+
 some_injectee::ctor::ctor()
 {
-	zx::metadata::add_field(nameof(_signal_pack),
-							&some_injectee::_signal_pack,
-							zx::inject_type::signal_pack);
+	zx::meta::registry::add_field(
+		nameof(_signal_pack),
+		&some_injectee::_signal_pack,
+		zx::meta::fieldpawn_type::signal_pack);
 
-	zx::metadata::add_field(nameof(_interface_inst),
-							&some_injectee::_interface_inst,
-							zx::inject_type::singleton);
+	zx::meta::registry::add_field(
+		nameof(_interface_inst),
+		&some_injectee::_interface_inst,
+		zx::meta::fieldpawn_type::singleton);
 
-	zx::metadata::add_field(nameof(_class_inst_1),
-							&some_injectee::_class_inst_1,
-							new zx::named_instance("instance 1"));
+	zx::meta::registry::add_field(
+		nameof(_class_inst_1),
+		&some_injectee::_class_inst_1,
+		zx::make_named_fieldpawn("instance 1"));
 
-	zx::metadata::add_field(nameof(_class_inst_2),
-							&some_injectee::_class_inst_2,
-							new zx::named_instance("instance 2"));
+	zx::meta::registry::add_field(
+		nameof(_class_inst_2),
+		&some_injectee::_class_inst_2,
+		zx::make_named_fieldpawn("instance 2"));
 
-	zx::metadata::add_field(nameof(_value),
-							&some_injectee::_value);
+	zx::meta::registry::add_field(
+		nameof(_value),
+		&some_injectee::_value);
 }
 
 

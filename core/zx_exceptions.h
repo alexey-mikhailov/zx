@@ -3,12 +3,13 @@
 
 namespace zx
 {
-	enum struct reason
+	enum class reason
 	{
 		unknown,
 		no_factory_method,
 		field_not_found,
 		field_is_not_shrptr,
+		named_instance_expected,
 	};
 
 	class exception : public std::exception

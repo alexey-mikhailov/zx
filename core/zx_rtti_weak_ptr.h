@@ -45,7 +45,7 @@ namespace zx
 			ZX_API weak_ptr& operator=(const weak_ptr& other);
 			ZX_API weak_ptr& operator=(weak_ptr&& other);
 
-			ZX_API const zx::type& get_type() const;
+			ZX_API zx::type get_type() const;
 			ZX_API void* get() const;
 			ZX_API unsigned long riff_count() const;
 			ZX_API unsigned long weak_count() const;

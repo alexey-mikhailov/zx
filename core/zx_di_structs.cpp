@@ -5,8 +5,8 @@
 namespace zx
 {
 	singleton_signature::singleton_signature(bool is_mapped_to_interface,
-											 const type& interface_type,
-											 const type& implementation_type,
+											 type interface_type,
+											 type implementation_type,
 											 std::function<zx::rtti::shared_ptr()> singleton_creator) :
 		is_mapped_to_interface(is_mapped_to_interface),
 		interface_type(interface_type),
@@ -16,8 +16,8 @@ namespace zx
 	}
 
 	nomination_signature::nomination_signature(bool is_mapped_to_interface,
-											   const type& interface_type,
-											   const type& implementation_type,
+											   type interface_type,
+											   type implementation_type,
 											   std::string name, 
 											   std::function<zx::rtti::shared_ptr()> singleton_creator) :
 		is_mapped_to_interface(is_mapped_to_interface),
@@ -58,7 +58,7 @@ namespace zx
 			_signature.name);
 	}
 
-	singleton_identity::singleton_identity(const zx::type &type) :
+	singleton_identity::singleton_identity(zx::type type) :
 		type(type)
 	{
 	}
@@ -73,7 +73,7 @@ namespace zx
 		return type > other.type;
 	}
 
-	nomination_identity::nomination_identity(const zx::type &type,
+	nomination_identity::nomination_identity(zx::type type,
 											 std::string name) :
 		type(type),
 		name(std::move(name))

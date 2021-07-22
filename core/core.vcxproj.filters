@@ -1,177 +1,192 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="zx_singleton_container.h">
-      <Filter>Private</Filter>
-    </ClInclude>
-    <ClInclude Include="zx.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_defines.h">
-      <Filter>Public</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_enums.h">
-      <Filter>Public</Filter>
+    <ClInclude Include="zx_field.h">
+      <Filter>DI\Private</Filter>
     </ClInclude>
     <ClInclude Include="zx_nomination_container.h">
-      <Filter>Private</Filter>
+      <Filter>DI\Private</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Private</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_val_wrapper.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_val_getter.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_val_formula.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_val_computer.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_shr_wrapper.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_shr_getter.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_shr_formula.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_shr_computer.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_ref_wrapper.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_ref_getter.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_ref_formula.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_ref_computer.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="properties\zx_unq_getter.h">
-      <Filter>Public\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_type.h">
-      <Filter>Public\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_tmpl_args_converter.h">
-      <Filter>Public\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_rtti_args.h">
-      <Filter>Public\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_event.h">
-      <Filter>Public\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_reflector.h">
-      <Filter>Public\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_rtti_weak_ptr.h">
-      <Filter>Public\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_rtti_shared_ptr.h">
-      <Filter>Public\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_rtti_functions.h">
-      <Filter>Public\Reflection</Filter>
+    <ClInclude Include="zx_singleton_container.h">
+      <Filter>DI\Private</Filter>
     </ClInclude>
     <ClInclude Include="zx_di_container.h">
-      <Filter>Public\DI</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_inject_data.h">
-      <Filter>Public\DI</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_field.h">
-      <Filter>Public\DI</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_di_structs.h">
-      <Filter>Public\DI</Filter>
+      <Filter>DI\Public</Filter>
     </ClInclude>
     <ClInclude Include="zx_di_functions.h">
-      <Filter>Public\DI</Filter>
+      <Filter>DI\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_di_structs.h">
+      <Filter>DI\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_inject_data.h">
+      <Filter>DI\Public</Filter>
     </ClInclude>
     <ClInclude Include="zx_metadata.h">
-      <Filter>Public\DI</Filter>
+      <Filter>DI\Public</Filter>
     </ClInclude>
-    <ClInclude Include="zx_it_range.h">
-      <Filter>Public</Filter>
+    <ClInclude Include="zx_event.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>_Root\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="zx.h">
+      <Filter>_Root\Public</Filter>
     </ClInclude>
     <ClInclude Include="zx_constants.h">
-      <Filter>Public</Filter>
+      <Filter>_Root\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_defines.h">
+      <Filter>_Root\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_enums.h">
+      <Filter>_Root\Public</Filter>
     </ClInclude>
     <ClInclude Include="zx_exceptions.h">
-      <Filter>Public</Filter>
+      <Filter>_Root\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_it_range.h">
+      <Filter>_Root\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_ref_computer.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_ref_formula.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_ref_getter.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_ref_wrapper.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_shr_computer.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_shr_formula.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_shr_getter.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_shr_wrapper.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_unq_getter.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_val_computer.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_val_formula.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_val_getter.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="properties\zx_val_wrapper.h">
+      <Filter>Properties\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_type.h">
+      <Filter>Reflection\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_reflector.h">
+      <Filter>Reflection\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_rtti_args.h">
+      <Filter>Reflection\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_rtti_functions.h">
+      <Filter>Reflection\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_rtti_shared_ptr.h">
+      <Filter>Reflection\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_rtti_weak_ptr.h">
+      <Filter>Reflection\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_tmpl_args_converter.h">
+      <Filter>Reflection\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="zx_singleton_container.cpp">
-      <Filter>Private</Filter>
+    <ClCompile Include="zx_field.cpp">
+      <Filter>DI\Private</Filter>
     </ClCompile>
     <ClCompile Include="zx_nomination_container.cpp">
-      <Filter>Private</Filter>
+      <Filter>DI\Private</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_type.cpp">
-      <Filter>Public\Reflection</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_rtti_args.cpp">
-      <Filter>Public\Reflection</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_rtti_weak_ptr.cpp">
-      <Filter>Public\Reflection</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_rtti_shared_ptr.cpp">
-      <Filter>Public\Reflection</Filter>
+    <ClCompile Include="zx_singleton_container.cpp">
+      <Filter>DI\Private</Filter>
     </ClCompile>
     <ClCompile Include="zx_di_container.cpp">
-      <Filter>Public\DI</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_inject_data.cpp">
-      <Filter>Public\DI</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_field.cpp">
-      <Filter>Public\DI</Filter>
-    </ClCompile>
-    <ClCompile Include="zx_di_structs.cpp">
-      <Filter>Public\DI</Filter>
+      <Filter>DI\Public</Filter>
     </ClCompile>
     <ClCompile Include="zx_di_functions.cpp">
-      <Filter>Public\DI</Filter>
+      <Filter>DI\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_di_structs.cpp">
+      <Filter>DI\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_inject_data.cpp">
+      <Filter>DI\Public</Filter>
     </ClCompile>
     <ClCompile Include="zx_metadata.cpp">
-      <Filter>Public\DI</Filter>
+      <Filter>DI\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>_Root\Private</Filter>
     </ClCompile>
     <ClCompile Include="zx_exceptions.cpp">
-      <Filter>Public</Filter>
+      <Filter>_Root\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_rtti_args.cpp">
+      <Filter>Reflection\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_rtti_shared_ptr.cpp">
+      <Filter>Reflection\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_rtti_weak_ptr.cpp">
+      <Filter>Reflection\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_type.cpp">
+      <Filter>Reflection\Public</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Private">
-      <UniqueIdentifier>{e7bc58fb-0052-4b2a-bb2b-a584580ac662}</UniqueIdentifier>
+    <Filter Include="DI">
+      <UniqueIdentifier>{247adf16-05ce-4916-a739-dc6d66d5ec7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Public">
-      <UniqueIdentifier>{4857ee1d-4db5-4c67-918d-4365300390f2}</UniqueIdentifier>
+    <Filter Include="DI\Private">
+      <UniqueIdentifier>{a41e0ffd-32e8-453d-8832-555068a3481b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Public\Properties">
-      <UniqueIdentifier>{ec371116-ce4f-4359-8449-1c4b10f1a7eb}</UniqueIdentifier>
+    <Filter Include="DI\Public">
+      <UniqueIdentifier>{ed64ab38-8288-410d-88fa-ac6e5083a390}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Public\Reflection">
-      <UniqueIdentifier>{4a61dd03-e49b-4120-acea-0080289ed2f0}</UniqueIdentifier>
+    <Filter Include="Events">
+      <UniqueIdentifier>{11fba8f8-4e1f-4b5a-8202-97f5e7c4c201}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Public\Events">
-      <UniqueIdentifier>{148c796f-9a94-4fcb-8589-0e9bc62d4e6a}</UniqueIdentifier>
+    <Filter Include="Properties">
+      <UniqueIdentifier>{52e58eb4-3606-4e7d-bf57-ed22d5f6daed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Public\DI">
-      <UniqueIdentifier>{d207462d-6d45-4c58-9659-d0fad46bb321}</UniqueIdentifier>
+    <Filter Include="_Root">
+      <UniqueIdentifier>{2b758b2d-e561-4603-b7d1-93372222973f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Root\Public">
+      <UniqueIdentifier>{2db9070a-2241-4029-a7b0-44f26e855417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Root\Private">
+      <UniqueIdentifier>{b963c202-c6ce-43d8-b4fb-59015be0cec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Reflection">
+      <UniqueIdentifier>{ad8934ff-627d-4514-b667-97ba9ddee102}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Properties\Public">
+      <UniqueIdentifier>{a53ebbed-248c-4a0a-b809-f90ac9a72030}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Reflection\Public">
+      <UniqueIdentifier>{859251c8-1561-4464-9478-e5049ea9174b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

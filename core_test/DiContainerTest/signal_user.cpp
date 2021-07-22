@@ -4,10 +4,10 @@
 signal_user::ctor signal_user::__ctor;
 signal_user::ctor::ctor()
 {
-	zx::metadata::add_field(
+	zx::meta::registry::add_field(
 		nameof(_signal_pack),
 		&signal_user::_signal_pack, 
-		zx::inject_type::signal_pack);
+		zx::meta::fieldpawn_type::signal_pack);
 }
 
 signal_user::signal_user()

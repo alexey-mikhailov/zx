@@ -73,7 +73,7 @@ namespace zx
 			decrement(_ref_cntr, _address);
 		}
 
-		const zx::type& weak_ptr::get_type() const
+		zx::type weak_ptr::get_type() const
 		{
 			return *_type;
 		}
