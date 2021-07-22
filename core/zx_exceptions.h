@@ -3,6 +3,12 @@
 
 namespace zx
 {
+	/// <summary>
+	/// Reason of error. 
+	/// Designed to be string representation of zx::exception::what(). 
+	/// Will be mapped to string literals. 
+	/// May be useful to be error code convention for dependent ABI's. 
+	/// </summary>
 	enum class reason
 	{
 		unknown,
@@ -12,6 +18,9 @@ namespace zx
 		nameleton_expected,
 	};
 
+	/// <summary>
+	/// Exception class for this module. 
+	/// </summary>
 	class exception : public std::exception
 	{
 	public:

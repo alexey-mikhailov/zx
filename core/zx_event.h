@@ -3,7 +3,6 @@
 
 namespace zx
 {
-
 	template <class MemFn>
 	size_t memfn_hash(MemFn ptr, void* owner)
 	{
@@ -58,10 +57,18 @@ namespace zx
 	};
 
 
-
 	template <class Sig>
 	class multicast_delegate;
 
+	/// <summary>
+	/// Multicast delegate.
+	/// </summary>
+	/// <typeparam name="Ret">Return value type. </typeparam>
+	/// <typeparam name="...Args">Argument types. </typeparam>
+	/// <remarks>
+	/// Implemented as functor with public parentheses operator. 
+	/// Designed to be private field or a temporary. 
+	/// </remarks>
 	template <class Ret, class... Args>
 	class multicast_delegate<Ret(Args...)>
 	{
@@ -296,7 +303,14 @@ namespace zx
 		}
 	};
 
-
+	/// <summary>
+	/// Multicast delegate.
+	/// </summary>
+	/// <typeparam name="...Args">Argument types</typeparam>
+	/// <remarks>
+	/// Implemented as functor with public parentheses operator. 
+	/// Designed to be private field or a temporary. 
+	/// </remarks>
 	template <class... Args>
 	class multicast_delegate<void(Args...)>
 	{
@@ -501,11 +515,26 @@ namespace zx
 	};
 
 
-	/// multicast_delegate wrapper to use from outside
+	/// <summary>
+	/// Event is an interface wrapping multicast delegate. 
+	/// Provides subscribe, unsubscribe operators. 
+	/// </summary>
+	/// <typeparam name="Signature"></typeparam>
+	/// <remarks>
+	/// Designed to be a public field. Not a functor. 
+	/// </remarks>
 	template <class Signature> 
 	class event;
 
-	/// multicast_delegate wrapper to use from outside
+	/// <summary>
+	/// Event is an interface wrapping multicast delegate. 
+	/// Provides subscribe, unsubscribe operators. 
+	/// </summary>
+	/// <typeparam name="R">Return value type. </typeparam>
+	/// <typeparam name="...Args">Argument types. </typeparam>
+	/// <remarks>
+	/// Designed to be a public field. Not a functor. 
+	/// </remarks>
 	template <class R, class ... Args>
 	class event<R(Args...)>
 	{

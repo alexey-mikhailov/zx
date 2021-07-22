@@ -1,10 +1,15 @@
 # pragma once
 # include "../zx_defines.h"
 
-
 namespace zx
 {
-	/// Raw pointer member specialization
+	/// <summary>
+	/// Raw reference computer. 
+	/// Property which reads and writes data 
+	/// over std::function. 
+	/// </summary>
+	/// <typeparam name="Owner">Type of owner. </typeparam>
+	/// <typeparam name="Data">Type of referenced data. </typeparam>
 	template <class Owner, class Data>
 	class ref_computer
 	{

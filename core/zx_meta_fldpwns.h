@@ -6,6 +6,12 @@ namespace zx
 {
 	namespace meta
 	{
+		/// <summary>
+		/// Base class of fieldpawn affected by DI. 
+		/// </summary>
+		/// <remarks>
+		/// It may be singleton or signal pack instance for example. 
+		/// </remarks>
 		class fieldpawn
 		{
 			fieldpawn_type _type;
@@ -19,6 +25,9 @@ namespace zx
 			ZX_API fieldpawn_type get_type() const;
 		};
 
+		/// <summary>
+		/// Fieldpawn of named instance. 
+		/// </summary>
 		class named_fieldpawn final : public fieldpawn
 		{
 		public:

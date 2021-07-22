@@ -91,12 +91,6 @@
     <ClInclude Include="zx_type.h">
       <Filter>Reflection\Public</Filter>
     </ClInclude>
-    <ClInclude Include="zx_reflector.h">
-      <Filter>Reflection\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="zx_rtti_args.h">
-      <Filter>Reflection\Public</Filter>
-    </ClInclude>
     <ClInclude Include="zx_rtti_functions.h">
       <Filter>Reflection\Public</Filter>
     </ClInclude>
@@ -106,8 +100,14 @@
     <ClInclude Include="zx_rtti_weak_ptr.h">
       <Filter>Reflection\Public</Filter>
     </ClInclude>
+    <ClInclude Include="zx_reflector.h">
+      <Filter>Reflection\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="zx_rtti_args.h">
+      <Filter>Reflection\Private</Filter>
+    </ClInclude>
     <ClInclude Include="zx_tmpl_args_converter.h">
-      <Filter>Reflection\Public</Filter>
+      <Filter>Reflection\Private</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -141,9 +141,6 @@
     <ClCompile Include="zx_exceptions.cpp">
       <Filter>_Root\Public</Filter>
     </ClCompile>
-    <ClCompile Include="zx_rtti_args.cpp">
-      <Filter>Reflection\Public</Filter>
-    </ClCompile>
     <ClCompile Include="zx_rtti_shared_ptr.cpp">
       <Filter>Reflection\Public</Filter>
     </ClCompile>
@@ -152,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="zx_type.cpp">
       <Filter>Reflection\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="zx_rtti_args.cpp">
+      <Filter>Reflection\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +187,9 @@
     </Filter>
     <Filter Include="Reflection\Public">
       <UniqueIdentifier>{859251c8-1561-4464-9478-e5049ea9174b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Reflection\Private">
+      <UniqueIdentifier>{5eac489f-dab1-42fa-835f-3d73155c8163}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

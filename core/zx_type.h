@@ -29,6 +29,7 @@ namespace zx
 	};
 
 
+	/// RTTI type, generally for template reflection. 
 	class type final
 	{
 		std::shared_ptr<type_data> _data;
@@ -50,12 +51,28 @@ namespace zx
 		bool is_abstract() const { return _data->is_abstract; }
 		bool is_default_constructible() const { return _data->is_default_constructible; }
 		
+		/// <summary>
+		/// Gets reference to instance of RTTI type from registry. 
+		/// </summary>
+		/// <returns>Non dangling reference to type from static type registry. </returns>
 		template <class T>
 		static const type& i();
 
+		/// <summary>
+		/// Ensures that constructor for type T exists. 
+		/// </summary>
+		/// <returns>Non dangling reference to type from static type registry. </returns>
 		template <typename T, typename ReflCtor>
 		static const type& ensure();
 
+		/// <summary>
+		/// Instantiates object instance of type reflected to zx::type. 
+		/// </summary>
+		/// <param name="...args">Arguments for constructor of new object. </param>
+		/// <returns>New object instance of type reflected to zx::type. </returns>
+		/// <remarks>
+		/// We highly recommend wrap result to std::unique_ptr. 
+		/// </remarks>
 		template <class... Args>
 		void* instantiate(Args... args) const;
 

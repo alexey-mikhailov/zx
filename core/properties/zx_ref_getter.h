@@ -2,6 +2,12 @@
 
 namespace zx
 {
+	/// <summary>
+	/// Raw reference getter. 
+	/// Property which refers to data 
+	/// corresponding to given address. 
+	/// </summary>
+	/// <typeparam name="Data">Type of referenced data. </typeparam>
 	template <class Data>
 	struct ref_getter
 	{

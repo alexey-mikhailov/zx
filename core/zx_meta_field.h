@@ -34,6 +34,13 @@ namespace zx
 			}
 		};
 
+		/// <summary>
+		/// C++ field metadata which may be pawn, changed by DI.  
+		/// </summary>
+		/// <remarks>
+		/// Implemented as resource handle which lives
+		/// until shared reference counter still non-zero. 
+		/// </remarks>
 		class field final
 		{
 			std::shared_ptr<field_data> _data;

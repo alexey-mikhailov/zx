@@ -3,7 +3,12 @@
 
 namespace zx
 {
-	/// Reference readonly computer
+	/// <summary>
+	/// Raw reference formula. 
+	/// Property which reads data over std::function. 
+	/// </summary>
+	/// <typeparam name="Owner">Type of owner. </typeparam>
+	/// <typeparam name="Data">Type of referenced data. </typeparam>
 	template <class Owner, class Data>
 	class ref_formula
 	{

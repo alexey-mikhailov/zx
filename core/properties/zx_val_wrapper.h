@@ -3,6 +3,14 @@
 
 namespace zx
 {
+	/// <summary>
+	/// Value wrapper.
+	/// Property which refers to data
+	/// corresponding to given address, 
+	/// writes data over std::function. 
+	/// </summary>
+	/// <typeparam name="Owner">Type of owner. </typeparam>
+	/// <typeparam name="Data">Type of referenced data. </typeparam>
 	template <class Owner, class Data>
 	class val_wrapper
 	{

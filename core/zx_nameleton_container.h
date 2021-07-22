@@ -4,6 +4,7 @@
 
 namespace zx
 {
+	/// Contains named singletons
 	class nameleton_container
 	{
 	public:

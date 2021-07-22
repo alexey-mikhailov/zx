@@ -10,6 +10,9 @@ namespace zx
 	{
 		std::string					_name;
 
+		//
+		// Raw ptrs for performance purpose. 
+		//
 		class singleton_container* _singleton_container;
 		class nameleton_container* _nameleton_container;
 
@@ -28,10 +31,7 @@ namespace zx
 		/// Does not create instance of it. 
 		/// </summary>
 		/// <typeparam name="TImplementation">Raw type of implementation</typeparam>
-		/// <typeparam name="...Args">
-		/// Constructor arguments which will be propagated
-		/// during creation time. 
-		/// </typeparam>
+		/// <typeparam name="...Args">Constructor arguments which will be propagated during creation time. </typeparam>
 		/// <returns>Functional-style result of binding</returns>
 		/// <remarks>
 		/// Since singletons are std::shared_ptr instances,
@@ -47,10 +47,7 @@ namespace zx
 		/// </summary>
 		/// <typeparam name="TInterface">Raw type of interface</typeparam>
 		/// <typeparam name="TImpl">Raw type of implementation</typeparam>
-		/// <typeparam name="...Args">
-		/// Constructor arguments which will be propagated
-		/// during creation time. 
-		/// </typeparam>
+		/// <typeparam name="...Args">Constructor arguments which will be propagated during creation time. </typeparam>
 		/// <returns>Functional-style result of binding</returns>
 		/// <remarks>
 		/// Since singletons are std::shared_ptr instances,
@@ -65,10 +62,7 @@ namespace zx
 		/// Does not create instance of it. 
 		/// </summary>
 		/// <typeparam name="TImplementation">Raw type of implementation</typeparam>
-		/// <typeparam name="...Args">
-		/// Constructor arguments which will be propagated
-		/// during creation time. 
-		/// </typeparam>
+		/// <typeparam name="...Args">Constructor arguments which will be propagated during creation time. </typeparam>
 		/// <returns>Functional-style result of binding</returns>
 		/// <remarks>
 		/// Since singletons are std::shared_ptr instances,
@@ -84,10 +78,7 @@ namespace zx
 		/// </summary>
 		/// <typeparam name="TInterface">Raw type of interface</typeparam>
 		/// <typeparam name="TImpl">Raw type of implementation</typeparam>
-		/// <typeparam name="...Args">
-		/// Constructor arguments which will be propagated
-		/// during creation time. 
-		/// </typeparam>
+		/// <typeparam name="...Args">Constructor arguments which will be propagated during creation time. </typeparam>
 		/// <returns>Functional-style result of binding</returns>
 		/// <remarks>
 		/// Since singletons are std::shared_ptr instances,

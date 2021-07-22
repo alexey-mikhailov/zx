@@ -3,7 +3,12 @@
 
 namespace zx
 {
-	/// Readwrite value computer
+	/// <summary>
+	/// Value formula.
+	/// Property which reads data over std::function. 
+	/// </summary>
+	/// <typeparam name="Owner">Type of owner. </typeparam>
+	/// <typeparam name="Data">Type of referenced data. </typeparam>
 	template <class Owner, class Data>
 	class val_formula
 	{

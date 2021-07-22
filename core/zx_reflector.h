@@ -5,16 +5,27 @@
 
 namespace zx
 {
+	/// <summary>
+	/// Reflector of templated type to zx::rtti...
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	template<typename T>
 	struct refl
 	{
 		template<typename... Sig>
 		struct ctor;
 
+		/// <summary>
+		/// Constructor reflector. 
+		/// </summary>
+		/// <typeparam name="First">First argument type. </typeparam>
+		/// <typeparam name="...Args">Remaining argument types from parameter pack. </typeparam>
 		template<typename First, typename... Args>
 		struct ctor <First, Args...>
 		{
-			static_assert(std::is_constructible_v<T, First, Args...>, "Type is not constructible from these args. ");
+			static_assert(
+				std::is_constructible_v<T, First, Args...>, 
+				"Type is not constructible from these args. ");
 
 			static rtti::args make_args()
 			{
@@ -36,12 +47,22 @@ namespace zx
 			{
 				return type::ensure<T, zx::refl<T>::template ctor<First, Args...>>();
 			}
+
+		private:
+			ctor() = delete;
+			ctor(const ctor&) = delete;
+			ctor(ctor&&) = delete;
 		};
 
+		/// <summary>
+		/// Constructor reflector. 
+		/// </summary>
 		template<>
 		struct ctor <>
 		{
-			static_assert(std::is_default_constructible_v<T>, "Type is not default constructible. ");
+			static_assert(
+				std::is_default_constructible_v<T>, 
+				"Type is not default constructible. "); 
 
 			static rtti::args make_args()
 			{
@@ -50,8 +71,7 @@ namespace zx
 
 			static fnptr make_fnptr()
 			{
-				void* (*temp)() =
-					[]() -> void*
+				void* (*temp)() = []() -> void*
 				{
 					return new T();
 				};

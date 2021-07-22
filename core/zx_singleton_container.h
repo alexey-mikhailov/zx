@@ -4,6 +4,7 @@
 
 namespace zx
 {
+	/// Contains singletons
 	class singleton_container
 	{
 	public:

@@ -32,11 +32,19 @@ namespace zx
 								   std::function<zx::rtti::shared_ptr()> singleton_creator);
 	};
 
+	/// <summary>
+	/// Functional style result of
+	/// zx::di_container::bind_singleton()
+	/// for further operations. 
+	/// </summary>
 	struct bind_singleton_result
 	{
 		ZX_API bind_singleton_result(class singleton_container* owner,
 									 singleton_signature signature);
 
+		/// <summary>
+		/// Instantly creates instance of bound singleton. 
+		/// </summary>
 		ZX_API void create();
 
 	private:
@@ -44,11 +52,15 @@ namespace zx
 		singleton_signature _signature;
 	};
 
+	/// Functional style result for further operations. 
 	struct bind_nameleton_result
 	{
 		ZX_API bind_nameleton_result(class nameleton_container *owner,
 									  nameleton_signature signature);
 
+		/// <summary>
+		/// Instantly creates instance of bound singleton. 
+		/// </summary>
 		ZX_API void create();
 
 	private:

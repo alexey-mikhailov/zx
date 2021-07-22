@@ -17,6 +17,14 @@ namespace zx
 				field>> __fields;
 
 		public:
+			/// <summary>
+			/// Adds field with value type inside. 
+			/// Will not be affected by DI. 
+			/// </summary>
+			/// <typeparam name="Data">Field value type. </typeparam>
+			/// <typeparam name="Owner">Owner type. </typeparam>
+			/// <param name="name">Field name. </param>
+			/// <param name="member">Pointer to member. </param>
 			template <class Data, class Owner>
 			static void add_field(std::string name,
 								  Data Owner::* member)
@@ -30,6 +38,15 @@ namespace zx
 											  zx::u32(offset)));
 			}
 
+			/// <summary>
+			/// Adds field with shared pointer pawn type inside. 
+			/// Will be affected by DI. 
+			/// </summary>
+			/// <typeparam name="Data">Field value type. </typeparam>
+			/// <typeparam name="Owner">Owner type. </typeparam>
+			/// <param name="name">Field name. </param>
+			/// <param name="member">Pointer to member. </param>
+			/// <param name="pawn">Fieldpawn metadata. </param>
 			template <class Data, class Owner>
 			static void add_field(std::string name,
 								  Data Owner::* member,
