@@ -5,6 +5,7 @@ namespace zx
 {
 	namespace meta
 	{
+		class fieldpawn;
 		class named_fieldpawn;
 	}
 
@@ -16,7 +17,9 @@ namespace zx
 		inject_dependencies(type::i<Owner>(), target);
 	}
 
-	ZX_API std::unique_ptr<meta::named_fieldpawn> make_named_fieldpawn(char const* name);
-	ZX_API std::unique_ptr<meta::named_fieldpawn> make_named_fieldpawn(std::string name);
-	ZX_API std::unique_ptr<meta::named_fieldpawn> make_named_fieldpawn(std::string&& name);
+	ZX_API std::unique_ptr<meta::fieldpawn> make_fieldpawn_of_singleton();
+	ZX_API std::unique_ptr<meta::fieldpawn> make_fieldpawn_of_signal_pack();
+	ZX_API std::unique_ptr<meta::named_fieldpawn> make_fieldpawn_of_nameleton(char const* name);
+	ZX_API std::unique_ptr<meta::named_fieldpawn> make_fieldpawn_of_nameleton(std::string name);
+	ZX_API std::unique_ptr<meta::named_fieldpawn> make_fieldpawn_of_nameleton(std::string&& name);
 }

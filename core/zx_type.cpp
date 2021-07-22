@@ -6,11 +6,6 @@ namespace zx
 
 	type type::null = type(type_data());
 
-	type::type(const type& other) :
-		_data(other._data)
-	{
-	}
-
 	bool type::operator==(const type& other) const
 	{
 		// Pointer comparison is ok

@@ -44,11 +44,29 @@ namespace zx
 		{
 		}
 
-		field field::create(std::string name,
-							type owner_type,
-							type type,
-							zx::u32 offset,
-							fieldpawn_unqptr pawn)
+		field field::create_value(std::string name,
+								  type owner_type,
+								  type type,
+								  zx::u32 offset)
+		{
+			auto data = field_data
+			{
+				owner_type,
+				type,
+				std::move(name),
+				static_cast<unsigned>(offset),
+				expose_type::value,
+				std::make_unique<fieldpawn>(fieldpawn_type::none)
+			};
+
+			return field(std::move(data));
+		}
+
+		field field::create_shrptr(std::string name,
+								   type owner_type,
+								   type type,
+								   zx::u32 offset,
+								   fieldpawn_unqptr pawn)
 		{
 			auto data = field_data
 			{
@@ -58,25 +76,6 @@ namespace zx
 				static_cast<unsigned>(offset),
 				expose_type::shrptr,
 				std::move(pawn)
-			};
-
-			return field(std::move(data));
-		}
-
-		field field::create(std::string name,
-							type owner_type,
-							type type,
-							zx::u32 offset,
-							fieldpawn_type pawn_type)
-		{
-			auto data = field_data
-			{
-				owner_type,
-				type,
-				std::move(name),
-				static_cast<unsigned>(offset),
-				expose_type::shrptr,
-				std::make_unique<fieldpawn>(pawn_type)
 			};
 
 			return field(std::move(data));

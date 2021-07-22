@@ -8,7 +8,6 @@ namespace zx
 		{
 			value,
 
-			rawptr,
 			shrptr
 		};
 
@@ -16,7 +15,7 @@ namespace zx
 		{
 			none,
 			singleton,
-			named_fieldpawn,
+			nameleton,
 			signal_pack
 		};
 	}

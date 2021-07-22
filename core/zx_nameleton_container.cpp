@@ -1,13 +1,13 @@
-#include "zx_nomination_container.h"
+#include "zx_nameleton_container.h"
 
 namespace zx
 {
-	nomination_container::nomination_container(const di_container* owner) :
+	nameleton_container::nameleton_container(const di_container* owner) :
 		_owner(owner)
 	{
 	}
 
-	zx::rtti::shared_ptr nomination_container::get_or_add(const type& type,
+	zx::rtti::shared_ptr nameleton_container::get_or_add(const type& type,
 														  const std::string& name)
 	{
 		zx::rtti::shared_ptr result;
@@ -20,7 +20,7 @@ namespace zx
 
 			if (type == type_to_map && name == signature.name)
 			{
-				auto id = nomination_identity(type_to_map, name);
+				auto id = nameleton_identity(type_to_map, name);
 				auto search_result = _singletons.find(id);
 
 				if (search_result != _singletons.end())

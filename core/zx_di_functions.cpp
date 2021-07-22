@@ -3,8 +3,8 @@
 # include "zx_meta_fldpwns.h"
 # include "zx_di_container.h"
 # include "zx_singleton_container.h"
-# include "zx_nomination_container.h"
-# include "zx_it_range.h"
+# include "zx_nameleton_container.h"
+# include "zx_iterables.h"
 
 namespace zx
 {
@@ -33,7 +33,7 @@ namespace zx
 				instance.write_to(field_address);
 			}
 		}
-		else if (field.get_pawn_type() == fieldpawn_type::named_fieldpawn)
+		else if (field.get_pawn_type() == fieldpawn_type::nameleton)
 		{
 			const fieldpawn& pawn = field.get_pawn();
 			auto named_fieldpawn = dynamic_cast<const meta::named_fieldpawn*>(&pawn);
@@ -43,7 +43,7 @@ namespace zx
 				for (auto&& [name, container] : di_containers)
 				{
 					auto instance =
-						container->nomination_container->get_or_add(
+						container->nameleton_container->get_or_add(
 							field.get_type(),
 							named_fieldpawn->get_name());
 
@@ -58,7 +58,7 @@ namespace zx
 			}
 			else
 			{
-				throw zx::exception(reason::named_instance_expected);
+				throw zx::exception(reason::nameleton_expected);
 			}
 		}
 	}
@@ -85,17 +85,27 @@ namespace zx
 		}
 	}
 	
-	std::unique_ptr<named_fieldpawn> make_named_fieldpawn(char const* name)
+	std::unique_ptr<fieldpawn> make_fieldpawn_of_singleton()
+	{
+		return std::make_unique<fieldpawn>(fieldpawn_type::singleton);
+	}
+
+	std::unique_ptr<fieldpawn> make_fieldpawn_of_signal_pack()
+	{
+		return std::make_unique<fieldpawn>(fieldpawn_type::signal_pack);
+	}
+
+	std::unique_ptr<named_fieldpawn> make_fieldpawn_of_nameleton(char const* name)
 	{
 		return std::make_unique<named_fieldpawn>(name);
 	}
 
-	std::unique_ptr<named_fieldpawn> make_named_fieldpawn(std::string name)
+	std::unique_ptr<named_fieldpawn> make_fieldpawn_of_nameleton(std::string name)
 	{
 		return std::make_unique<named_fieldpawn>(std::move(name));
 	}
 
-	std::unique_ptr<named_fieldpawn> make_named_fieldpawn(std::string&& name)
+	std::unique_ptr<named_fieldpawn> make_fieldpawn_of_nameleton(std::string&& name)
 	{
 		return std::make_unique<named_fieldpawn>(std::move(name));
 	}

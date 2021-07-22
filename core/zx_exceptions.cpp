@@ -18,7 +18,7 @@ namespace zx
 			{
 				return "Field to inject is not shared pointer";
 			}
-			case reason::named_instance_expected:
+			case reason::nameleton_expected:
 			{
 				return "Named instance expected. Bad downcast. ";
 			}

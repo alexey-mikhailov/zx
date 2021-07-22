@@ -169,15 +169,15 @@
     <ClInclude Include="zx_constants.h" />
     <ClInclude Include="zx_event.h" />
     <ClInclude Include="zx_di_functions.h" />
-    <ClInclude Include="zx_it_range.h" />
-    <ClInclude Include="zx_metadata.h" />
-    <ClInclude Include="zx_nomination_container.h" />
-    <ClInclude Include="zx_field.h" />
+    <ClInclude Include="zx_iterables.h" />
+    <ClInclude Include="zx_meta_registry.h" />
+    <ClInclude Include="zx_nameleton_container.h" />
+    <ClInclude Include="zx_meta_field.h" />
     <ClInclude Include="zx_defines.h" />
     <ClInclude Include="zx_di_container.h" />
     <ClInclude Include="zx_enums.h" />
     <ClInclude Include="zx.h" />
-    <ClInclude Include="zx_inject_data.h" />
+    <ClInclude Include="zx_meta_fldpwns.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="zx_singleton_container.h" />
     <ClInclude Include="zx_reflector.h" />
@@ -190,10 +190,10 @@
     <ClCompile Include="zx_exceptions.cpp" />
     <ClCompile Include="zx_rtti_args.cpp" />
     <ClCompile Include="zx_di_functions.cpp" />
-    <ClCompile Include="zx_metadata.cpp" />
-    <ClCompile Include="zx_nomination_container.cpp" />
-    <ClCompile Include="zx_field.cpp" />
-    <ClCompile Include="zx_inject_data.cpp" />
+    <ClCompile Include="zx_meta_registry.cpp" />
+    <ClCompile Include="zx_nameleton_container.cpp" />
+    <ClCompile Include="zx_meta_field.cpp" />
+    <ClCompile Include="zx_meta_fldpwns.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -1,6 +1,6 @@
 # pragma once
 # include "zx_singleton_container.h"
-# include "zx_nomination_container.h"
+# include "zx_nameleton_container.h"
 # include "properties/zx_ref_getter.h"
 
 namespace zx
@@ -11,11 +11,11 @@ namespace zx
 		std::string					_name;
 
 		class singleton_container* _singleton_container;
-		class nomination_container* _nomination_container;
+		class nameleton_container* _nameleton_container;
 
 	public:
 		ref_getter<singleton_container> singleton_container = &_singleton_container;
-		ref_getter<nomination_container> nomination_container = &_nomination_container;
+		ref_getter<nameleton_container> nameleton_container = &_nameleton_container;
 
 	protected:
 		ZX_API explicit di_container(const std::string& name);
@@ -24,7 +24,7 @@ namespace zx
 		ZX_API virtual void bind_all() = 0;
 
 		/// <summary>
-		/// Binds named (nominated) singleton to container.
+		/// Binds named singleton to container.
 		/// Does not create instance of it. 
 		/// </summary>
 		/// <typeparam name="TImplementation">Raw type of implementation</typeparam>
@@ -61,7 +61,7 @@ namespace zx
 		bind_singleton_result bind_singleton(Args... args);
 
 		/// <summary>
-		/// Binds named (nominated) singleton to container.
+		/// Binds named singleton to container.
 		/// Does not create instance of it. 
 		/// </summary>
 		/// <typeparam name="TImplementation">Raw type of implementation</typeparam>
@@ -76,10 +76,10 @@ namespace zx
 		/// that binding uses raw types, not of shared_ptr's. 
 		/// </remarks>
 		template<class TImplementation, class... Args>
-		bind_nomination_result bind_nominated(const std::string &name, Args... args);
+		bind_nameleton_result bind_nameleton(const std::string &name, Args... args);
 
 		/// <summary>
-		/// Binds singleton to container.
+		/// Binds named singleton to container.
 		/// Does not create instance of it. 
 		/// </summary>
 		/// <typeparam name="TInterface">Raw type of interface</typeparam>
@@ -95,7 +95,7 @@ namespace zx
 		/// that binding uses raw types, not of shared_ptr's. 
 		/// </remarks>
 		template<class TInterface, class TImpl, class... Args>
-		bind_nomination_result bind_nominated(const std::string &name, Args... args);
+		bind_nameleton_result bind_nameleton(const std::string &name, Args... args);
 
 		/// <summary>
 		/// Registers bunch of signals 
@@ -130,15 +130,15 @@ namespace zx
 	}
 
 	template <class TImplementation, class... Args>
-	bind_nomination_result di_container::bind_nominated(const std::string& name, Args... args)
+	bind_nameleton_result di_container::bind_nameleton(const std::string& name, Args... args)
 	{
-		return _nomination_container->bind_concrete_singleton<TImplementation, Args...>(name, args...);
+		return _nameleton_container->bind_concrete_nameleton<TImplementation, Args...>(name, args...);
 	}
 
 	template <class TInterface, class TImpl, class... Args>
-	bind_nomination_result di_container::bind_nominated(const std::string& name, Args... args)
+	bind_nameleton_result di_container::bind_nameleton(const std::string& name, Args... args)
 	{
-		return _nomination_container->bind_abstract_singleton<TInterface, TImpl, Args...>(name, args...);
+		return _nameleton_container->bind_abstract_nameleton<TInterface, TImpl, Args...>(name, args...);
 	}
 
 	template <class TSignalPack>

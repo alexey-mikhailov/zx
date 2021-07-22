@@ -64,27 +64,27 @@
 			<Item Name="type">_type</Item>
 		</Expand>
 	</Type>
-	<Type Name="zx::field">
-		<DisplayString>zx::field { _data->name }</DisplayString>
+	<Type Name="zx::meta::field">
+		<DisplayString>zx::meta::field { _data->name }</DisplayString>
 		<Expand>
 			<Item Name="owner type">_data->owner_type</Item>
 			<Item Name="type">_data->type</Item>
 			<Item Name="offset">_data->offset</Item>
-			<Item Name="size">_data->size</Item>
-			<Item Name="inject data">*_data->inject_data</Item>
+			<Item Name="expose type">_data->expose_type</Item>
+			<Item Name="pawn">*_data->pawn</Item>
 		</Expand>
 	</Type>
-	<Type Name="zx::inject_data">
-		<DisplayString>zx::inject_data</DisplayString>
+	<Type Name="zx::meta::fieldpawn">
+		<DisplayString>zx::meta::fieldpawn { _type }</DisplayString>
 	</Type>
-	<Type Name="zx::named_instance">
-		<DisplayString>zx::named_instance { _name }</DisplayString>
+	<Type Name="zx::meta::named_fieldpawn">
+		<DisplayString>zx::meta::named_fieldpawn { _name }</DisplayString>
 	</Type>
 	<Type Name="zx::di_container">
 		<DisplayString>zx::di_container { _name }</DisplayString>
 		<Expand>
 			<Item Name="singleton container">*_singleton_container</Item>
-			<Item Name="nomination container">*_nomination_container</Item>
+			<Item Name="nameleton container">*_nameleton_container</Item>
 		</Expand>
 	</Type>
 	<Type Name="zx::singleton_container">
@@ -94,8 +94,8 @@
 			<Item Name="singletons">_singletons</Item>
 		</Expand>
 	</Type>
-	<Type Name="zx::nomination_container">
-		<DisplayString>zx::nomination_container {{ signatures { _signatures }, singletons { _singletons } }}</DisplayString>
+	<Type Name="zx::nameleton_container">
+		<DisplayString>zx::nameleton_container {{ signatures { _signatures }, singletons { _singletons } }}</DisplayString>
 		<Expand>
 			<Item Name="signatures">_signatures</Item>
 			<Item Name="singletons">_singletons</Item>
@@ -111,9 +111,9 @@
 			<Item Name="singleton creator">singleton_creator</Item>
 		</Expand>
 	</Type>
-	<Type Name="zx::nomination_signature">
-		<DisplayString Condition="is_mapped_to_interface == false">zx::nomination_signature {{ { implementation_type } , { name } }}</DisplayString>
-		<DisplayString Condition="is_mapped_to_interface == true">zx::nomination_signature {{ { interface_type } = { implementation_type } , { name } }}</DisplayString>
+	<Type Name="zx::nameleton_signature">
+		<DisplayString Condition="is_mapped_to_interface == false">zx::nameleton_signature {{ { implementation_type } , { name } }}</DisplayString>
+		<DisplayString Condition="is_mapped_to_interface == true">zx::nameleton_signature {{ { interface_type } = { implementation_type } , { name } }}</DisplayString>
 		<Expand>
 			<Item Name="is mapped to interface">is_mapped_to_interface</Item>
 			<Item Name="interface type">interface_type</Item>
@@ -121,8 +121,8 @@
 			<Item Name="singleton creator">singleton_creator</Item>
 		</Expand>
 	</Type>
-	<Type Name="zx::nomination_identity">
-		<DisplayString>zx::nomination_identity {{ { type } , { name } }}</DisplayString>
+	<Type Name="zx::nameleton_identity">
+		<DisplayString>zx::nameleton_identity {{ { type } , { name } }}</DisplayString>
 		<Expand>
 			<Item Name="type">type</Item>
 			<Item Name="name">name</Item>

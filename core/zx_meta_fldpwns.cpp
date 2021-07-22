@@ -20,7 +20,7 @@ namespace zx
 		}
 
 		named_fieldpawn::named_fieldpawn(std::string name) :
-			fieldpawn(fieldpawn_type::named_fieldpawn),
+			fieldpawn(fieldpawn_type::nameleton),
 			_name(std::move(name))
 		{
 		}

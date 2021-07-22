@@ -17,7 +17,7 @@ namespace zx
 								   std::function<zx::rtti::shared_ptr()> singleton_creator);
 	};
 
-	struct nomination_signature
+	struct nameleton_signature
 	{
 		bool is_mapped_to_interface;
 		type interface_type;
@@ -25,11 +25,11 @@ namespace zx
 		std::string name;
 		std::function<zx::rtti::shared_ptr()> singleton_creator;
 
-		ZX_API nomination_signature(bool is_mapped_to_interface,
-									type interface_type,
-									type implementation_type, 
-									std::string name, 
-									std::function<zx::rtti::shared_ptr()> singleton_creator);
+		ZX_API nameleton_signature(bool is_mapped_to_interface,
+								   type interface_type,
+								   type implementation_type,
+								   std::string name,
+								   std::function<zx::rtti::shared_ptr()> singleton_creator);
 	};
 
 	struct bind_singleton_result
@@ -44,16 +44,16 @@ namespace zx
 		singleton_signature _signature;
 	};
 
-	struct bind_nomination_result
+	struct bind_nameleton_result
 	{
-		ZX_API bind_nomination_result(class nomination_container *owner,
-									  nomination_signature signature);
+		ZX_API bind_nameleton_result(class nameleton_container *owner,
+									  nameleton_signature signature);
 
 		ZX_API void create();
 
 	private:
-		class nomination_container * _owner;
-		nomination_signature _signature;
+		class nameleton_container * _owner;
+		nameleton_signature _signature;
 	};
 
 	struct singleton_identity
@@ -66,15 +66,15 @@ namespace zx
 		ZX_API bool operator >(const singleton_identity &other) const;
 	};
 
-	struct nomination_identity
+	struct nameleton_identity
 	{
 		type type;
 		std::string name;
 
-		nomination_identity(zx::type type,
-							std::string name);
+		nameleton_identity(zx::type type,
+						   std::string name);
 
-		bool operator <(const nomination_identity &other) const;
-		bool operator >(const nomination_identity &other) const;
+		bool operator <(const nameleton_identity &other) const;
+		bool operator >(const nameleton_identity &other) const;
 	};
 }

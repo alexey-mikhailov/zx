@@ -1,6 +1,6 @@
 # include "zx_di_structs.h"
 # include "zx_singleton_container.h"
-# include "zx_nomination_container.h"
+# include "zx_nameleton_container.h"
 
 namespace zx
 {
@@ -15,7 +15,7 @@ namespace zx
 	{
 	}
 
-	nomination_signature::nomination_signature(bool is_mapped_to_interface,
+	nameleton_signature::nameleton_signature(bool is_mapped_to_interface,
 											   type interface_type,
 											   type implementation_type,
 											   std::string name, 
@@ -42,14 +42,14 @@ namespace zx
 						 : _signature.implementation_type);
 	}
 
-	bind_nomination_result::bind_nomination_result(nomination_container* owner, 
-												   nomination_signature signature) :
+	bind_nameleton_result::bind_nameleton_result(nameleton_container* owner,
+												 nameleton_signature signature) :
 		_owner(owner),
 		_signature(std::move(signature))
 	{
 	}
 
-	void bind_nomination_result::create()
+	void bind_nameleton_result::create()
 	{
 		_owner->get_or_add(
 			_signature.is_mapped_to_interface
@@ -73,19 +73,19 @@ namespace zx
 		return type > other.type;
 	}
 
-	nomination_identity::nomination_identity(zx::type type,
-											 std::string name) :
+	nameleton_identity::nameleton_identity(zx::type type,
+										   std::string name) :
 		type(type),
 		name(std::move(name))
 	{
 	}
 
-	bool nomination_identity::operator<(const nomination_identity& other) const
+	bool nameleton_identity::operator<(const nameleton_identity& other) const
 	{
 		return type < other.type || name < other.name;
 	}
 
-	bool nomination_identity::operator>(const nomination_identity& other) const
+	bool nameleton_identity::operator>(const nameleton_identity& other) const
 	{
 		return type > other.type || name > other.name;
 	}

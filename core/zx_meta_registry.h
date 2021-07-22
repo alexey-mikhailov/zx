@@ -1,6 +1,6 @@
 # pragma once
 # include "zx_type.h"
-# include "zx_it_range.h"
+# include "zx_iterables.h"
 # include "zx_meta_field.h"
 # include "zx_meta_fldpwns.h"
 
@@ -19,17 +19,15 @@ namespace zx
 		public:
 			template <class Data, class Owner>
 			static void add_field(std::string name,
-								  Data Owner::* member,
-								  fieldpawn_type pawn_type = fieldpawn_type::none)
+								  Data Owner::* member)
 			{
 				auto& owner_type = type::i<Owner>();
 				auto& type = type::i<typename std::remove_pointer_t<Data>>();
 				auto offset = reinterpret_cast<zx::u64>(&(static_cast<Owner *>(nullptr)->*member));
-				add_field(field::create(std::move(name),
-										owner_type,
-										type,
-										zx::u32(offset),
-										pawn_type));
+				add_field(field::create_value(std::move(name),
+											  owner_type,
+											  type,
+											  zx::u32(offset)));
 			}
 
 			template <class Data, class Owner>
@@ -40,11 +38,11 @@ namespace zx
 				auto& owner_type = type::i<Owner>();
 				auto& type = type::i<typename std::remove_pointer_t<Data>>();
 				auto offset = reinterpret_cast<zx::u64>(&(static_cast<Owner *>(nullptr)->*member));
-				add_field(field::create(std::move(name),
-										owner_type,
-										type,
-										zx::u32(offset),
-										std::move(pawn)));
+				add_field(field::create_shrptr(std::move(name),
+											   owner_type,
+											   type,
+											   zx::u32(offset),
+											   std::move(pawn)));
 			}
 
 			ZX_API static field get_field(type type,

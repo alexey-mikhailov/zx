@@ -8,7 +8,7 @@ namespace zx
 		_name(name)
 	{
 		_singleton_container = new zx::singleton_container(this);
-		_nomination_container = new zx::nomination_container(this);
+		_nameleton_container = new zx::nameleton_container(this);
 		__instances.insert(std::make_pair(name, this));
 	}
 
@@ -16,7 +16,7 @@ namespace zx
 	di_container::~di_container()
 	{
 		delete _singleton_container;
-		delete _nomination_container;
+		delete _nameleton_container;
 
 		const auto it = __instances.find(this->_name);
 		if (it != __instances.end())

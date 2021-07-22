@@ -13,22 +13,22 @@ some_injectee::ctor::ctor()
 	zx::meta::registry::add_field(
 		nameof(_signal_pack),
 		&some_injectee::_signal_pack,
-		zx::meta::fieldpawn_type::signal_pack);
+		zx::make_fieldpawn_of_signal_pack());
 
 	zx::meta::registry::add_field(
 		nameof(_interface_inst),
 		&some_injectee::_interface_inst,
-		zx::meta::fieldpawn_type::singleton);
+		zx::make_fieldpawn_of_singleton());
 
 	zx::meta::registry::add_field(
 		nameof(_class_inst_1),
 		&some_injectee::_class_inst_1,
-		zx::make_named_fieldpawn("instance 1"));
+		zx::make_fieldpawn_of_nameleton("instance 1"));
 
 	zx::meta::registry::add_field(
 		nameof(_class_inst_2),
 		&some_injectee::_class_inst_2,
-		zx::make_named_fieldpawn("instance 2"));
+		zx::make_fieldpawn_of_nameleton("instance 2"));
 
 	zx::meta::registry::add_field(
 		nameof(_value),

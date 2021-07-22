@@ -69,21 +69,21 @@ namespace zx_test
 			concrete_instance->public_field = new_value;
 			Assert::AreEqual(new_value, concrete_instance->public_field);
 
-			// Nominated container inject test
+			// Nameleton container inject test
 			auto concrete_instance_1 = injectee.get_class_instance_1();
 			Assert::AreEqual(true, (bool)concrete_instance_1);
 
 			// Read-write check
-			Assert::AreEqual(nominated1_arg, concrete_instance_1->public_field);
+			Assert::AreEqual(nameleton1_arg, concrete_instance_1->public_field);
 			concrete_instance_1->public_field = new_value;
 			Assert::AreEqual(new_value, concrete_instance_1->public_field);
 
-			// Nominated container inject test
+			// Nameleton container inject test
 			auto concrete_instance_2 = injectee.get_class_instance_2();
 			Assert::AreEqual(true, (bool)concrete_instance_2);
 
 			// Read-write check
-			Assert::AreEqual(nominated2_arg, concrete_instance_2->public_field);
+			Assert::AreEqual(nameleton2_arg, concrete_instance_2->public_field);
 			concrete_instance_2->public_field = new_value;
 			Assert::AreEqual(new_value, concrete_instance_2->public_field);
 

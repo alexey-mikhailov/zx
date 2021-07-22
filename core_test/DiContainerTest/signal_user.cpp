@@ -7,7 +7,7 @@ signal_user::ctor::ctor()
 	zx::meta::registry::add_field(
 		nameof(_signal_pack),
 		&signal_user::_signal_pack, 
-		zx::meta::fieldpawn_type::signal_pack);
+		zx::make_fieldpawn_of_signal_pack());
 }
 
 signal_user::signal_user()

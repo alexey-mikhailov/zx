@@ -8,6 +8,13 @@ namespace zx
 {
 	struct type_data
 	{
+		std::type_index index = typeid(nullptr);
+		std::string name;
+		std::unordered_map<rtti::args, fnptr> factory_methods;
+		bool is_pointer;
+		bool is_abstract;
+		bool is_default_constructible;
+
 		template <class T>
 		static type_data create()
 		{
@@ -19,13 +26,6 @@ namespace zx
 			result.is_default_constructible = std::is_default_constructible<T>::value;
 			return result;
 		}
-
-		std::type_index index = typeid(nullptr);
-		std::string name;
-		std::unordered_map<rtti::args, fnptr> factory_methods;
-		bool is_pointer;
-		bool is_abstract;
-		bool is_default_constructible;
 	};
 
 
@@ -37,12 +37,16 @@ namespace zx
 	public:
 		ZX_API static zx::type null;
 
-		ZX_API type(const zx::type& other);
+		ZX_API type(const zx::type& other) = default;
+		ZX_API type(zx::type&& other) = default;
+
+		ZX_API type& operator =(const type&) = default;
+		ZX_API type& operator =(type&&) = default;
 
 		// Properties
 		std::type_index get_index() const { return _data->index; }
 		const std::string& get_name() const { return _data->name; }
-		bool is_pointer() const {return _data->is_pointer; }
+		bool is_pointer() const { return _data->is_pointer; }
 		bool is_abstract() const { return _data->is_abstract; }
 		bool is_default_constructible() const { return _data->is_default_constructible; }
 		

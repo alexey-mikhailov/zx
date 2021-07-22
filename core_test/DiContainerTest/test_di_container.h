@@ -3,8 +3,8 @@
 # include "zx.h"
 
 constexpr int singleton_arg = 78;
-constexpr int nominated1_arg = 356;
-constexpr int nominated2_arg = 127;
+constexpr int nameleton1_arg = 356;
+constexpr int nameleton2_arg = 127;
 
 class test_di_container : public zx::di_container
 {

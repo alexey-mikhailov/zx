@@ -59,18 +59,17 @@ namespace zx
 			field(field_data data);
 
 			friend class registry;
-			ZX_API static field create(std::string name,
-									   type owner_type,
-									   type type,
-									   zx::u32 offset,
-									   fieldpawn_unqptr pawn);
+			ZX_API static field create_value(std::string name,
+											 type owner_type,
+											 type type,
+											 zx::u32 offset);
 
 			friend class registry;
-			ZX_API static field create(std::string name,
-									   type owner_type,
-									   type type,
-									   zx::u32 offset,
-									   fieldpawn_type pawn_type);
+			ZX_API static field create_shrptr(std::string name,
+											  type owner_type,
+											  type type,
+											  zx::u32 offset,
+											  fieldpawn_unqptr pawn);
 		};
 	}
 }
