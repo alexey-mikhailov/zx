@@ -32,7 +32,7 @@ namespace zx_test
 
 			auto shr1 = std::make_shared<std::vector<int>>
 			(
-				std::initializer_list<int>{ 1, 2, 3 }
+				std::initializer_list{ 1, 2, 3 }
 			);
 
 			rtti_wpt = shr1;

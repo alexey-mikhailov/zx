@@ -39,7 +39,7 @@ namespace zx
 		/// </summary>
 		/// <remarks>
 		/// Implemented as resource handle which lives
-		/// until shared reference counter still non-zero. 
+		/// until shared reference counter becomes zeroed.
 		/// </remarks>
 		class field final
 		{

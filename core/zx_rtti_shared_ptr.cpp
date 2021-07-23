@@ -156,7 +156,7 @@ namespace zx
 					// Must perform delete in place. 
 					// type = 0 when target is STL shared pointer. 
 					// In this case delete in place will be deferred 
-					// till reference counter still exist. 
+					// until reference counter becomes zeroed.
 					if (type)
 					{
 						__deleters[type->get_index()](address);

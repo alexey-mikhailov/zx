@@ -33,8 +33,8 @@ namespace zx_test
 		/// Instantiates vector of int with size 10
 		TEST_METHOD(InstantiatePerformanceMeasurement)
 		{
-			typedef std::vector<zx::i32> some_t;
-			typedef size_t ctor_arg_t;
+			using some_t = std::vector<zx::i32>;
+			using ctor_arg_t = size_t;
 			constexpr ctor_arg_t ctor_arg = 10ui64;
 
 			// Default ctor will be added to metadata of zx::type
