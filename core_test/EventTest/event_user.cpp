@@ -31,7 +31,7 @@ void event_user::add(double a, double b)
 	_added(a, b, result);
 }
 
-std::tuple<const event_user&, size_t> event_user::request_identity()
+std::tuple<const event_user&, zx::u32> event_user::request_identity()
 {
 	size_t counter = 0ui64;
 	const event_user* result = nullptr;

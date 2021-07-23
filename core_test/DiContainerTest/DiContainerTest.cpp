@@ -43,7 +43,7 @@ namespace zx_test
 			# ifdef _WIN64
 			Assert::AreEqual(16ui64, sizeof(field));
 			# else ifdef _WIN32
-			Assert::AreEqual(8ui64, sizeof(field));
+			Assert::AreEqual( 8ui32, sizeof(field));
 			# endif
 		}
 

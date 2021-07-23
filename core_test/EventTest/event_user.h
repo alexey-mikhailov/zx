@@ -24,6 +24,6 @@ public:
 	void do_something();
 	int get_last_result();
 	void add(double a, double b);
-	std::tuple<const event_user&, size_t> request_identity();
+	std::tuple<const event_user&, zx::u32> request_identity();
 };
 

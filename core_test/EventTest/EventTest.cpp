@@ -85,11 +85,11 @@ namespace zx_test
 
 			auto [result_user1, counter1] = user1.request_identity();
 			Assert::AreSame(user1, result_user1);
-			Assert::AreEqual(1ui64, counter1);
+			Assert::AreEqual(1ui32, counter1);
 
 			auto [result_user2, counter2] = user2.request_identity();
 			Assert::IsNull(&result_user2); // must be struct at <NULL>
-			Assert::AreEqual(0ui64, counter2);
+			Assert::AreEqual(0ui32, counter2);
 
 			user1.identity_requested -= on_identity_requested;
 		}
